@@ -18,3 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiresource('users', 'User\UserController');
+
+Route::apiresource('events', 'Event\EventController', ['only' => ['index', 'show']]);
