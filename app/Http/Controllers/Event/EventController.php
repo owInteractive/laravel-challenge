@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Event;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use Illuminate\Http\Response;
 
 class EventController extends Controller
 {
@@ -16,7 +17,7 @@ class EventController extends Controller
     {
         $events = Event::all();
 
-        return response()->json($events, 200);
+        return response()->json($events, Response::HTTP_OK);
     }
 
     /**
@@ -27,6 +28,6 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return response()->json($event, 200);
+        return response()->json($event, Response::HTTP_OK);
     }
 }
