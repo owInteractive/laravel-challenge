@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -18,7 +19,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return response()->json($users, 200);
+        return response()->json($users, Response::HTTP_OK);
     }
 
     /**
@@ -37,7 +38,7 @@ class UserController extends Controller
 
         $user = User::create($data);
 
-        return response()->json($user, 201);
+        return response()->json($user, Response::HTTP_CREATED);
     }
 
     /**
@@ -48,7 +49,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user, 200);
+        return response()->json($user, Response::HTTP_OK);
     }
 
     /**
@@ -68,7 +69,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json($user, 200);
+        return response()->json($user, Response::HTTP_OK);
     }
 
     /**
@@ -81,6 +82,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->json()->setStatusCode(204);
+        return response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);
     }
 }
