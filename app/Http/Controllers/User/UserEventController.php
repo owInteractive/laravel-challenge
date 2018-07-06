@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserEventRequest;
 use App\Models\Event;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 
 class UserEventController extends Controller
@@ -34,8 +35,10 @@ class UserEventController extends Controller
     public function store(StoreUserEventRequest $request, User $user)
     {
 
-        $data = $request->all();
+        $data = $request->only(['title', 'description']);
         $data['user_id'] = $user->id;
+        $data['start_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('start_datetime'));
+        $data['end_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('end_datetime'));
 
         $event = Event::create($data);
 
@@ -54,7 +57,11 @@ class UserEventController extends Controller
     {
         // TODO validate if user is event user
 
-        $data = $request->all();
+        $data = $request->only(['title', 'description']);
+        if ($request->has('start_datetime'))
+            $data['start_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('start_datetime'));
+        if ($request->has('end_datetime'))
+        $data['end_datetime'] = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('end_datetime'));
 
         $event->fill($data);
         $event->save();
@@ -71,6 +78,8 @@ class UserEventController extends Controller
      */
     public function destroy(User $user, Event $event)
     {
+        // TODO validate if user is event user
+
         $event->delete();
 
         return response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);

@@ -24,10 +24,10 @@ class UpdateUserEventRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => '',
-            'description' => '',
-            'start_datetime' => '',
-            'end_datetime' => '',
+            'title' => 'max:191|string',
+            'description' => 'string',
+            'start_datetime' => 'date_format:"Y-m-d\TH:i"',
+            'end_datetime' => 'date_format:"Y-m-d\TH:i"|after:start_datetime',
         ];
     }
 }
