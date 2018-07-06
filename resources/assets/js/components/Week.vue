@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <event-component v-for="event in events" :key="event.id" :event="event" @delete="remove"></event-component>
+            <event-component v-for="event in events" :key="event.id" :event="event" @delete="remove" @update="update"></event-component>
             </tbody>
         </table>
     </div>
@@ -58,6 +58,16 @@
                         console.log(error);
                     })
                 }
+            },
+            update(event) {
+                axios.put('/api/users/'+localStorage.getItem('user.id')+'/events/'+event.id, event).then(
+                    response => {
+                        this.getEvents()
+                    }
+                )
+                    .catch(error => {
+                        console.log(error);
+                    })
             }
         },
 
