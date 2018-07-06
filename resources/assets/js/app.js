@@ -15,8 +15,12 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+import Sidebar from "./components/Sidebar.vue";
+import Today from "./components/Today.vue";
+import NewEvent from "./components/NewEvent.vue";
+
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: {Sidebar, Today, NewEvent},
 });
