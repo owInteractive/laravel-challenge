@@ -1,12 +1,13 @@
 <template>
 
-    <div class="row home-component">
+    <div class="row home-component" v-if="logged">
 
         <div class="col-md-3">
             <profile-menu></profile-menu>
         </div>
 
         <div class="col-md-9">
+            <h4 class="text-center">Here are your events <strong>{{user.name}}</strong></h4>
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#today" aria-controls="today" role="tab" data-toggle="tab">Today</a></li>
@@ -41,8 +42,11 @@
     export default {
 
         data() {
-            return {
-
+            return{
+                user: {
+                    name: localStorage.getItem('user.name')
+                },
+                logged: localStorage.getItem('logged'),
             }
         },
 

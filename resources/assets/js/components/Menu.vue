@@ -2,7 +2,7 @@
     <div class="menu-component">
 
         <div class="panel panel-default">
-            <div class="panel-heading">Welcome back, {{user.name}}</div>
+            <div class="panel-heading">Welcome to OwnCalendar!</div>
 
             <div class="panel-body">
 
@@ -38,6 +38,9 @@
                 localStorage.clear();
                 axios.defaults.headers.common['Authorization'] = null;
                 window.location.href = "/"
+            },
+            updateUserName() {
+                this.user.name = localStorage.getItem('user.name')
             }
         },
 

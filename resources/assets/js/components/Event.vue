@@ -6,8 +6,7 @@
         <td>{{ event.start_datetime }}</td>
         <td>{{ event.end_datetime }}</td>
         <td v-if="event.user_id == user.id">
-            <button class="btn btn-default">Edit</button>
-            <button type="button" class="btn btn-danger" @click="remove">Delete</button>
+            <button type="button" class="btn btn-sm btn-danger" @click="remove">Delete</button>
         </td>
     </tr>
 

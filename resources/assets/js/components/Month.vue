@@ -9,7 +9,7 @@
                     <th>Start date</th>
                     <th>End date</th>
                     <th>
-                        <a v-bind:href="linkDownloadCsv" class="btn btn-sm btn-primary pull-left">Download CSV</a>
+                        <a v-bind:href="linkDownloadCsv" class="btn btn-sm btn-primary pull-left">Export</a>
                     </th>
                 </tr>
             </thead>

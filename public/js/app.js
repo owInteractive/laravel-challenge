@@ -43994,19 +43994,6 @@ var render = function() {
                       "\n                                Login\n                            "
                     )
                   ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-link pull-right",
-                    attrs: { href: "/forgot" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                                Forgot My Password\n                            "
-                    )
-                  ]
                 )
               ]),
               _vm._v(" "),
@@ -44665,6 +44652,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -44674,7 +44662,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
-        return {};
+        return {
+            user: {
+                name: localStorage.getItem('user.name')
+            },
+            logged: localStorage.getItem('logged')
+        };
     },
 
 
@@ -44735,7 +44728,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -44785,6 +44778,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             localStorage.clear();
             axios.defaults.headers.common['Authorization'] = null;
             window.location.href = "/";
+        },
+        updateUserName: function updateUserName() {
+            this.user.name = localStorage.getItem('user.name');
         }
     }
 
@@ -44801,7 +44797,7 @@ var render = function() {
   return _c("div", { staticClass: "menu-component" }, [
     _c("div", { staticClass: "panel panel-default" }, [
       _c("div", { staticClass: "panel-heading" }, [
-        _vm._v("Welcome back, " + _vm._s(_vm.user.name))
+        _vm._v("Welcome to OwnCalendar!")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "panel-body" }, [
@@ -45004,7 +45000,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -45015,7 +45011,6 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -45071,12 +45066,10 @@ var render = function() {
     _vm._v(" "),
     _vm.event.user_id == _vm.user.id
       ? _c("td", [
-          _c("button", { staticClass: "btn btn-default" }, [_vm._v("Edit")]),
-          _vm._v(" "),
           _c(
             "button",
             {
-              staticClass: "btn btn-danger",
+              staticClass: "btn btn-sm btn-danger",
               attrs: { type: "button" },
               on: { click: _vm.remove }
             },
@@ -45123,7 +45116,7 @@ var render = function() {
                 staticClass: "btn btn-sm btn-primary pull-left",
                 attrs: { href: _vm.linkDownloadCsv }
               },
-              [_vm._v("Download CSV")]
+              [_vm._v("Export")]
             )
           ])
         ])
@@ -45353,7 +45346,7 @@ var render = function() {
                 staticClass: "btn btn-sm btn-primary pull-left",
                 attrs: { href: _vm.linkDownloadCsv }
               },
-              [_vm._v("Download CSV")]
+              [_vm._v("Export")]
             )
           ])
         ])
@@ -45583,7 +45576,7 @@ var render = function() {
                 staticClass: "btn btn-sm btn-primary pull-left",
                 attrs: { href: _vm.linkDownloadCsv }
               },
-              [_vm._v("Download CSV")]
+              [_vm._v("Export")]
             )
           ])
         ])
@@ -45620,39 +45613,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row home-component" }, [
-    _c("div", { staticClass: "col-md-3" }, [_c("profile-menu")], 1),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-9" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "tab-content" }, [
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane active",
-            attrs: { role: "tabpanel", id: "today" }
-          },
-          [_c("today")],
-          1
-        ),
+  return _vm.logged
+    ? _c("div", { staticClass: "row home-component" }, [
+        _c("div", { staticClass: "col-md-3" }, [_c("profile-menu")], 1),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "tab-pane", attrs: { role: "tabpanel", id: "next5" } },
-          [_c("week")],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "tab-pane", attrs: { role: "tabpanel", id: "all" } },
-          [_c("month")],
-          1
-        )
+        _c("div", { staticClass: "col-md-9" }, [
+          _c("h4", { staticClass: "text-center" }, [
+            _vm._v("Here are your events "),
+            _c("strong", [_vm._v(_vm._s(_vm.user.name))])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "tab-content" }, [
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane active",
+                attrs: { role: "tabpanel", id: "today" }
+              },
+              [_c("today")],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane",
+                attrs: { role: "tabpanel", id: "next5" }
+              },
+              [_c("week")],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane",
+                attrs: { role: "tabpanel", id: "all" }
+              },
+              [_c("month")],
+              1
+            )
+          ])
+        ])
       ])
-    ])
-  ])
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
@@ -45959,7 +45965,9 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "panel panel-default" }, [
-        _c("div", { staticClass: "panel-heading" }, [_vm._v("Register")]),
+        _c("div", { staticClass: "panel-heading" }, [
+          _vm._v("Update your profile")
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "panel-body" }, [
           _c("form", [
@@ -46275,7 +46283,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -46288,6 +46296,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Menu_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Menu_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Menu_vue__);
+//
 //
 //
 //
@@ -46397,7 +46406,11 @@ var render = function() {
   return _c("div", { staticClass: "row new-event-component" }, [
     _c("div", { staticClass: "col-md-3" }, [_c("profile-menu")], 1),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-9" }, [
+    _c("div", { staticClass: "col-md-6 col-md-push-2" }, [
+      _c("h4", { staticClass: "text-center" }, [
+        _vm._v("Create a new event here!")
+      ]),
+      _vm._v(" "),
       _vm.message
         ? _c(
             "div",

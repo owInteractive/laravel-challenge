@@ -28,9 +28,9 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link pull-right" href="/forgot">
-                                    Forgot My Password
-                                </a>
+                                <!--<a class="btn btn-link pull-right" href="/forgot">-->
+                                    <!--Forgot My Password-->
+                                <!--</a>-->
                             </div>
 
                             <div id="div-or" class="form-group text-center">

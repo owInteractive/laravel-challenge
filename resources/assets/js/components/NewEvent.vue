@@ -6,7 +6,8 @@
             <profile-menu></profile-menu>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-6 col-md-push-2">
+            <h4 class="text-center">Create a new event here!</h4>
 
             <div v-if="message" class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

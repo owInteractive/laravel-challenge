@@ -12,7 +12,7 @@
                 {{ message }}
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading">Update your profile</div>
                 <div class="panel-body">
                     <form>
                         <div class="form-group">
