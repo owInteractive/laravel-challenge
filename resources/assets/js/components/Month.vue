@@ -1,6 +1,6 @@
 <template>
 
-    <div class="today-component">
+    <div class="month-component">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -31,14 +31,14 @@
         data() {
             return {
                 events: [],
-                linkDownloadCsv: "/api/users/"+localStorage.getItem('user.id')+"/export?when=today",
+                linkDownloadCsv: "/api/users/"+localStorage.getItem('user.id')+"/export",
             }
         },
 
         methods: {
 
             getEvents() {
-                axios.get('/api/users/'+localStorage.getItem('user.id')+'/events?when=today').then(
+                axios.get('/api/users/'+localStorage.getItem('user.id')+'/events').then(
                     response => {
                         response.data.data.forEach(event =>{
                             this.events.push(event)
@@ -55,19 +55,19 @@
                         }
                     )
                     .catch(error => {
-                        console.log(error);
+                        console.log(error)
                     })
                 }
             }
         },
 
-        props: [
-            'event',
-        ],
-
         created() {
             this.getEvents();
         },
+
+        props: [
+            'event',
+        ],
 
         components: {
             EventComponent

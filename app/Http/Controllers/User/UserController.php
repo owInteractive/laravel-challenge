@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $data = $request->all();
+        $data = $request->only(['name', 'email']);
         if ($request->has('password'))
             $data['password'] = bcrypt($request->input('password'));
 

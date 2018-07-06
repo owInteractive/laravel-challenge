@@ -15,12 +15,11 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/login', 'HomeController@login')->name('login');
-Route::get('/forgot', 'HomeController@forgot')->name('forgot');
-Route::get('/reset', 'HomeController@reset')->name('reset');
-Route::get('/logout', 'HomeController@logout')->name('logout');
+Route::get('/login', 'LoginController@index')->name('login');
+Route::get('/register', 'RegisterController@index')->name('register');
 
-Route::get('/register', 'HomeController@register')->name('register');
-Route::get('/account', 'HomeController@account')->name('account');
+Route::get('/forgot', 'ResetPasswordController@index')->name('forgot');
+Route::get('/reset', 'ResetPasswordController@reset')->name('reset');
 
+Route::get('/account', 'HomeController@account');
 Route::get('/create', 'HomeController@create');

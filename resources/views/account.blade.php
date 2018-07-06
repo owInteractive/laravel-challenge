@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-ACCOUNT
+<account></account>
 @endsection

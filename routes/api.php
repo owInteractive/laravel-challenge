@@ -19,5 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiresource('users', 'User\UserController');
 Route::apiresource('users.events', 'User\UserEventController', ['except' => 'show']);
+Route::get('/users/{user}/export', 'User\UserEventController@export');
 
-Route::apiresource('events', 'Event\EventController', ['only' => ['index', 'show']]);
+Route::apiresource('events', 'Event\EventController', ['only' => ['show']]);

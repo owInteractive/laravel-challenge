@@ -34,20 +34,8 @@
             </div>
         </nav>
 
-
         <div class="container">
-            <div class="row">
-
-                <sidebar></sidebar>
-
-                <div class="col-md-9">
-                    @yield('content')
-                    {{--<div class="panel panel-default">--}}
-                        {{--<div class="panel-heading">Events</div>--}}
-                        {{--<div class="panel-body"></div>--}}
-                    {{--</div>--}}
-                </div>
-            </div>
+            @yield('content')
         </div>
 
     </div>

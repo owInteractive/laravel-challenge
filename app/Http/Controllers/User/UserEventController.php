@@ -10,6 +10,10 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 
+use Illuminate\Database\Eloquent\Collection;
+use League\Csv\Writer;
+use SplTempFileObject;
+
 class UserEventController extends Controller
 {
     /**
@@ -20,9 +24,24 @@ class UserEventController extends Controller
      */
     public function index(User $user)
     {
-        $events = $user->events;
 
-        return response()->json($events, Response::HTTP_OK);
+        switch (request()->input('when')){
+            case "today":
+                $events = $user->events()
+                    ->whereBetween('start_datetime', [Carbon::today(), Carbon::tomorrow()])
+                    ->orderBy('start_datetime');
+                break;
+            case "next5":
+                $events = $user->events()
+                    ->whereBetween('start_datetime', [Carbon::today(), Carbon::today()->addDays(5)])
+                    ->orderBy('start_datetime');
+                break;
+            default:
+                $events = $user->events()
+                    ->orderBy('start_datetime');
+        }
+
+        return response()->json($events->paginate(), Response::HTTP_OK);
     }
 
     /**
@@ -83,5 +102,57 @@ class UserEventController extends Controller
         $event->delete();
 
         return response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);
+    }
+
+    public function export(User $user) {
+
+        switch (request()->input('when')){
+            case "today":
+                $events = $user->events()
+                    ->whereBetween('start_datetime', [Carbon::today(), Carbon::tomorrow()])
+                    ->orderBy('start_datetime');
+                break;
+            case "next5":
+                $events = $user->events()
+                    ->whereBetween('start_datetime', [Carbon::today(), Carbon::today()->addDays(5)])
+                    ->orderBy('start_datetime');
+                break;
+            default:
+                $events = $user->events()
+                    ->orderBy('start_datetime');
+        }
+
+        $events = $events->get();
+
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
+
+        // This creates header columns in the CSV file - probably not needed in some cases.
+        $csv->insertOne(['id', 'title', 'description', 'start_datetime', 'end_datetime', 'created_at']);
+
+        foreach ($events as $event){
+            $csv->insertOne([
+                $event->id,
+                $event->title,
+                $event->description,
+                $event->start_datetime,
+                $event->end_datetime,
+                $event->created_at,
+            ]);
+        }
+
+        $csv->output( 'events.csv');
+
+    }
+
+    /**
+     * A function to generate a CSV for a given model collection.
+     *
+     * @param Collection $modelCollection
+     * @param $tableName
+     */
+    private function createCsv(Collection $modelCollection, $tableName){
+
+
+
     }
 }

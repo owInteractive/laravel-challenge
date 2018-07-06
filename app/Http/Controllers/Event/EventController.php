@@ -9,18 +9,6 @@ use Illuminate\Http\Response;
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $events = Event::all();
-
-        return response()->json($events, Response::HTTP_OK);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Event  $event
