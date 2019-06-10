@@ -4,7 +4,7 @@
     <h2 class="text-2xl mt-6">Dashboard</h2>
 
     <div class="flex items-stretch w-full mt-5">
-        <div class="self-start bg-white w-6/12 mr-5 max-h-screen overflow-auto">
+        <div class="self-start bg-white w-6/12 mr-5 max-h-screen overflow-auto rounded border-t-2 border-blue-600">
             <h3 class="text-xl p-5">Today Events - {{\Carbon\Carbon::now()->format('D d, M')}}</h3>
 
             @forelse($today_events as $today_event)
@@ -24,10 +24,10 @@
             @endforelse
         </div>
 
-        <div class="self-start bg-white w-6/12 max-h-screen overflow-auto">
+        <div class="self-start bg-white w-6/12 max-h-screen overflow-auto rounded border-t-2 border-blue-600">
             <h3 class="text-xl p-5 ">Next 5 Days Events</h3>
             @forelse($next_events as $next_event)
-                <div class="inline-block w-full hover:bg-gray-200 border-b-2 p-5 flex justify-between ">
+                <div class="inline-block w-full hover:bg-gray-200 border-b-2 p-5 flex justify-between">
                     <div class="pt-2">
                         <p class="text-base text-gray-700 font-medium">
                             {{$next_event->starts_at->format('D, M d')}}

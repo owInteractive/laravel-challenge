@@ -20,6 +20,8 @@ Auth::routes();
 Route::group(['middleware' => 'auth', 'prefix' => 'app'], function (){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
+    Route::post('/events/{event}/invite', 'EventController@invite');
+    Route::get('/events/invite/{code}', 'EventController@confirm')->name('events.invite.confirm');
     Route::resource('events', 'EventController', ['except' => ['show', 'destroy']]);
     Route::get('/events/export', 'EventController@export')->name('events.export');
     Route::get('/events/import', 'EventController@import')->name('events.import');

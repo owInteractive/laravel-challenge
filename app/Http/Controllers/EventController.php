@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
 use App\Http\Requests\ImportEventsRequest;
+use App\Mail\InviteEvent;
 use App\Models\Event;
+use App\Models\Invite;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EventController extends Controller
@@ -127,5 +130,28 @@ class EventController extends Controller
         }
 
         return redirect()->back()->with('success', 'Import completed successfully!');
+    }
+
+    public function invite(Request $request, Event $event)
+    {
+        foreach (explode(',', $request->get('emails')) as $email){
+            $invite = new Invite(['email' => $email, 'expiration' => $event->ends_in->addDay(-1)]);
+
+            $invite = $event->invitations()->save($invite);
+
+            Mail::to($email)->send(new InviteEvent($event, $invite));
+        }
+
+        return redirect()->back()->with(['success' => 'Invitations Sent']);
+    }
+
+    public function confirm($code)
+    {
+        $invitation = Invite::where('code', '=', $code)->first();
+
+        $invitation->confirm = true;
+        $invitation->save();
+
+        return view('events.invitation_confirmed');
     }
 }

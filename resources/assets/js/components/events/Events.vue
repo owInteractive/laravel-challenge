@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <div class="flex items-start w-full">
-            <div class="bg-white w-9/12 rounded shadow max-h-screen overflow-auto">
+            <div class="bg-white w-9/12 rounded border-t-2 border-blue-600 shadow max-h-screen overflow-auto">
 
                 <div class="spinner w-full mx-auto" v-if="loading === true">
                     <div class="double-bounce1"></div>
@@ -18,7 +18,8 @@
                     {{moment(date).format('MMMM DD, YYYY')}}
                 </h3>
 
-                <div class="inline-block w-full hover:bg-gray-200 border-b-2 p-5 flex justify-between cursor-pointer" v-for="(event, index) in events.data"
+                <div class="inline-block w-full hover:bg-gray-200 border-b-2 p-5 flex justify-between cursor-pointer"
+                     v-for="(event, index) in events.data"
                      @click="toggleModal(event)"
                      v-if="loading === false">
                     <div class="pt-2">
@@ -55,8 +56,39 @@
                 <p class="mb-2"><span class="font-bold">Description: </span>{{event.description}}</p>
                 <p class="mb-2"><span class="font-bold">Start At: </span>{{event.starts_at}}</p>
                 <p class="mb-4"><span class="font-bold">Ends In: </span>{{event.ends_in}}</p>
-                <a class="py-2 px-3 bg-gray-600 text-white rounded cursor-pointer" :href="`/app/events/${event.id}/edit`">Edit</a>
-                <a class="py-2 px-3 bg-red-600 text-white rounded cursor-pointer" @click="deleteEvent(event.id)">Delete</a>
+                <div class="mb-4"><span class="font-bold">Invites: </span><p class="block" v-for="invite in event.invitations"><span class="font-bold text-gray-600">{{invite.email}}</span>: {{invite.confirm ? 'Confirmed' : 'Did not confirm'}}</p></div>
+                <a class="py-2 px-3 bg-gray-600 text-white rounded cursor-pointer"
+                   @click="toggleInvitationModal(event)"><i class="fas fa-share pr-2"></i>Invite Friends</a>
+                <a class="py-2 px-3 bg-gray-600 text-white rounded cursor-pointer"
+                   :href="`/app/events/${event.id}/edit`">Edit</a>
+                <a class="py-2 px-3 bg-red-600 text-white rounded cursor-pointer"
+                   @click="deleteEvent(event.id)">Delete</a>
+            </v-modal>
+
+            <v-modal :open="showInvitationModal" @close="toggleInvitationModal" class="text-gray-700">
+                <h3 class="text-lg font-bold mb-2">Invite Friends</h3>
+                <p class="mb-2"><span class="font-bold">Event: </span>{{event.title}}</p>
+
+                <div>
+                    <form :action="`/app/events/${event.id}/invite`" method="post">
+                        <input type="hidden" name="_token" :value="csrf">
+                        <input type="hidden" name="emails" :value="friends">
+                        <input pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/"
+                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                               :class="hasFriend() || invalidEmail ? 'border-red-600' : ''"
+                               v-model="friend">
+                        <p class="text-sm text-red-600" v-if="hasFriend()">The informed email is already in the current
+                            mailing list.</p>
+                        <p class="text-sm text-red-600" v-if="invalidEmail">The informed email is invalid.</p>
+                        <p class="text-sm mt-1">Friends: <span v-for="friend in friends">{{friend}} </span></p>
+                        <button class="py-2 px-3 bg-gray-600 text-white rounded cursor-pointer mt-2"
+                                @click.prevent="addFriend(friend)" :disabled="hasFriend()"
+                                :class="hasFriend() ? 'cursor-not-allowed' : ''">Add
+                        </button>
+
+                        <button class="py-2 px-3 bg-gray-600 text-white rounded cursor-pointer mt-2">Invite</button>
+                    </form>
+                </div>
             </v-modal>
         </div>
     </div>
@@ -85,7 +117,12 @@
                 page: 1,
                 date_initial: null,
                 date_finish: null,
-                showModal: false
+                showModal: false,
+                showInvitationModal: false,
+                friend: null,
+                friends: [],
+                invalidEmail: false,
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         },
 
@@ -122,7 +159,16 @@
                 this.showModal = !this.showModal;
             },
 
-            async deleteEvent(eventId){
+            toggleInvitationModal(event = {}) {
+                this.event = event;
+                this.showInvitationModal = !this.showInvitationModal;
+                this.showModal = false;
+                this.friend = null;
+                this.friends = [];
+                this.invalidEmail = false;
+            },
+
+            async deleteEvent(eventId) {
                 const {data} = await EventsRepository.deleteEvent(eventId);
                 this.toggleModal();
                 alertify.success(`${data.success}`);
@@ -158,6 +204,27 @@
                 this.date = moment(obj.date).format('YYYY-MM-DD');
 
                 this.fetch();
+            },
+
+            addFriend(email) {
+                if (this.validateEmail(email)) {
+                    if (this.hasFriend() === false) {
+                        this.friends.push(email.toLowerCase());
+                        this.friend = null;
+                        this.invalidEmail = false;
+                    }
+                } else {
+                    this.invalidEmail = true;
+                }
+            },
+
+            hasFriend() {
+                return this.friends.indexOf(String(this.friend).toLowerCase()) > -1;
+            },
+
+            validateEmail(email) {
+                let re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+                return re.test(email.toLowerCase())
             },
 
             toPage(p) {

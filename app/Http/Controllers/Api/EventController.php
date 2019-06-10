@@ -19,7 +19,7 @@ class EventController extends Controller
     {
         $date = null;
 
-        $events = new Event();
+        $events = Event::with('invitations');
 
         if (\request('month') !== null && \request('year') !== null && \request('date') == null){
             $date = Carbon::createFromDate(\request('year'), \request('month'));

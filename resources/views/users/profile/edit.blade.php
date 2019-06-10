@@ -5,7 +5,7 @@
         <h2 class="text-3xl mt-6 text-gray-800">Edit Profile</h2>
     </div>
 
-    <form class="bg-white w-full rounded shadow p-5" action="{{route('profile.update')}}" method="post">
+    <form class="bg-white w-full rounded shadow p-5 border-t-2 border-blue-600" action="{{route('profile.update')}}" method="post">
         {{csrf_field()}}
         {{method_field('put')}}
 

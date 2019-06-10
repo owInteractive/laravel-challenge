@@ -5,7 +5,7 @@
         <h2 class="text-3xl mt-6 text-gray-800">Import Events</h2>
     </div>
 
-    <form class="bg-white w-full rounded shadow p-5" action="{{route('events.import')}}" method="post" enctype="multipart/form-data">
+    <form class="bg-white w-full rounded shadow p-5 border-t-2 border-blue-600" action="{{route('events.import')}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="w-full">
             <div class="mb-3">
@@ -19,6 +19,6 @@
             </div>
         </div>
 
-        <button class="py-2 px-3 bg-blue-800 text-white rounded">Create Event</button>
+        <button class="py-2 px-3 bg-blue-800 text-white rounded">Import Events</button>
     </form>
 @endsection
