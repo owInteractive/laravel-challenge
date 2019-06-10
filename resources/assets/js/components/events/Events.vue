@@ -31,12 +31,6 @@
                         <span class="text-base ml-10 text-blue-600">{{event.title}}</span>
                         <span class="block text-sm text-gray-700 pt-2">Description: {{event.description}}</span>
                     </div>
-
-                    <div>
-                        <span class="p-1 bg-gray-600 rounded shadow text-white" v-if="moment(event.starts_at).format('YYYY-MM-DD H:m') < moment().format('YYYY-MM-DD H:m')">It occurred</span>
-                        <span class="p-1 bg-green-600 rounded shadow text-white" v-if="moment(event.starts_at).format('YYYY-MM-DD H:m') >= moment().format('YYYY-MM-DD H:m') && moment(event.starts_at).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')">Today</span>
-                        <span class="p-1 bg-blue-600 rounded shadow text-white" v-if="moment(event.starts_at).format('YYYY-MM-DD') === moment().add(1, 'days').format('YYYY-MM-DD')">Tomorrow</span>
-                    </div>
                 </div>
 
                 <div v-if="events.data < 1 && loading === false" class="text-blue-600 p-5">

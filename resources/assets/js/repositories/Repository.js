@@ -1,6 +1,6 @@
 import axios from 'axios/index';
 
-const baseDomain = 'http://events.test';
+const baseDomain = '//localhost:8000';
 const baseURL = `${baseDomain}/api`;
 
 export default axios.create({

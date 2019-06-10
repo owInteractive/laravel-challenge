@@ -18,7 +18,6 @@ class EventController extends Controller
     public function index()
     {
         $date = null;
-        // $date = \request('date') != null ? new Carbon(request('date')) : Carbon::now();
 
         $events = new Event();
 
