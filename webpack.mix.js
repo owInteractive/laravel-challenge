@@ -15,6 +15,7 @@ let glob = require('glob-all');
  */
 
 mix.postCss('resources/assets/css/tailwind.css', 'public/css', [tailwindcss])
+    .postCss('resources/assets/css/app.css', 'public/css')
     .js('resources/assets/js/app.js', 'public/js');
 
 if (mix.inProduction()) {

@@ -1,3 +1,4 @@
+const flatpickr = require("flatpickr");
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -13,8 +14,12 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+Vue.component('events', require('./components/events/Events.vue'));
+
+/*Components UI*/
+
+Vue.component('v-modal', require('./components/ui/modal/modal'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

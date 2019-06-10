@@ -20,5 +20,10 @@
     "purgecss-webpack-plugin": "^1.5.0",
     "tailwindcss": "^1.0.3",
     "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "flatpickr": "^4.6.1",
+    "moment": "^2.24.0",
+    "v-calendar": "^1.0.0-beta.14"
   }
 }
