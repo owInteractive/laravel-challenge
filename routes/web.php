@@ -20,7 +20,10 @@ Auth::routes();
 Route::group(['middleware' => 'auth', 'prefix' => 'app'], function (){
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-    Route::resource('events', 'EventController', ['except' => ['show']]);
+    Route::resource('events', 'EventController', ['except' => ['show', 'destroy']]);
+    Route::get('/events/export', 'EventController@export')->name('events.export');
+    Route::get('/events/import', 'EventController@import')->name('events.import');
+    Route::post('/events/import', 'EventController@importCsv');
 
     Route::get('/profile', 'User\ProfileController@edit')->name('profile.edit');
     Route::put('/profile', 'User\ProfileController@update')->name('profile.update');

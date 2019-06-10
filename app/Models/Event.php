@@ -12,6 +12,10 @@ class Event extends Model
         'title', 'description', 'starts_at', 'ends_in'
     ];
 
+    protected $hidden = [
+        'user_id'
+    ];
+
     protected $dates = [
         'starts_at', 'ends_in'
     ];

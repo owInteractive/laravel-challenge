@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <div class="flex items-start w-full">
-            <div class="inline-block bg-white w-10/12 rounded shadow max-h-screen overflow-auto">
+            <div class="bg-white w-9/12 rounded shadow max-h-screen overflow-auto">
 
                 <div class="spinner w-full mx-auto" v-if="loading === true">
                     <div class="double-bounce1"></div>
@@ -19,7 +19,7 @@
                 </h3>
 
                 <div class="inline-block w-full hover:bg-gray-200 border-b-2 p-5 flex justify-between cursor-pointer" v-for="(event, index) in events.data"
-                     v-bind:class="(index !== events.data.length - 1 ? 'pb-10' : '')" @click="toggleModal(event)"
+                     @click="toggleModal(event)"
                      v-if="loading === false">
                     <div class="pt-2">
                         <p class="text-base text-gray-700 font-medium" v-if="date === null">
@@ -45,7 +45,7 @@
             </div>
 
 
-            <div class="inline-block mx-5 w-2/12">
+            <div class="flex justify-center mx-5 w-3/12">
                 <v-date-picker :is-inline="true" @dayclick="clickDay" @update:fromPage="pageChange" locale="en"
                                v-model="date"/>
             </div>
