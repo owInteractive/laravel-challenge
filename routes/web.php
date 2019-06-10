@@ -16,3 +16,18 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], function () {
+
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('events', 'EventController@index')->name('events.index');
+
+        Route::get('events/create', 'EventController@create')->name('events.create');
+        Route::post('events', 'EventController@store')->name('events.store');
+
+        Route::get('events/{event}/edit', 'EventController@edit')->name('events.edit');
+        Route::put('events/{event}', 'EventController@update')->name('events.update');
+    });
+});

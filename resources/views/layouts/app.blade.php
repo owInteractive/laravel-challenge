@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title> @yield('title') {{ config('app.name', 'Laravel') }} </title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -48,7 +48,7 @@
                         <li><a href="{{ route('register') }}">Registrar</a></li>
                     @else
                         <li>
-                            <a href="{{ route('event.index') }}">Eventos</a>
+                            <a href="{{ route('admin.events.index') }}">Eventos</a>
                         </li>
 
                         <li class="dropdown">

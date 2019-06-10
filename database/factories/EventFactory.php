@@ -18,7 +18,7 @@ use Faker\Generator;
 
 $factory->define(Event::class, function (Faker\Generator $faker) {
 
-    $date_start = $faker->dateTimeBetween('this week', '+6 days');
+    $date_start = date('Y-m-d');
     $date_end = $faker->dateTimeBetween($date_start, strtotime('+6 days'));
 
     return [
