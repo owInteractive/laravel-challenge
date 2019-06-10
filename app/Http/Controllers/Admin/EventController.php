@@ -61,4 +61,26 @@ class EventController extends Controller
             'type' => 'success'
         ]);
     }
+
+    /**
+     * Delete Event
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function delete($id)
+    {
+        $event = Event::where('id', $id);
+        $event->delete();
+
+        $json = [
+            'error' => false,
+            'message' => 'Evento excluído com sucesso!',
+            'type' => 'success',
+            'redirect' => route('admin.events.index')
+        ];
+
+        return response()->json($json);
+    }
 }

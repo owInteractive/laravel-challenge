@@ -45,7 +45,11 @@
                                         <td>
                                             <a href="{{ route('admin.events.edit', ['event' => $event->id]) }}"
                                                class="btn btn-warning">Alterar</a>
-                                            <a href="#" class="btn btn-danger">Excluir</a>
+                                            <a href="#" class="btn btn-danger" data-id="{{$event->id}}"
+                                               data-action="{{ route('admin.events.delete', ['event' => $event->id]) }}"
+                                               onclick="deleteEvent(this)">
+                                                Excluir
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -29,5 +29,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], fu
 
         Route::get('events/{event}/edit', 'EventController@edit')->name('events.edit');
         Route::put('events/{event}', 'EventController@update')->name('events.update');
+
+        Route::delete('events/{event}', 'EventController@delete')->name('events.delete');
     });
 });
