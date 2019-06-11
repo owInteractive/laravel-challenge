@@ -47,8 +47,24 @@
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Registrar</a></li>
                     @else
-                        <li>
-                            <a href="{{ route('admin.events.index') }}">Eventos</a>
+{{--                        <li>--}}
+{{--                            <a href="{{ route('admin.events.index') }}">Eventos</a>--}}
+{{--                        </li>--}}
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Eventos <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ route('admin.events.index') }}">Todos os Eventos</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.events.today') }}">Eventos Hoje</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.events.nextFiveDays') }}">Para os próximos 5 dias</a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="dropdown">

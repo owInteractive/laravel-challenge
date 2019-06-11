@@ -30,46 +30,83 @@
                     </div>
                 @endif
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">Novo Evento</div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#cadastrar">Cadastrar</a></li>
+                    <li><a data-toggle="tab" href="#importar">Importar Dados</a></li>
+                </ul>
 
-                    <form action="{{ route('admin.events.store') }}" method="post">
-                        <div class="panel-body">
+                <div class="tab-content">
+                    <div id="cadastrar" class="tab-pane fade in active">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Novo Evento</div>
 
-                            {{ csrf_field() }}
+                            <form action="{{ route('admin.events.store') }}" method="post">
+                                <div class="panel-body">
 
-                            <div class="form-group">
-                                <label for="">Título: </label>
-                                <input type="text" name="title" class="form-control" value="{{ old('title') }}">
-                            </div>
+                                    {{ csrf_field() }}
 
-                            <div class="form-group">
-                                <label for="">Descrição: </label>
-                                <textarea name="description" rows="5" cols="30" class="form-control">{{ old('description') }}</textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <label for="">Data Início: </label>
-                                        <input type="date" name="date_start" class="form-control" value="{{ old('date_start') }}">
+                                    <div class="form-group">
+                                        <label for="">Título: </label>
+                                        <input type="text" name="title" class="form-control" value="{{ old('title') }}">
                                     </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <label for="">Data Término: </label>
-                                        <input type="date" name="date_end" class="form-control" value="{{ old('date_end') }}">
+
+                                    <div class="form-group">
+                                        <label for="">Descrição: </label>
+                                        <textarea name="description" rows="5" cols="30"
+                                                  class="form-control">{{ old('description') }}</textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6">
+                                                <label for="">Data Início: </label>
+                                                <input type="date" name="date_start" class="form-control"
+                                                       value="{{ old('date_start') }}">
+                                            </div>
+                                            <div class="col-sm-12 col-md-6">
+                                                <label for="">Data Término: </label>
+                                                <input type="date" name="date_end" class="form-control"
+                                                       value="{{ old('date_end') }}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="panel-footer text-right">
-                            <a href="{{ route('admin.events.index') }}" class="btn btn-default">
-                                Retornar
-                            </a>
-                            <button type="submit" class="btn btn-success">Salvar</button>
-                        </div>
+                                <div class="panel-footer text-right">
+                                    <a href="{{ route('admin.events.index') }}"
+                                       class="btn btn-default">
+                                        Retornar
+                                    </a>
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                </div>
 
-                    </form>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="importar" class="tab-pane fade">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Importar CSV</div>
+
+                            <form action="{{ route('admin.events.import') }}" method="post"
+                                  enctype="multipart/form-data">
+                                <div class="panel-body">
+
+                                    {{ csrf_field() }}
+
+                                    <div class="form-group">
+                                        <label for="">Selecione um arquivo </label>
+                                        <input type="file" name="import_file" class="form-control"
+                                               value="{{ old('title') }}">
+                                    </div>
+                                </div>
+
+                                <div class="panel-footer text-right">
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -37,7 +37,8 @@ function deleteEvent(element) {
                         icon: response.type,
                         closeOnClickOutside: false
                     }).then(function () {
-                        window.location.href = response.redirect;
+                        // window.location.href = response.redirect;
+                        $(element).parent('td').parent('tr').remove();
                     });
                 }
             })

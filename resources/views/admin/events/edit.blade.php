@@ -8,7 +8,7 @@
 
                 <ol class="breadcrumb">
                     <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ route('admin.events.index') }}">Eventos</a></li>
+                    <li><a href="{{ route('admin.events.index', ['type' => 'all']) }}">Eventos</a></li>
                     <li class="active">Editar Evento</li>
                 </ol>
 
@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="panel-footer text-right">
-                            <a href="{{ route('admin.events.index') }}" class="btn btn-default">
+                            <a href="{{ route('admin.events.index', ['type' => 'all']) }}" class="btn btn-default">
                                 Retornar
                             </a>
                             <button type="submit" class="btn btn-success">Salvar</button>
