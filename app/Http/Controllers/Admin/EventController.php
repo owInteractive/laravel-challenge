@@ -6,8 +6,10 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event as EventRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class EventController extends Controller
@@ -180,5 +182,25 @@ class EventController extends Controller
         }
 
         return $events;
+    }
+
+    /**
+     * Send Invite
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendInvite(Request $request)
+    {
+        $event = Event::where('id', $request->id)->first();
+        Mail::to($request->guest_email)->send(new \App\Mail\Event($event));
+
+        $json = [
+            'error' => false,
+            'message' => 'Convite enviado com sucesso!',
+            'type' => 'success'
+        ];
+
+        return response()->json($json);
     }
 }

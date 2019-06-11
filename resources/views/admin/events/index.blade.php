@@ -20,7 +20,8 @@
                         <div class="panel-body">
 
                             <div class="text-right">
-                                <a href="{{ route('admin.events.export', ['type_event' => 'all']) }}" class="btn btn-primary">
+                                <a href="{{ route('admin.events.export', ['type_event' => 'all']) }}"
+                                   class="btn btn-primary">
                                     Download (.csv)
                                 </a>
                                 <a href="{{ route('admin.events.create') }}" class="btn btn-success">
@@ -54,6 +55,9 @@
                                                    onclick="deleteEvent(this)">
                                                     Excluir
                                                 </a>
+                                                <button type="button" class="btn btn-default" data-id="{{$event->id}}"
+                                                        onclick="showModal('modalSendInvite', {{$event->id}})">Convidar
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -74,7 +78,8 @@
                         <div class="panel-body">
 
                             <div class="text-right">
-                                <a href="{{ route('admin.events.export', ['type_event' => 'today']) }}" class="btn btn-primary">
+                                <a href="{{ route('admin.events.export', ['type_event' => 'today']) }}"
+                                   class="btn btn-primary">
                                     Download (.csv)
                                 </a>
                                 <a href="{{ route('admin.events.create') }}" class="btn btn-success">
@@ -108,6 +113,9 @@
                                                    onclick="deleteEvent(this)">
                                                     Excluir
                                                 </a>
+                                                <button type="button" class="btn btn-default" data-id="{{$event->id}}"
+                                                             onclick="showModal('modalSendInvite', {{$event->id}})">Convidar
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -127,8 +135,9 @@
                         <div class="panel-body">
 
                             <div class="text-right">
-                                <a href="{{ route('admin.events.export', ['type_event' => 'next_five_days']) }}" class="btn btn-primary">
-                                   Download (.csv)
+                                <a href="{{ route('admin.events.export', ['type_event' => 'next_five_days']) }}"
+                                   class="btn btn-primary">
+                                    Download (.csv)
                                 </a>
                                 <a href="{{ route('admin.events.create') }}" class="btn btn-success">
                                     Novo Evento
@@ -161,6 +170,9 @@
                                                    onclick="deleteEvent(this)">
                                                     Excluir
                                                 </a>
+                                                <button type="button" class="btn btn-default" data-id="{{$event->id}}"
+                                                        onclick="showModal('modalSendInvite', {{$event->id}})">Convidar
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -172,6 +184,34 @@
                         </div>
                     </div>
                 @endif
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalSendInvite" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Convidar Amigo</h4>
+                    </div>
+                    <form name="form_send_invite" action="{{route('admin.events.sendInvite')}}" method="post">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="email" name="guest_email" class="form-control"
+                                       placeholder="Informe o melhor e-mail do convidado">
+
+                                <input type="hidden" name="id" id="event_id" value="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-success">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>

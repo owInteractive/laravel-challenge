@@ -37,5 +37,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], fu
         // Import/Export CSV
         Route::post('events/import', 'EventController@import')->name('events.import');
         Route::get('events/export/{type_event}', 'EventController@export')->name('events.export');
+
+        // Invite
+        Route::post('events/sendInvite', 'EventController@sendInvite')->name('events.sendInvite');
     });
 });

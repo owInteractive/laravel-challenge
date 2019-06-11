@@ -1,9 +1,42 @@
 $(function () {
 
+    /**
+     * AJAX SETUP
+     */
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
+    });
+
+    /**
+     * SEND INVITE
+     */
+    $('form[name="form_send_invite"]').submit(function (event) {
+        event.preventDefault();
+
+        var form = $(this);
+        var form_action = form.attr('action');
+        var form_data = form.serialize(form);
+        var form_button = form.find('button[type="submit"]');
+
+        $.ajax({
+            url: form_action,
+            type: 'POST',
+            dataType: 'json',
+            data: form_data,
+            beforeSend: function(){
+                form_button.html('Aguarde...');
+            },
+            success: function (response) {
+                if (!response.error) {
+                    form_button.html('Enviar');
+                    swal(response.message, '', response.type);
+                    $('#modalSendInvite').modal('hide');
+                }
+            }
+        });
+
     });
 
 });
@@ -41,9 +74,19 @@ function deleteEvent(element) {
                         $(element).parent('td').parent('tr').remove();
                     });
                 }
-            })
+            });
         } else {
             return false;
         }
+    });
+}
+
+
+function showModal(id_modal, id_event) {
+
+    $('#event_id').val(id_event);
+    $('#modalSendInvite').modal({
+        show: true,
+        backdrop: 'static'
     });
 }
