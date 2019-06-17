@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+$this->group(['prefix' => 'admin'], function() {
+
+    $this->get('/home', 'HomeController@index')->name('dashboard');
+
+});
