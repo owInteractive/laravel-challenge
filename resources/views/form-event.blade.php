@@ -125,7 +125,7 @@
           <div class="form-group">
           <label for="exampleFormControlTextarea1">Start Date</label>
           
-          <input class="form-control" id="start" name='start'  type="date" value="{{  date('d.m.Y', strtotime($event->start))  or old('start', date('d.m.Y H:i')) }}" @if($owner == -100 || $owner == Auth::user()->id) @else  readonly @endif />
+          <input class="form-control" id="start" name='start'  type="date" value="{{  old('start', date('d.m.Y H:i')) }}" @if($owner == -100 || $owner == Auth::user()->id) @else  readonly @endif />
           </div>
           <label for="exampleFormControlTextarea1">End Date</label>
           <input class="form-control" id="end" name='end' type="date" value="{{  old('end', date('dd-mm-YYYY')) }}"@if($owner == -100 || $owner == Auth::user()->id )  @else readonly  @endif >
