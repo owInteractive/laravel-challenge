@@ -1,16 +1,12 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+//ROTAS EVENT
+Route::resource('/event', 'EventController');
+Route::any('/event/search/{search?}','EventController@index')->name('eventSearch'); //Rota para busca de eventos
+Route::any('/event/show/{id?}{user}','EventController@exibe')->name('eventShow'); //Rota para busca de eventos
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+
