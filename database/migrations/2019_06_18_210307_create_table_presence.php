@@ -10,6 +10,7 @@ class CreateTablePresence extends Migration
     public function up()
     {   Schema::create('presences', function (Blueprint $table) {
         $table->increments('id');
+        $table->timestamps();
         $table->integer('id_user')->unsigned(); //CODIGO DO CRIADOR DO EVENTO                
         $table->foreign('id_user')
         ->references('id')
@@ -21,6 +22,7 @@ class CreateTablePresence extends Migration
         ->on('events')
         ->onDelete('cascade');
         $table->enum('invite_status', ['Aguardando Resposta', 'Confirmado','Rejeitado']);
+        
         });
     }
 

@@ -15,7 +15,7 @@ class EventFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' =>'required|min:3',
+        'title' =>'required|min:3',
         'start'=>'required|max:200',
         'end'=>'required',
         'description'=>'required',
@@ -30,4 +30,5 @@ class EventFormRequest extends FormRequest
 
         ];
     }
+   
 }

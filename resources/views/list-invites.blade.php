@@ -1,6 +1,6 @@
 @extends('layouts.template')
 @section('content')
-{{$busca}}
+
   <!-- Page Heading -->
   <h2>{{$title}}</h2>
   <div class="d-sm-flex align-items-center justify-content-between mb-4" style='margin-bottom:-10px;'>
@@ -65,6 +65,7 @@
             <th>Title</th>
             <th>Start</th>
             <th>End</th>
+            <th>Status Invite</th>
             <th>Action</th>
                         
           </tr>
@@ -76,6 +77,7 @@
                 <td style= "width:50%;"  style="vertical-align:middle;">{{$event->title}}</td>
                 <td style= "width:15%;"  style="vertical-align:middle;">{{ date('Y-m-d H:i',strtotime($event->start))}}</td>
                 <td style= "width:15%;"  style="vertical-align:middle;">{{ date('Y-m-d H:i',strtotime($event->end))}}</td>
+                <td style= "width:15%;"  style="vertical-align:middle;">{{ $event->invite_status }}</td>
                 
                                             
                   <td style= "width:5%;">
@@ -92,16 +94,16 @@
                             
                             <div class="dropdown-menu">
                               
-                              <a class="dropdown-item" href =" {{route('eventShow',['id' => $event->id, 'user'=> Auth::user()->id ])}}">  <i class="fas fa-edit text-warning " ></i> Edit</a>
+                              <a class="dropdown-item" href =" {{route('eventShow',['id' => $event->id_event, 'user'=> Auth::user()->id ])}}">  <i class="fas fa-edit text-warning " ></i> Edit</a>
                             
                               <div role="separator" class="dropdown-divider"></div>
-                              <button class="dropdown-item" onClick="Enviar({{$event->id}},'{{$event->title}}')" > <i class="fas fa-trash text-danger" ></i> Delete</button>
+                              <button class="dropdown-item" onClick="Enviar({{$event->id_event}},'{{$event->title}}')" > <i class="fas fa-trash text-danger" ></i> Delete</button>
                             </div>
                           </div>
                       @else
                         
                               
-                              <a  href="{{route('eventShow',['id' => $event->id, 'user'=> Auth::user()->id ])}}">  <i class="fas fa-eye text-primary " ></i></a>
+                              <a  href="{{route('eventShow',['id' => $event->id_event, 'user'=> Auth::user()->id ])}}">  <i class="fas fa-eye text-primary " ></i></a>
                             
                               
                          
@@ -196,86 +198,50 @@
       }
        function Buscar(title){
               var busca = new String(document.getElementById('campoBusca').value);             
-               if(title == 'All Events' )
+              
+               if(title == 'My Invites' )
                {
+                
+                    if ((busca.replace(/ /g,"")).length > 0)
+                  {
+                      document.getElementById('formBusca').action="{{ route('invites',['id'=>Auth::user()->id,'search'=>'0']) }}";
+                      var str = new String( document.getElementById('formBusca').action);
+                      document.getElementById('formBusca').action=(str.substring(0,(str.length)-1))+busca;
+                      document.getElementById('formBusca').submit();
+                      
+                      
+                    
+                  }
+                  else
+                  {
+                    
+                      document.getElementById('formBusca').action="{{ route('invites',['id'=>Auth::user()->id,'search'=>' ']) }}";
+                      document.getElementById('FormBusca').submit();
+                  }
+
+               }
+               if(title == 'My Pending Invites' )
+               {
+                
+                    if ((busca.replace(/ /g,"")).length > 0)
+                  {
+                      document.getElementById('formBusca').action="{{ route('pedingdinvites',['id'=>Auth::user()->id,'search'=>'0']) }}";
+                      var str = new String( document.getElementById('formBusca').action);
+                      document.getElementById('formBusca').action=(str.substring(0,(str.length)-1))+busca;
+                      document.getElementById('formBusca').submit();
+                      
+                      
+                    
+                  }
+                  else
+                  {
+                    
+                      document.getElementById('formBusca').action="{{ route('pedingdinvites',['id'=>Auth::user()->id,'search'=>' ']) }}";
+                      document.getElementById('FormBusca').submit();
+                  }
+
+               }
                
-                    if ((busca.replace(/ /g,"")).length > 0)
-                  {
-                      document.getElementById('formBusca').action="{{route('eventSearch')}}/"+busca;
-                      
-                      document.getElementById('FormBusca').submit();
-                    
-                  }
-                  else
-                  {
-                      document.getElementById('formBusca').action="{{route('event.index')}}";
-                      document.getElementById('FormBusca').submit();
-                  }
-
-               }
-               if(title == 'My Events' )
-               {
-                
-                    if ((busca.replace(/ /g,"")).length > 0)
-                  {
-                      document.getElementById('formBusca').action="{{ route('MyEvents',['id'=>Auth::user()->id,'search'=>'0']) }}";
-                      var str = new String( document.getElementById('formBusca').action);
-                      document.getElementById('formBusca').action=(str.substring(0,(str.length)-1))+busca;
-                      document.getElementById('formBusca').submit();
-                      
-                      
-                    
-                  }
-                  else
-                  {
-                    
-                      document.getElementById('formBusca').action="{{ route('MyEvents',['id'=>Auth::user()->id,'search'=>' ']) }}";
-                      document.getElementById('FormBusca').submit();
-                  }
-
-               }
-               if(title == 'Next 5 days' )
-               {
-                
-                    if ((busca.replace(/ /g,"")).length > 0)
-                  {
-                      document.getElementById('formBusca').action="{{ route('5DaysEvents','0') }}";
-                      var str = new String( document.getElementById('formBusca').action);
-                      document.getElementById('formBusca').action=(str.substring(0,(str.length)-1))+busca;
-                      document.getElementById('formBusca').submit();
-                      
-                      
-                    
-                  }
-                  else
-                  {
-                    
-                      document.getElementById('formBusca').action="{{ route('5DaysEvents',' ') }}";
-                      document.getElementById('FormBusca').submit();
-                  }
-
-               }
-               if(title == 'Today Events' )
-               {
-                
-                    if ((busca.replace(/ /g,"")).length > 0)
-                  {
-                      document.getElementById('formBusca').action="{{ route('ToDaysEvents','0') }}";
-                      var str = new String( document.getElementById('formBusca').action);
-                      document.getElementById('formBusca').action=(str.substring(0,(str.length)-1))+busca;
-                      document.getElementById('formBusca').submit();
-                      
-                      
-                    
-                  }
-                  else
-                  {
-                    
-                      document.getElementById('formBusca').action="{{ route('ToDaysEvents',' ') }}";
-                      document.getElementById('FormBusca').submit();
-                  }
-
-               }
            
               
        }

@@ -21,7 +21,7 @@
 
    <!-- Custom styles for this page -->
    <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-   <link href="/css/toastr.css" rel="stylesheet"/>
+   
 
 </head>
 
@@ -212,7 +212,7 @@
   <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
   
   <link href="/css/toastr.css" rel="stylesheet"/>
-
+  <link href="/css/toastr.css" rel="stylesheet"/>
  
   @yield('customjs')
 

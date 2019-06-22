@@ -13,15 +13,18 @@
 
   <!-- Custom fonts for this template-->
   <link href="{{ asset('b4/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-  <link href="{{ asset('b4/css/meupainel.css')}}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
    <!-- Custom styles for this template -->
    <link href="{{ asset('b4/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
    <!-- Custom styles for this page -->
-   <link href="{{ asset('b4/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-   <link href="{{ asset('b4/css/toastr.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('b4/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+
+   <link href="{{ asset('b4/css/toastr.min.css')}}" rel="stylesheet"/>
+   <script src="{{ asset('b4/js/jquery-3.4.1.min.js') }}"></script>
+   <script src="{{ asset('b4/js/toastr.min.js') }}"></script>
+  
 
 </head>
 
@@ -56,20 +59,40 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvents" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-bullhorn"></i>
           <span>Events</span>
         </a>
-        <div id="collapseMaterials" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseEvents" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Actions:</h6>
-            <a class="collapse-item" href="{{ route('event.create') }}"> New</a>
-            <a class="collapse-item" > Import via CSV</a>
-            <a class="collapse-item" href="{{ route('event.index') }}"> Report of Events </a>
+            <h6 class="collapse-header">Event Actions:</h6>
+            <a class="collapse-item" href="{{ route('event.create') }}"> Add New  </a>
+            <a class="collapse-item" href="{{ route('importExcel') }}"> Import via Excel</a>
+            <a class="collapse-item" href="{{ route('MyEvents',['id'=>Auth::user()->id,'search'=>' ']) }}"> My Events  </a>
+            <a class="collapse-item" href="{{ route('ToDaysEvents',['search'=>' ']) }}"> Today Events  </a>
+            <a class="collapse-item" href="{{ route('5DaysEvents',['search'=>' ']) }}"> Near for 5 days Events  </a>
+            <a class="collapse-item" href="{{ route('event.index') }}"> All Events  </a>
 
           </div>
         </div>
       </li>
+      <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseinvites" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-envelope-open-text"></i>
+            <span>Invites</span>
+          </a>
+          <div id="collapseinvites" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">Invite Page:</h6>
+              <a class="collapse-item" href="{{ route('invites',['id'=>Auth::user()->id,'search'=>' ']) }}"> My Invites  </a>
+              <a class="collapse-item" href="{{ route('pedingdinvites',['id'=>Auth::user()->id,'search'=>' ']) }}"> My Pending Invites  </a>
+              
+  
+            </div>
+          </div>
+        </li>
+
+      
 
       
      
@@ -109,6 +132,45 @@
                 @if (Auth::guest())
                 
             @else
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle @if($invitescount == 0) disabled @endif" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                
+                @if($invitescount > 0)
+                  <span class="badge badge-danger badge-counter">{{$invitescount}}</span>
+                @endif
+                
+              </a>
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  Invite Center
+                </h6>
+                @foreach($invitesdet as $invite)
+                  
+                      <a class="dropdown-item d-flex align-items-center" href="{{route('eventShow',['id' => $invite->id_event, 'user'=> Auth::user()->id ])}}">
+                          <div class="mr-3">
+                            <div class="icon-circle bg-primary">
+                              
+                                <i class="far fa-calendar-plus text-white"></i>
+                                
+                              
+                            </div>
+                          </div>
+                          <div>
+                            <div class="small text-gray-600">{{ date('Y-m-d H:i',strtotime(old('end',$invite->created_at)))}}</div>
+                            <span class="font-weight-bold">Convite para
+                              
+                              {{$invite->title}}</span>
+                          </div>
+                        </a>
+                @endforeach
+
+                
+                <a class="dropdown-item text-center small text-gray-500" href="{{ route('pedingdinvites',['id'=>Auth::user()->id,'search'=>' ']) }}" >Show All Invites</a>
+              </div>
+            </li>
                
                 <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -117,7 +179,7 @@
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                          <a class="dropdown-item" href="#">
+                          <a class="dropdown-item" href="{{ route('user.edit',Auth::user()->id) }}" >
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                           </a>                        
@@ -213,9 +275,10 @@
   <script src="{{ asset('b4/vendor/datatables/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('b4/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
   
-  <link href="{{ asset('b4/css/toastr.css') }}" rel="stylesheet"/>
+
   <script src="{{ asset('js/app.js') }}"></script>
- 
+  
+   
   @yield('customjs')
 
 
