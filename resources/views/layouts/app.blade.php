@@ -28,7 +28,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/event') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        &nbsp;<li><a href="{{ route('event.create') }}">{{ trans('event.new_event') }}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
