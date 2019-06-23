@@ -118,6 +118,13 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        try {
+            $event->delete();
+            return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->withErrors('Error deleted an event, please try again.');
+        }
     }
 }
