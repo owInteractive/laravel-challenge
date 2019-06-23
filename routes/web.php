@@ -20,4 +20,4 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('event', 'EventController');
+Route::resource('event', 'EventController')->middleware('auth');
