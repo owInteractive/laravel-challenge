@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Exception;
 use Illuminate\Http\Response;
 use App\Http\Requests\Event as EventRequest;
 
@@ -36,18 +37,12 @@ class EventController extends Controller
      */
     public function store(EventRequest $request)
     {
-        
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Event $event
-     * @return Response
-     */
-    public function show(Event $event)
-    {
-        //
+        try {
+            $event = Event::create($request->only('title', 'description', 'start', 'end'));
+            return redirect()->route('event.edit', $event)->with('success', 'Event created successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors('Error creating an event, please try again.');
+        }
     }
 
     /**

@@ -21,18 +21,6 @@ class EventPolicy
     }
 
     /**
-     * Determine whether the user can view the event.
-     *
-     * @param User $user
-     * @param Event $event
-     * @return mixed
-     */
-    public function view(User $user, Event $event)
-    {
-        return $this->verifyUser($user, $event);
-    }
-
-    /**
      * Determine whether the user can create events.
      *
      * @param User $user
@@ -40,7 +28,7 @@ class EventPolicy
      */
     public function create(User $user)
     {
-        return $this->verifyUser($user, $event);
+        return true;
     }
 
     /**

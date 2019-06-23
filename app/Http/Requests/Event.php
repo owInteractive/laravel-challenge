@@ -26,8 +26,8 @@ class Event extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'start' => 'required',
-            'end' => 'required',
+            'start' => 'required|date',
+            'end' => 'required|date',
         ];
     }
 }
