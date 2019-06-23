@@ -70,7 +70,10 @@ class EventController extends Controller
             );
             return redirect()->route('event.edit', $event)->with('success', 'Event created successfully');
         } catch (Exception $e) {
-            return redirect()->back()->withErrors('Error creating an event, please try again.');
+            return redirect()
+                ->back()
+                ->withErrors('Error creating an event, please try again.')
+                ->withInput();
         }
     }
 
@@ -82,19 +85,29 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('event.edit', compact('event'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param EventRequest $request
      * @param Event $event
      * @return Response
      */
-    public function update(Request $request, Event $event)
+    public function update(EventRequest $request, Event $event)
     {
-        //
+        try {
+            $event->update(
+                $request->only('title', 'description', 'start', 'end')
+            );
+            return redirect()->back()->with('success', 'Event updated successfully');
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->withErrors('Error updated an event, please try again.')
+                ->withInput();
+        }
     }
 
     /**

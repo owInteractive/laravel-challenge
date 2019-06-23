@@ -36,14 +36,14 @@
                                         <td>
                                             <span data-toggle="tooltip"
                                                   data-placement="top"
-                                                  title="{{ $event->start->toDateTimeString() }}">
+                                                  title="{{ $event->start }}">
                                                 {{ $event->startHuman }}
                                             </span>
                                         </td>
                                         <td>
                                             <span data-toggle="tooltip"
                                                   data-placement="top"
-                                                  title="{{ $event->start->toDateTimeString() }}">
+                                                  title="{{ $event->end }}">
                                                 {{ $event->endHuman }}
                                             </span>
                                         </td>

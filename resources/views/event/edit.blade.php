@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">{{ trans('event.new_event') }}</div>
+                    <div class="panel-heading">{{ trans('event.edit_event') }}</div>
 
                     <div class="panel-body">
                         @if($errors->any())
@@ -18,12 +18,13 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('event.store') }}" method="post">
+                        <form action="{{ route('event.update', $event) }}" method="post">
+                            {{ method_field('put') }}
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label class="control-label" for="title">{{ trans('event.title') }}</label>
-                                <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}" required autofocus>
+                                <input type="text" class="form-control" name="title" id="title" value="{{ $event->title }}" required autofocus>
 
                                 @if ($errors->has('title'))
                                     <span class="help-block">
@@ -34,7 +35,7 @@
 
                             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                                 <label class="control-label" for="description">{{ trans('event.description') }}</label>
-                                <input type="text" class="form-control" name="description" id="description" value="{{ old('description') }}" required>
+                                <input type="text" class="form-control" name="description" id="description" value="{{ $event->description }}" required>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -45,7 +46,7 @@
 
                             <div class="form-group{{ $errors->has('start') ? ' has-error' : '' }}">
                                 <label class="control-label" for="start">{{ trans('event.start') }}</label>
-                                <input type="datetime-local" class="form-control" name="start" id="start" value="{{ old('start') }}" required>
+                                <input type="datetime-local" class="form-control" name="start" id="start" value="{{ $event->start->format('Y-m-d\TH:i') }}" required>
 
                                 @if ($errors->has('start'))
                                     <span class="help-block">
@@ -56,7 +57,7 @@
 
                             <div class="form-group{{ $errors->has('end') ? ' has-error' : '' }}">
                                 <label class="control-label" for="end">{{ trans('event.end') }}</label>
-                                <input type="datetime-local" class="form-control" name="end" id="end" value="{{ old('end') }}" required>
+                                <input type="datetime-local" class="form-control" name="end" id="end" value="{{ $event->end->format('Y-m-d\TH:i') }}" required>
 
                                 @if ($errors->has('end'))
                                     <span class="help-block">

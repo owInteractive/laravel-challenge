@@ -46,6 +46,16 @@ class Event extends Model
         return $query->whereDate('start', '>=', Carbon::today()->toDateString());
     }
 
+    public function setStartAttribute($value)
+    {
+        $this->attributes['start'] = Carbon::createFromFormat('Y-m-d\TH:i', $value);
+    }
+
+    public function setEndAttribute($value)
+    {
+        $this->attributes['end'] = Carbon::createFromFormat('Y-m-d\TH:i', $value);
+    }
+
     public function getStartHumanAttribute()
     {
         return $this->start->diffForHumans();
