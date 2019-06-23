@@ -13,6 +13,17 @@ class Event extends Model
         'end',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Event $event) {
+            if ($user = auth()->user()) {
+                $event->user()->save($user);
+            }
+        });
+    }
+
     public function user()
     {
         return $this->hasOne(User::class);
