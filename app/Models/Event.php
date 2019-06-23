@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
@@ -9,6 +11,11 @@ class Event extends Model
     protected $fillable = [
         'title',
         'description',
+        'start',
+        'end',
+    ];
+
+    protected $dates = [
         'start',
         'end',
     ];
@@ -27,5 +34,25 @@ class Event extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeToday(Builder $query)
+    {
+        return $query->whereDate('start', Carbon::today()->toDateString());
+    }
+
+    public function scopeNextFiveDays(Builder $query)
+    {
+        return $query->whereDate('start', '>=', Carbon::today()->toDateString());
+    }
+
+    public function getStartHumanAttribute()
+    {
+        return $this->start->diffForHumans();
+    }
+
+    public function getEndHumanAttribute()
+    {
+        return $this->end->diffForHumans();
     }
 }

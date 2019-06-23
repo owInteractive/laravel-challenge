@@ -19,7 +19,7 @@ class CreateEventsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->dateTime('start');
-            $table->string('end');
+            $table->dateTime('end');
             $table->timestamps();
 
             $table->foreign('user_id')
