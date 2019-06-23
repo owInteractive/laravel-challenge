@@ -3,36 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\Event as EventRequest;
 
 class EventController extends Controller
 {
-    /**
-     * @param string|null $filter
-     * @return Event[]|null
-     */
-    private function eventsByFilter($filter)
-    {
-        /** @var User $user */
-        $user = auth()->user();
-
-        $eventBuilder = $user->events();
-
-        if ($filter === 'today') {
-            $eventBuilder->today();
-        }
-
-        if ($filter === 'next-five-days') {
-            $eventBuilder->nextFiveDays();
-        }
-
-        return $eventBuilder->get();
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -40,9 +16,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = $this->eventsByFilter(
+        $events = Event::currentUser()->eventsByFilter(
             request()->get('filter')
-        );
+        )->get();
         return view('event.index', compact('events'));
     }
 

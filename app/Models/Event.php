@@ -46,6 +46,24 @@ class Event extends Model
         return $query->whereDate('start', '>=', Carbon::today()->toDateString());
     }
 
+    public function scopeCurrentUser(Builder $query)
+    {
+        return $query->where('user_id', auth()->user()->id);
+    }
+
+    public function scopeEventsByFilter(Builder $query, $filter)
+    {
+        if ($filter === 'today') {
+            $query->today();
+        }
+
+        if ($filter === 'next-five-days') {
+            $query->nextFiveDays();
+        }
+
+        return $query;
+    }
+
     public function setStartAttribute($value)
     {
         $this->attributes['start'] = Carbon::createFromFormat('Y-m-d\TH:i', $value);

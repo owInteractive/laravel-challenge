@@ -13,7 +13,8 @@ return [
     'destroy_event' => 'Delete event',
 
     // Miscellaneous
-    'button_submit' => 'Save',
+    'button_save' => 'Save',
+    'button_filter' => 'Filter',
     'events' => 'Events',
     'actions' => 'Action',
 ];

@@ -14,10 +14,14 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::middleware('auth')->resource('event', 'EventController');
+Route::middleware('auth')->group(function () {
+    Route::resource('event', 'EventController');
+
+    Route::get('/csv/export', 'CsvController@export')->name('csv.export');
+    Route::post('/csv/import', 'CsvController@import')->name('csv.import');
+    Route::get('/csv/import', 'CsvController@importForm')->name('csv.import.form');
+});
+
+

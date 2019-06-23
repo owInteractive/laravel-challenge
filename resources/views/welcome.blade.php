@@ -69,7 +69,9 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        <a href="{{ url('/event') }}">{{ trans('event.events') }}</a>
+                        <a href="{{ route('event.index') }}">{{ trans('event.events') }}</a>
+                        <a href="{{ route('event.create') }}">{{ trans('event.new_event') }}</a>
+                        <a href="{{ route('csv.import.form') }}">{{ trans('csv.import') }}</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
                         <a href="{{ url('/register') }}">Register</a>

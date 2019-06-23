@@ -37,6 +37,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;<li><a href="{{ route('event.create') }}">{{ trans('event.new_event') }}</a></li>
+                        &nbsp;<li><a href="{{ route('csv.import.form') }}">{{ trans('csv.import') }}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

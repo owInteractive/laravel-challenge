@@ -66,7 +66,7 @@
                             </div>
 
                             <div class="pull-right">
-                                <button type="submit" class="btn btn-primary">{{ trans('event.button_submit') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ trans('event.button_save') }}</button>
                             </div>
                         </form>
                     </div>
