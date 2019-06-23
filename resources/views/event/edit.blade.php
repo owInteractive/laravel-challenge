@@ -18,6 +18,14 @@
                             </div>
                         @endif
 
+                        @if(session('success'))
+                            <div class="alert alert-success">
+                                <ul>
+                                    <li>{{ session('success') }}</li>
+                                </ul>
+                            </div>
+                        @endif
+
                         <form action="{{ route('event.update', $event) }}" method="post">
                             {{ method_field('put') }}
                             {{ csrf_field() }}
