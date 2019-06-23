@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Requests\Event as EventRequest;
 
 class EventController extends Controller
 {
@@ -31,12 +31,12 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param EventRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
-        //
+        
     }
 
     /**
