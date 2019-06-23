@@ -19,13 +19,13 @@ class Event extends Model
 
         static::creating(function (Event $event) {
             if ($user = auth()->user()) {
-                $event->user()->save($user);
+                $event->user()->associate($user);
             }
         });
     }
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }
