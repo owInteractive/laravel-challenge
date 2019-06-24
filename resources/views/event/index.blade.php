@@ -35,7 +35,7 @@
                                         </select>
                                         <span class="input-group-btn">
                                             <button type="submit" class="btn btn-default">
-                                                {{ trans('csv.button_export') }}
+                                                {{ trans('csv.export') }}
                                             </button>
                                         </span>
                                     </div>
@@ -87,6 +87,9 @@
                                         <td>
                                             <a href="{{ route('event.edit', $event) }}" title="{{ trans('event.edit_event') }}">
                                                 <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+                                            <a href="{{ route('event.invitation.form', $event) }}" title="{{ trans('event.invitation_event') }}" style="margin-left: 12px;">
+                                                <i class="glyphicon glyphicon-share"></i>
                                             </a>
                                             <form action="{{ route('event.destroy', $event) }}" method="post" style="display:inline;">
                                                 {{ method_field('delete') }}

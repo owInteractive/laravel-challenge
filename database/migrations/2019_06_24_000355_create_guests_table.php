@@ -17,6 +17,7 @@ class CreateGuestsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('event_id');
             $table->string('email');
+            $table->string('token');
             $table->timestamps();
 
             $table->foreign('event_id')

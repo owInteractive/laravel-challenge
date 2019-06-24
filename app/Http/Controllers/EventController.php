@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EventInvitation;
 use App\Models\Event;
+use App\Models\Guest;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\Event as EventRequest;
 
@@ -53,6 +56,11 @@ class EventController extends Controller
         }
     }
 
+    public function show(Event $event)
+    {
+        return view('event.show', compact('event'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -97,6 +105,36 @@ class EventController extends Controller
         try {
             $event->delete();
             return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->withErrors('Error deleted an event, please try again.');
+        }
+    }
+
+    public function invitationForm(Event $event)
+    {
+        return view('event.invitation', compact('event'));
+    }
+
+    public function invitation(Request $request, Event $event)
+    {
+        $this->validate($request, [
+            'emails' => 'required',
+        ]);
+
+        try {
+            $emails = array_map('trim', explode(',', $request->get('emails')));
+
+            foreach ($emails as $email) {
+                /** @var Guest $guest */
+                $guest = $event->guests()->create(compact('email'));
+                event(new EventInvitation($guest));
+            }
+
+            return redirect()
+                ->back()
+                ->with('success', 'Invited guests successfully.');
         } catch (Exception $e) {
             return redirect()
                 ->back()

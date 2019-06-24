@@ -36,8 +36,10 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;<li><a href="{{ route('event.create') }}">{{ trans('event.new_event') }}</a></li>
-                        &nbsp;<li><a href="{{ route('csv.import.form') }}">{{ trans('csv.import') }}</a></li>
+                        @if(auth()->check())
+                            <li><a href="{{ route('event.create') }}">{{ trans('event.new_event') }}</a></li>
+                            <li><a href="{{ route('csv.import.form') }}">{{ trans('csv.import') }}</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
