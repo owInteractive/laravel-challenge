@@ -36,6 +36,11 @@ class Event extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function guests()
+    {
+        return $this->hasMany(Guest::class);
+    }
+
     public function scopeToday(Builder $query)
     {
         return $query->whereDate('start', Carbon::today()->toDateString());
