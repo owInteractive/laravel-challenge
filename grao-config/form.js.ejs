@@ -1,0 +1,92 @@
+@extends('bredicoloradmin::layouts.controle')
+
+@section('content')
+    <!-- begin breadcrumb -->
+    @component('bredicoloradmin::components.migalha')
+        <li class="breadcrumb-item"><a href="{{ route('controle.<%= props.name %>.index') }}"><%= props.nameCapitalize _%></a></li>
+    @endcomponent
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header"><%= props.nameCapitalize _%></h1>
+    <!-- end page-header -->
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- begin panel -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    </div>
+                    <h4 class="panel-title"><%= props.nameCapitalize _%></h4>
+                </div>
+                <div class="panel-body">
+                    {!! Form::model(isset($<%= props.name %>) ? $<%= props.name %> : null,['route' => (isset($<%= props.name %>->id) ? ['controle.<%= props.name %>.update', $<%= props.name %>->id] : 'controle.<%= props.name %>.store'), 'files' => true]) !!}
+                        <fieldset>
+                            <% props.resultsQuery.forEach(function(res){ _%>
+                                    <% if(res.Type.indexOf('varchar') >= 0) { _%>
+                                    <div class="form-group">
+                                        <label for="<%= res.Field _%>"><%= res.Field _%> <span class="text-danger">*</span></label>
+                                        {!! Form::text('<%= res.Field _%>', null, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                    <% } _%>
+                                    <% if(res.Type.indexOf('int') >= 0 && res.Field.indexOf('_id') >= 0) { _%>
+                                    <div class="form-group">
+                                        <label for="<%= res.Field _%>"><%= res.Field _%> <span class="text-danger">*</span></label>
+                                        {!! Form::select('<%= res.Field _%>', [], null, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                    <% } _%>
+                                    <% if(res.Type.indexOf('text') >= 0) { _%>
+                                    <div class="form-group">
+                                        <label for="<%= res.Field _%>"><%= res.Field _%> <span class="text-danger">*</span></label>
+                                        {!! Form::textarea('<%= res.Field _%>',null, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                    <% } _%>
+                                    <% if(res.Type.indexOf('enum') >= 0) { _%>
+                                        <div class="form-group">
+                                            <label for="<%= res.Field _%>"><%= res.Field _%> <span class="text-danger">*</span></label>
+                                            {!! Form::select('<%= res.Field _%>', [], null, ['class' => 'form-control', 'required']) !!}
+                                        </div>
+                                    <% } _%>
+                                    <% if(res.Type.indexOf('date') >= 0) { _%>
+                                        <div class="form-group">
+                                            <label for="<%= res.Field _%>"><%= res.Field _%> <span class="text-danger">*</span></label>
+                                            {!! Form::date('<%= res.Field _%>', null, ['class' => 'form-control', 'required']) !!}
+                                        </div>
+                                    <% } _%>
+                                    <% if(res.Type.indexOf('decimal') >= 0 || res.Type.indexOf('float') >= 0 || res.Type.indexOf('double') >= 0) { _%>
+                                        <div class="form-group">
+                                            <label for="<%= res.Field _%>"><%= res.Field _%> <span class="text-danger">*</span></label>
+                                            {!! Form::text('<%= res.Field _%>',null, ['class' => 'form-control', 'required']) !!}
+                                        </div>
+                                    <% } _%>
+                                    <% if(res.Type.indexOf('timestamp') >= 0) { _%>
+                                        <div class="form-group">
+                                            <label for="<%= res.Field _%>"><%= res.Field _%> <span class="text-danger">*</span></label>
+                                            {!! Form::date('<%= res.Field _%>',null, ['class' => 'form-control', 'required']) !!}
+                                        </div>
+                                    <% } _%>
+
+                            <% }); _%>
+
+                            <div class="checkbox checkbox-css m-b-20">
+                                <div class="form-check m-r-10">
+                                    {!! Form::checkbox('ativo', 1, null, ['class' => 'form-check-input', 'id' => 'ativo']) !!}
+                                    <label class="form-check-label" for="ativo">Publicar</label>
+                                </div>
+
+                            </div>
+                            @can((isset($<%= props.name %>->id)) ? 'controle.<%= props.name %>.update' : 'controle.<%= props.name %>.store')
+                                <button type="submit" class="btn btn-sm btn-primary m-r-5">Salvar</button>
+                            @endcan
+                            <a href="{{ route('controle.<%= props.name %>.index') }}" class="btn btn-sm btn-default">Cancelar</a>
+                        </fieldset>
+                    {!! Form::close() !!}
+
+                </div> <!-- panel-body -->
+            </div>
+            <!-- end panel -->
+
+        </div>
+    </div>
+    
+@stop

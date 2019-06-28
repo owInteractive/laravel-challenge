@@ -1,0 +1,64 @@
+@extends('bredicoloradmin::layouts.controle')
+
+@section('content')
+    <!-- begin breadcrumb -->
+    @component('bredicoloradmin::components.migalha')
+        <li class="breadcrumb-item"><a href="{{ route('controle.<%= props.name _%>.index') }}"><%= props.nameCapitalize _%></a></li>
+    @endcomponent
+    <!-- end breadcrumb -->
+    <!-- begin page-header -->
+    <h1 class="page-header"><%= props.nameCapitalize _%></h1>
+    <!-- end page-header -->
+
+    <!-- begin panel -->
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                    @can('controle.<%= props.name _%>.create')
+                    <a href="{{ route('controle.<%= props.name _%>.create') }}" class="btn btn-xs btn-circle2 btn-success"><i class="fa fa-plus"></i> Novo Registro</a>
+                    @endcan
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+            </div>
+            <h4 class="panel-title"><%= props.nameCapitalize _%></h4>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Titulo</th>
+                        <th>Link</th>
+                        <th>Publicado</th>
+                        <th width="1%">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if($<%= props.name _%>s->count() > 0)
+                        @foreach($<%= props.name _%>s as $<%= props.name _%>)
+                            <tr>
+                        <% for (var prop in props.resultsQuery ) { _%>
+                                <td>{{ $<%= props.name _%>-><%= props.resultsQuery[prop].Field _%> }}</td>
+                        <% } _%>
+                        <td class="with-btn" nowrap="">
+                            @can('controle.<%= props.name _%>.edit')
+                                <a href="{{ route('controle.<%= props.name _%>.edit', $<%= props.name _%>->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">Editar</a>
+                            @endcan
+                            @can('controle.<%= props.name _%>.destroy')
+                            <a href="javascript:void(0)" data-url="{{ route('controle.<%= props.name _%>.destroy', $<%= props.name _%>->id) }}" class="btn btn-sm btn-white width-60 atencao">Delete</a>
+                            @endcan
+                        </td>
+                        </tr>
+                        @endforeach
+                    @else
+                    <tr>
+                        <td colspan="5">
+                            Nenhum registro foi encontrado.
+                        </td>
+                    </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- end panel -->
+@stop

@@ -198,16 +198,16 @@
         },
         {
             "name": "bredi/bredi-dashboard",
-            "version": "1.0.16",
+            "version": "1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rodrigodesouza/bredi-dashboard.git",
-                "reference": "6023a5bc0691265e2b3ea5ec9df9d295e2995aee"
+                "reference": "15b287875963ffd532edbeb328b7eaac2d780041"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rodrigodesouza/bredi-dashboard/zipball/6023a5bc0691265e2b3ea5ec9df9d295e2995aee",
-                "reference": "6023a5bc0691265e2b3ea5ec9df9d295e2995aee",
+                "url": "https://api.github.com/repos/rodrigodesouza/bredi-dashboard/zipball/15b287875963ffd532edbeb328b7eaac2d780041",
+                "reference": "15b287875963ffd532edbeb328b7eaac2d780041",
                 "shasum": ""
             },
             "require": {
@@ -250,7 +250,7 @@
                 "laravel",
                 "laravel-dashboard"
             ],
-            "time": "2019-06-27T12:24:20+00:00"
+            "time": "2019-06-28T13:56:05+00:00"
         },
         {
             "name": "bredi/bredicoloradmin",
