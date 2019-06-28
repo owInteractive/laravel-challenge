@@ -67,4 +67,18 @@ class EventRepository extends BaseRepository
             'accept' => 1
         ]);
     }
+
+    public function today() {
+        $now = Carbon::now();
+        return $this->newQuery()->whereRaw("DATE(start) <= \"{$now->format('Y-m-d')}\" and DATE(end) >= \"{$now->format('Y-m-d')}\" ")->get();
+    }
+
+    public function nextDays() {
+        $now = Carbon::now();
+        $end = Carbon::now()->addDays(5);
+
+        return $this->newQuery()->where(function($query) use($now, $end) {
+            $query->whereBetween('start', [$now, $end])->orWhereBetween('end', [$now, $end]);
+        })->get();
+    }
 }

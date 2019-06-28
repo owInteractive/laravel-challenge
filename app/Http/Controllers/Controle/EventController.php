@@ -12,8 +12,12 @@ class EventController extends Controller
 {
     public function index()
     {	
-    	$data = ['events'];
-    	$events = Event::orderBy('id', 'desc')->orderBy('id', 'desc')->paginate(4);
+    	$data = ['events', 'eventsToday', 'eventsNextDays'];
+        $events = Event::orderBy('id', 'desc')->orderBy('id', 'desc')->paginate(4);
+        
+        $eventsToday = (new EventRepository)->today();
+        $eventsNextDays = (new EventRepository)->nextDays();
+
     	return view('controle.event.index', compact($data));
     }
 

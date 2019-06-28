@@ -1,7 +1,7 @@
 @component('bredicoloradmin::components.menu-padrao')
     
-<li class="{{ activeMenu('bredidashboard::dashboard') }}">
-    <a href="{{ route('bredidashboard::dashboard') }}">
+<li class="{{ activeMenu('controle.dashboard.index') }}">
+    <a href="{{ route('controle.dashboard.index') }}">
         <i class="fa fa-tachometer-alt"></i>
         <span>Dashboard</span>
     </a>
@@ -18,13 +18,13 @@
                 Create Event
             </a>
         </li>
-        <li class="has-sub">
-            <a href="javascript:;">
+        <li class="{{ activeMenu(['controle.event.today']) }}">
+            <a href="{{ route('controle.event.today') }}">
                 Events Today
             </a>
         </li>
-        <li class="has-sub">
-            <a href="javascript:;">
+        <li class="{{ activeMenu(['controle.event.nextDays']) }}">
+            <a href="{{ route('controle.event.nextDays') }}">
                 Next 5 days
             </a>
         </li>

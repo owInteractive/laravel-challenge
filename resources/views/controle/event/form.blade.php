@@ -75,7 +75,7 @@
     
 @stop
 
-@section('scripts')
+@section('styles')
 <link rel="stylesheet" href="/admin/css/vendor.css">
 @endsection
 
@@ -84,9 +84,10 @@
 <script>
     $(function() {
 
-        $('.daterangepicker').daterangepicker();
+        {{-- $('.daterangepicker').daterangepicker(); --}}
 
-        {{-- $('.daterangepicker').daterangepicker({
+        
+        $('.daterangepicker').daterangepicker({
           singleDatePicker: true,
           showDropdowns: true,
           minYear: 1901,
@@ -95,7 +96,7 @@
           var years = moment().diff(start, 'years');
           alert("You are " + years + " years old!");
         });
-      }); 
-      --}}
+       
+    }); 
 </script>
 @endsection
