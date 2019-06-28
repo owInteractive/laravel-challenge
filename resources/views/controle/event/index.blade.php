@@ -47,7 +47,7 @@
                                 @can('controle.event.destroy')
                                     <a href="javascript:void(0)" data-url="{{ route('controle.event.destroy', $event->id) }}" class="btn btn-sm btn-white width-60 atencao">Delete</a>
                                 @endcan
-                        </td>
+                            </td>
                         </tr>
                         @endforeach
                     @else
@@ -58,6 +58,13 @@
                     </tr>
                     @endif
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            {{ $events->links() }}
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
