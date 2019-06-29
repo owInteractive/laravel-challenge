@@ -58,9 +58,13 @@
                             <td>{{ $event->start }}</td>
                             <td>{{ $event->end }}</td>
                             <td class="with-btn" nowrap="">
-                                @can('controle.event.edit')
-                                    <a href="{{ route('controle.event.edit', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">Editar</a>
-                                @endcan
+                                @if ($event->user_id == auth()->user()->id)
+                                    @can('controle.event.edit')
+                                        <a href="{{ route('controle.event.edit', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">Edit</a>
+                                    @endcan
+                                @else
+                                    <a href="{{ route('controle.event.show', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">View</a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

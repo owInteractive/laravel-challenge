@@ -23,47 +23,37 @@
                     {!! Form::model(isset($event) ? $event : null,['route' => (isset($event->id) ? ['controle.event.update', $event->id] : 'controle.event.store'), 'files' => true]) !!}
                         <fieldset>
                             <div class="form-group">
-                                <label for="title">Title<span class="text-danger">*</span></label>
-                                {!! Form::text('title', null, ['class' => 'form-control', 'required']) !!}
+                                <label for="title" class="col-form-label">title<span class="text-danger">*</span></label>
+                                {!! Form::text('title', null, ['class' => 'form-control-plaintext', 'required']) !!}
                             </div>
                                                                                                                                                                                                                                                     
                             <div class="form-group">
-                                <label for="description">Description<span class="text-danger">*</span></label>
-                                {!! Form::textarea('description',null, ['class' => 'form-control', 'required']) !!}
+                                <label for="description" class="col-form-label">description<span class="text-danger">*</span></label>
+                                {!! Form::textarea('description',null, ['class' => 'form-control-plaintext', 'required']) !!}
                             </div>
                                                                                                                                                                             
                             <div class="form-group row m-t-10">
-                                <label for="start_date" class="col-sm-1">Start<span class="text-danger">*</span></label>
+                                <label for="start_date" class="col-sm-1 col-form-label">start<span class="text-danger">*</span></label>
                                 <div class="col-sm-3">
-                                    {!! Form::date('start_date', null, ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::date('start_date', null, ['class' => 'form-control-plaintext', 'required']) !!}
                                 </div>
-                                <label for="start_time" class="col-sm-1">Time<span class="text-danger">*</span></label>
+                                <label for="start_time" class="col-sm-1 col-form-label">Time<span class="text-danger">*</span></label>
                                 <div class="col-sm-3">
-                                    {!! Form::time('start_time', null, ['class' => 'form-control ', 'required']) !!}
+                                    {!! Form::time('start_time', null, ['class' => 'form-control-plaintext ', 'required']) !!}
                                 </div>
                             </div>
                                                                                                 
                             <div class="form-group row m-t-10">
-                                <label for="end_date" class="col-sm-1">End<span class="text-danger">*</span></label>
+                                <label for="end_date" class="col-sm-1 col-form-label">end<span class="text-danger">*</span></label>
                                 <div class="col-sm-3">
-                                    {!! Form::date('end_date', null, ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::date('end_date', null, ['class' => 'form-control-plaintext', 'required', 'readonly']) !!}
                                 </div>
-                                <label for="end_time" class="col-sm-1">Time<span class="text-danger">*</span></label>
+                                <label for="end_time" class="col-sm-1 col-form-label">Time<span class="text-danger">*</span></label>
                                 <div class="col-sm-3">
-                                    {!! Form::time('end_time', null, ['class' => 'form-control ', 'required']) !!}
+                                    {!! Form::time('end_time', null, ['class' => 'form-control-plaintext ', 'required']) !!}
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <legend>Invite</legend>
-                                <label for="start">E-mails</label>
-                                {{-- <div class="tags"></div> --}}
-                                {!! Form::hidden('emails', null, ['class' => 'form-control', 'id' => 'tags']) !!}
-                            </div>
-                            @can((isset($event->id)) ? 'controle.event.update' : 'controle.event.store')
-                                <button type="submit" class="btn btn-sm btn-primary m-r-5">Salvar</button>
-                            @endcan
-                            <a href="{{ route('controle.event.index') }}" class="btn btn-sm btn-default">Cancelar</a>
+                            <a href="{{ route('controle.event.index') }}" class="btn btn-sm btn-default">view all</a>
                         </fieldset>
                     {!! Form::close() !!}
 

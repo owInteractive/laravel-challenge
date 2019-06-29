@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index()
     {	
     	$data = ['events', 'eventsToday', 'eventsNextDays'];
-        $events = Event::orderBy('id', 'desc')->orderBy('id', 'desc')->paginate(4);
+        $events = Event::orderBy('id', 'desc');
         
         $eventsToday = (new EventRepository)->today();
         $eventsNextDays = (new EventRepository)->nextDays();

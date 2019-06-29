@@ -43,15 +43,21 @@ class EventController extends Controller
         if (isset($event->id)) {
             return redirect()->route('controle.event.index')->with('msg', 'Registro cadastrado com sucesso!');
         } else {
-            return redirect()->back()->with('msg', 'Não foi possível salvar os dados')->with('error', true)->withInput();    
+            return redirect()->back()->with('msg', 'Não foi possível salvar os dados')->with('error', true)->with('exception', $event->getMessage())->withInput();    
         }
         
     }
 
-    public function edit($id)
+    public function show($id)
     {
         $data = ['event'];
         $event = Event::find($id);
+        return view('controle.event.show', compact($data));
+    }
+    public function edit($id)
+    {
+        $data = ['event'];
+        $event = Event::proprietario()->find($id);
         return view('controle.event.form', compact($data));
     }
 
@@ -67,12 +73,13 @@ class EventController extends Controller
         ]);
             
         try {
-
-            $event = (new EventRepository)->findByID($id)->update($request->all());
+            
+            $event = (new EventRepository)->updating($id, $request->all());
 
             return redirect()->route('controle.event.index')->with('msg', 'Registro atualizado com sucesso!');
 
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->back()->with('msg', 'Não foi possível alterar o registro')->with('error', true)->with('exception', $e->getMessage());
         }
     }
@@ -80,14 +87,18 @@ class EventController extends Controller
     public function destroy($id)
     {
         try {
-            $event = Event::find($id);
+            $event = Event::proprietario()->find($id);
+
+            if (!isset($event->id)) {
+                return redirect()->route('controle.event.index')->with('msg', 'não foi possível excluir o registro!')->with('error', true);
+            }
 
             $event->delete();
 
             return redirect()->route('controle.event.index')->with('msg', 'registro excluido com sucesso!');
 
         } catch (\Exception $e) {
-            return redirect()->route('controle.event.index')->with('msg', 'não foi possível excluir o registro!')->with('error', true)->with('exception', $e->getMessage());
+            return redirect()->route('controle.event.index')->with('msg', 'não foi possível excluir o registro!')->with('error', true);
         }
     }
 }

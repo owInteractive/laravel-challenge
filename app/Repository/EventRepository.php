@@ -46,13 +46,13 @@ class EventRepository extends BaseRepository
         }
     }
     
-    public function update($input)
+    public function updating($id, $input)
     {
         $dateTime       = self::setDateTime($input);
         $input['start'] = $dateTime['start'];
         $input['end']   = $dateTime['end'];
 
-        $event  = Event::find()->update($input);
+        $event  = Event::proprietario()->find($id)->update($input);
 
         return $event;
     }
@@ -88,7 +88,7 @@ class EventRepository extends BaseRepository
 
     public static function sendInvites($event, $input)
     {
-        if (isset($input['emails']) and count($input['emails'])) {
+        if (isset($input['emails']) and count(explode(',', $input['emails']))) {
             $emails = explode(',', $input['emails']);
             foreach($emails as $email) {
                 $invitation = Invitation::create(

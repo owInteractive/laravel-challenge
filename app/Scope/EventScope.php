@@ -18,6 +18,12 @@ class EventScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('user_id', Auth::id());
+        $builder->whereHas('users',
+            function($query) {
+                $query->where('event_users.user_id', Auth::id());
+            }
+        );
+
+        // $builder->where('user_id', Auth::id());
     }
 }
