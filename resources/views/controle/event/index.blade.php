@@ -53,9 +53,9 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="panel-heading-btn">
-                @can('controle.event.create')
-                <a href="{{ route('controle.event.create') }}" class="btn btn-xs btn-circle2 btn-success"><i class="fa fa-plus"></i> Novo Registro</a>
-                @endcan
+                
+                <a href="{{ route('controle.event.create') }}" class="btn btn-xs btn-circle2 btn-success"><i class="fa fa-plus"></i> New Event</a>
+                
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
             </div>
             <h4 class="panel-title">Events</h4>
@@ -81,16 +81,17 @@
                             <td>{{ $event->end}}</td>
                             <td class="with-btn" nowrap="">
                                 @if ($event->user_id == auth()->user()->id)
-                                    @can('controle.event.edit')
+
                                         <a href="{{ route('controle.event.edit', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">Edit</a>
-                                    @endcan
+                                    
                                 @else
                                     <a href="{{ route('controle.event.show', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">View</a>
                                 @endif
+
                                 @if ($event->user_id == auth()->user()->id)
-                                    @can('controle.event.destroy')
+
                                         <a href="javascript:void(0)" data-url="{{ route('controle.event.destroy', $event->id) }}" class="btn btn-sm btn-white width-60 atencao">Delete</a>
-                                    @endcan
+                                    
                                 @endif
                             </td>
                         </tr>

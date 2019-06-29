@@ -5,6 +5,7 @@
         <i class="fa fa-tachometer-alt"></i>
         <span>Dashboard</span>
     </a>
+    {{ \Carbon\Carbon::now() }}
 </li>
 <li class="{{ activeMenu(['controle.event']) }} has-sub">
     <a href="javascript:;">

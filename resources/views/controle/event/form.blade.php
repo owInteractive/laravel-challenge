@@ -60,9 +60,9 @@
                                 {{-- <div class="tags"></div> --}}
                                 {!! Form::hidden('emails', null, ['class' => 'form-control', 'id' => 'tags']) !!}
                             </div>
-                            @can((isset($event->id)) ? 'controle.event.update' : 'controle.event.store')
-                                <button type="submit" class="btn btn-sm btn-primary m-r-5">Salvar</button>
-                            @endcan
+                                
+                            <button type="submit" class="btn btn-sm btn-primary m-r-5">Salvar</button>
+                            
                             <a href="{{ route('controle.event.index') }}" class="btn btn-sm btn-default">Cancelar</a>
                         </fieldset>
                     {!! Form::close() !!}
