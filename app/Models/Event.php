@@ -54,4 +54,14 @@ class Event extends Model
         return Carbon::parse($this->end)->format('H:i:s');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'event_users');
+    }
+
+    public function scopeProprietario($query)
+    {
+        $query->where('events.user_id', Auth::id());
+    }
+
 }

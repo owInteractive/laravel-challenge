@@ -82,4 +82,5 @@ abstract class BaseRepository
     }
     return $this->newQuery()->find($id);
   }
+  
 }

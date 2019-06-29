@@ -40,7 +40,7 @@
                 <div class="stats-icon"><i class="fa fa-calendar"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL EVENTS</h4>
-                    <p>{{ $events->count() }}</p>	
+                    <p>{{ $events->total() }}</p>	
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View List</a>
@@ -80,12 +80,18 @@
                             <td>{{ $event->start}}</td>
                             <td>{{ $event->end}}</td>
                             <td class="with-btn" nowrap="">
-                                @can('controle.event.edit')
-                                    <a href="{{ route('controle.event.edit', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">Editar</a>
-                                @endcan
-                                @can('controle.event.destroy')
-                                    <a href="javascript:void(0)" data-url="{{ route('controle.event.destroy', $event->id) }}" class="btn btn-sm btn-white width-60 atencao">Delete</a>
-                                @endcan
+                                @if ($event->user_id == auth()->user()->id)
+                                    @can('controle.event.edit')
+                                        <a href="{{ route('controle.event.edit', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">Edit</a>
+                                    @endcan
+                                @else
+                                    <a href="{{ route('controle.event.show', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">View</a>
+                                @endif
+                                @if ($event->user_id == auth()->user()->id)
+                                    @can('controle.event.destroy')
+                                        <a href="javascript:void(0)" data-url="{{ route('controle.event.destroy', $event->id) }}" class="btn btn-sm btn-white width-60 atencao">Delete</a>
+                                    @endcan
+                                @endif
                             </td>
                         </tr>
                         @endforeach

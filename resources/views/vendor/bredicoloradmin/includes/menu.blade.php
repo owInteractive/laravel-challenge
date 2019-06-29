@@ -1,7 +1,7 @@
 @component('bredicoloradmin::components.menu-padrao')
     
-<li class="{{ activeMenu('controle.dashboard.index') }}">
-    <a href="{{ route('controle.dashboard.index') }}">
+<li class="{{ activeMenu('bredidashboard::dashboard') }}">
+    <a href="{{ route('bredidashboard::dashboard') }}">
         <i class="fa fa-tachometer-alt"></i>
         <span>Dashboard</span>
     </a>

@@ -35,6 +35,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 col-md-6">
             <div class="widget widget-stats bg-grey-lighter">
                 <div class="stats-icon"><i class="fa fa-calendar"></i></div>
