@@ -28,6 +28,6 @@ class SendInvitie extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invitie')->with('invitie', $this->invitation)->subject('A new event');
+        return $this->markdown('emails.invitie')->with('invite', $this->invitation)->subject('A new event');
     }
 }

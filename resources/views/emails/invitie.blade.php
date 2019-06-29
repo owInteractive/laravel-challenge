@@ -1,14 +1,14 @@
 
 @component('mail::message')
 
-# New Invitie
+# New Invite
 
-<h2>Hello, {{ $invitie->email }}!</h2>
+<h2>Hello, {{ $invite->email }}!</h2>
 
 
-A new invitie from event {{ $invitie->title }}, {{ \Carbon\Carbon::parse($invitie->start)->format('m/d/Y \a\t H:i') }}
+A new invite from event {{ $invite->title }}, {{ \Carbon\Carbon::parse($invite->start)->format('m/d/Y \a\t H:i') }}
 
-@component('mail::button', ['url' => '/'])
+@component('mail::button', ['url' => route('controle.invite.accept', $invite->token)])
     Accept here
 @endcomponent
 

@@ -88,7 +88,7 @@ class EventRepository extends BaseRepository
 
     public static function sendInvites($event, $input)
     {
-        if (isset($input['emails']) and count(explode(',', $input['emails']))) {
+        if (isset($input['emails']) and count(explode(',', $input['emails'])) > 0) {
             $emails = explode(',', $input['emails']);
             foreach($emails as $email) {
                 $invitation = Invitation::create(
