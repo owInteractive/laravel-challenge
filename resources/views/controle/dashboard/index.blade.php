@@ -63,17 +63,14 @@
 <script src="/admin/js/vendor.js"></script>
 
 <script>
-        console.log('aqi')
     startCalendar();
 
     function startCalendar() {
-        console.log('aqi')
         if($('.calendar').length > 0){
-            console.log('aqi')
             $('.calendar').fullCalendar({
                 businessHours: {
                     // days of week. an array of zero-based day of week integers (0=Sunday)
-                    dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
+                    // dow: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
                 },
                 header: {
                     left: 'prev,next today myCustomButton',

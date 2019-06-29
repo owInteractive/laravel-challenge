@@ -57,7 +57,8 @@
                             <div class="form-group">
                                 <legend>Invite</legend>
                                 <label for="start">E-mails</label>
-                                {!! Form::text('emails', null, ['class' => 'form-control']) !!}
+                                {{-- <div class="tags"></div> --}}
+                                {!! Form::hidden('emails', null, ['class' => 'form-control', 'id' => 'tags']) !!}
                             </div>
                             @can((isset($event->id)) ? 'controle.event.update' : 'controle.event.store')
                                 <button type="submit" class="btn btn-sm btn-primary m-r-5">Salvar</button>
@@ -77,12 +78,16 @@
 
 @section('styles')
 <link rel="stylesheet" href="/admin/css/vendor.css">
+<link rel="stylesheet" href="/plugins/jquery-tag-it/css/jquery.tagit.css">
 @endsection
 
 @section('scripts')
 <script src="/admin/js/vendor.js"></script>
+<script src="/plugins/jquery-tag-it/js/tag-it.min.js"></script>
 <script>
     $(function() {
+
+        $("#tags").tagit();
 
         {{-- $('.daterangepicker').daterangepicker(); --}}
 

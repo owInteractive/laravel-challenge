@@ -15,7 +15,6 @@ let mix = require('laravel-mix');
 	.scripts([
 		'node_modules/bootstrap-daterangepicker/moment.min.js',
 		'node_modules/fullcalendar/dist/fullcalendar.js',
-		'node_modules/fullcalendar/dist/locale/pt-br.js',
 		'node_modules/bootstrap-daterangepicker/daterangepicker.js'
   ], 'public/admin/js/vendor.js')
 

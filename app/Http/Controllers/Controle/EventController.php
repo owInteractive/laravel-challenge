@@ -38,14 +38,14 @@ class EventController extends Controller
             'end_time'      => 'required',
         ]);
         
-        try {
-            $event = (new EventRepository)->create($request->all());
+        $event = (new EventRepository)->create($request->all());
 
+        if (isset($event->id)) {
             return redirect()->route('controle.event.index')->with('msg', 'Registro cadastrado com sucesso!');
-
-        } catch (\Exception $e) {
-            return redirect()->back()->with('msg', 'Não foi possível salvar os dados')->with('error', true)->withInput();
+        } else {
+            return redirect()->back()->with('msg', 'Não foi possível salvar os dados')->with('error', true)->withInput();    
         }
+        
     }
 
     public function edit($id)
