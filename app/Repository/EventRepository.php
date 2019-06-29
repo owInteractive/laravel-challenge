@@ -5,8 +5,11 @@ use App\Repository\BaseRepository;
 use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\EventUser;
+use App\Models\Invitation;
 use DB;
 use Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendInvitie;
 
 class EventRepository extends BaseRepository
 {
@@ -30,6 +33,7 @@ class EventRepository extends BaseRepository
             $event  = Event::create($input);
             
             EventRepository::setEventUser($event);
+            EventRepository::sendInvites($event, $input);
 
             DB::commit();
 
@@ -66,5 +70,43 @@ class EventRepository extends BaseRepository
             'event_id' => $event->id,
             'accept' => 1
         ]);
+    }
+
+    public function today() {
+        $now = Carbon::now();
+        return $this->newQuery()->whereRaw("DATE(start) <= \"{$now->format('Y-m-d')}\" and DATE(end) >= \"{$now->format('Y-m-d')}\" ")->get();
+    }
+
+    public function nextDays() {
+        $now = Carbon::now();
+        $end = Carbon::now()->addDays(5);
+
+        return $this->newQuery()->where(function($query) use($now, $end) {
+            $query->whereBetween('start', [$now, $end])->orWhereBetween('end', [$now, $end]);
+        })->get();
+    }
+
+    public static function sendInvites($event, $input)
+    {
+        if (isset($input['emails']) and count($input['emails'])) {
+            $emails = explode(',', $input['emails']);
+            foreach($emails as $email) {
+                $invitation = Invitation::create(
+                    [
+                        'event_id' => $event->id,
+                        'email' => trim($email),
+                        'token' => static::setToken($email)
+                    ]
+                );
+
+                Mail::to(['email' => $email])->send(new SendInvitie($invitation));
+            }
+        }
+
+    }
+
+    public static function setToken($email)
+    {
+        return md5(md5(uniqid(rand(), true)) . "#*&." . $email);
     }
 }

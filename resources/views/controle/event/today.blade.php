@@ -3,43 +3,18 @@
 @section('content')
     <!-- begin breadcrumb -->
     @component('bredicoloradmin::components.migalha')
-        <li class="breadcrumb-item"><a href="{{ route('controle.event.index') }}">Events</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('controle.event.index') }}">Events Today</a></li>
     @endcomponent
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Events</h1>
+    <h1 class="page-header">Events Today</h1>
     <!-- end page-header -->
-
     <div class="row">
         <div class="col-lg-3 col-md-6">
             <div class="widget widget-stats bg-green-lighter">
                 <div class="stats-icon"><i class="fa fa-clock"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL EVENTS TODAY</h4>
-                    <p>{{ $eventsToday->count() }}</p>	
-                </div>
-                <div class="stats-link">
-                    <a href="{{ route('controle.event.today') }}">View List</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="widget widget-stats bg-blue-lighter">
-                <div class="stats-icon"><i class="fa fa-calendar"></i></div>
-                <div class="stats-info">
-                    <h4>TOTAL EVENTS IN 5 DAYS</h4>
-                    <p>{{ $eventsNextDays->count() }}</p>	
-                </div>
-                <div class="stats-link">
-                    <a href="{{ route('controle.event.nextDays') }}">View List</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="widget widget-stats bg-grey-lighter">
-                <div class="stats-icon"><i class="fa fa-calendar"></i></div>
-                <div class="stats-info">
-                    <h4>TOTAL EVENTS</h4>
                     <p>{{ $events->count() }}</p>	
                 </div>
                 <div class="stats-link">
@@ -48,18 +23,15 @@
             </div>
         </div>
     </div>
-
     <!-- begin panel -->
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="panel-heading-btn">
-                @can('controle.event.create')
-                <a href="{{ route('controle.event.create') }}" class="btn btn-xs btn-circle2 btn-success"><i class="fa fa-plus"></i> Novo Registro</a>
-                @endcan
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
             </div>
-            <h4 class="panel-title">Events</h4>
+            <h4 class="panel-title">Events Today</h4>
         </div>
+        
         <div class="panel-body">
             <table class="table table-striped m-b-0">
                 <thead>
@@ -75,16 +47,19 @@
                     @if($events->count() > 0)
                         @foreach($events as $event)
                         <tr>
-                            <td>{{ $event->title}}</td>
-                            <td>{{ $event->description}}</td>
-                            <td>{{ $event->start}}</td>
-                            <td>{{ $event->end}}</td>
+                            <td>
+                                @if(\Carbon\Carbon::now() > \Carbon\Carbon::parse($event->end))
+                                    <label class="label label-danger">{{ $event->title}}</label>
+                                @else
+                                    {{ $event->title}}
+                                @endif
+                            </td>
+                            <td>{{ $event->description }}</td>
+                            <td>{{ $event->start }}</td>
+                            <td>{{ $event->end }}</td>
                             <td class="with-btn" nowrap="">
                                 @can('controle.event.edit')
                                     <a href="{{ route('controle.event.edit', $event->id) }}" class="btn btn-sm btn-primary width-60 m-r-2">Editar</a>
-                                @endcan
-                                @can('controle.event.destroy')
-                                    <a href="javascript:void(0)" data-url="{{ route('controle.event.destroy', $event->id) }}" class="btn btn-sm btn-white width-60 atencao">Delete</a>
                                 @endcan
                             </td>
                         </tr>
@@ -97,13 +72,7 @@
                     </tr>
                     @endif
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="5">
-                            {{ $events->links() }}
-                        </td>
-                    </tr>
-                </tfoot>
+                
             </table>
         </div>
     </div>

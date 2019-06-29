@@ -12,8 +12,12 @@ class EventController extends Controller
 {
     public function index()
     {	
-    	$data = ['events'];
-    	$events = Event::orderBy('id', 'desc')->orderBy('id', 'desc')->paginate(4);
+    	$data = ['events', 'eventsToday', 'eventsNextDays'];
+        $events = Event::orderBy('id', 'desc')->orderBy('id', 'desc')->paginate(4);
+        
+        $eventsToday = (new EventRepository)->today();
+        $eventsNextDays = (new EventRepository)->nextDays();
+
     	return view('controle.event.index', compact($data));
     }
 
@@ -34,14 +38,14 @@ class EventController extends Controller
             'end_time'      => 'required',
         ]);
         
-        try {
-            $event = (new EventRepository)->create($request->all());
+        $event = (new EventRepository)->create($request->all());
 
+        if (isset($event->id)) {
             return redirect()->route('controle.event.index')->with('msg', 'Registro cadastrado com sucesso!');
-
-        } catch (\Exception $e) {
-            return redirect()->back()->with('msg', 'Não foi possível salvar os dados')->with('error', true)->withInput();
+        } else {
+            return redirect()->back()->with('msg', 'Não foi possível salvar os dados')->with('error', true)->withInput();    
         }
+        
     }
 
     public function edit($id)
