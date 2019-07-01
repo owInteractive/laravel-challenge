@@ -19,7 +19,7 @@
                         {{--  <i class="fa fa-user"></i>  --}}
                     </div>
                     <div class="info">
-                        <b class="caret pull-right"></b>
+                        {{-- <b class="caret pull-right"></b> --}}
                         {{ auth()->user()->name }}
                         {{--  <small>Front end developer</small>  --}}
                     </div>

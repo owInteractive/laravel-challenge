@@ -41,7 +41,7 @@ class EventRepository extends BaseRepository
 
         } catch (\Exception $e) {
             DB::rollback();
-            // dd($e);
+            dd($e);
             return $e;
         }
     }
@@ -89,17 +89,22 @@ class EventRepository extends BaseRepository
     public static function sendInvites($event, $input)
     {
         if (isset($input['emails']) and count(explode(',', $input['emails'])) > 0) {
+            
             $emails = explode(',', $input['emails']);
-            foreach($emails as $email) {
-                $invitation = Invitation::create(
-                    [
-                        'event_id' => $event->id,
-                        'email' => trim($email),
-                        'token' => static::setToken($email)
-                    ]
-                );
 
-                Mail::to(['email' => $email])->send(new SendInvitie($invitation));
+            foreach($emails as $email) {
+                $email = trim($email);
+                
+                // does not send email to himself
+                if ($email != Auth::user()->email) {
+                    $invitation = Invitation::create([
+                        'event_id' => $event->id,
+                        'email' => $email,
+                        'token' => static::setToken($email)
+                    ]);
+                    
+                    Mail::to(['email' => $email])->send(new SendInvitie($invitation, $event));
+                }
             }
         }
 

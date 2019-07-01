@@ -11,4 +11,9 @@ class Invitation extends Model
         'email',
         'token',
     ];
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'id', 'event_id');
+    }
 }

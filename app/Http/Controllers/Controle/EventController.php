@@ -7,13 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Carbon\Carbon;
 use App\Repository\EventRepository;
+use App\Exports\EventsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EventController extends Controller
 {
     public function index()
     {	
     	$data = ['events', 'eventsToday', 'eventsNextDays'];
-        $events = Event::orderBy('id', 'desc')->orderBy('id', 'desc')->paginate(4);
+        $events = Event::orderBy('id', 'desc')->orderBy('id', 'desc')->paginate(10);
         
         $eventsToday = (new EventRepository)->today();
         $eventsNextDays = (new EventRepository)->nextDays();
@@ -25,6 +27,13 @@ class EventController extends Controller
     {
         $data = [];
         return view('controle.event.form', compact($data));
+    }
+    public function export($period)
+    {
+        return Excel::download(new EventsExport($period), "events{$period}.csv", \Maatwebsite\Excel\Excel::CSV,
+                                [
+                                        'Content-Type' => 'text/csv',
+                                ]);
     }
 
     public function store(Request $request)

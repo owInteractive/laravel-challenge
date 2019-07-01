@@ -3,10 +3,19 @@
 
 # New Invite
 
-<h2>Hello, {{ $invite->email }}!</h2>
+## Hello, {{ $invite->email }}!
 
+{{ auth()->user()->name }} has invited you to the event: 
+# {{ $event->title }}
 
-A new invite from event {{ $invite->title }}, {{ \Carbon\Carbon::parse($invite->start)->format('m/d/Y \a\t H:i') }}
+Starts on the {{ \Carbon\Carbon::parse($event->start)->format('d/m/Y H:i\h') }}
+
+ends in {{ \Carbon\Carbon::parse($event->end)->format('d/m/Y H:i\h') }}
+<br />
+
+**Description**
+
+> {!! nl2br($event->description) !!}
 
 @component('mail::button', ['url' => route('controle.invite.accept', $invite->token)])
     Accept here
@@ -14,7 +23,7 @@ A new invite from event {{ $invite->title }}, {{ \Carbon\Carbon::parse($invite->
 
 <br />
 Thanks,<br>
-Ow Interactive
+{{ env('APP_NAME') }}
 
 
 @endcomponent

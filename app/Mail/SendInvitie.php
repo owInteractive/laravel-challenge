@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Auth;
 
 class SendInvitie extends Mailable
 {
@@ -16,9 +17,10 @@ class SendInvitie extends Mailable
      *
      * @return void
      */
-    public function __construct($invitation)
+    public function __construct($invitation, $event)
     {
         $this->invitation = $invitation;
+        $this->event = $event;
     }
 
     /**
@@ -28,6 +30,10 @@ class SendInvitie extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invitie')->with('invite', $this->invitation)->subject('A new event');
+        return $this->markdown('emails.invitie')
+                    ->with('invite', $this->invitation)
+                    ->with('event', $this->event)
+                    ->from(Auth::user())
+                    ->subject('You were invited to an event.');
     }
 }

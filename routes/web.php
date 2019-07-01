@@ -39,7 +39,9 @@ function () {
     Route::get('events-today', ['uses' => 'Controle\EventTodayController@index', /*'permissao' => 'controle.event.today'*/])->name('controle.event.today');
     Route::get('events-next-days', ['uses' => 'Controle\EventTodayController@nextDays', /*'permissao' => 'controle.event.nextDays'*/])->name('controle.event.nextDays');
 
-    
+    Route::get('events/export/{period}', ['uses' => 'Controle\EventController@export', ])->name('controle.event.export');
+
+    Route::get('accepting-invite/{token}', ['uses' => 'Controle\InviteController@accepting'])->name('controle.invite.accepting');    
 });
 
 Route::get('accept-invite/{token}', ['uses' => 'Controle\InviteController@accept'])->name('controle.invite.accept');

@@ -53,7 +53,9 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="panel-heading-btn">
-                
+                <a href="{{ route('controle.event.export', 'all') }}" class="btn btn-xs btn-circle2 btn-primary">
+                    <i class="fas fa-upload"></i> Export Event
+                </a>
                 <a href="{{ route('controle.event.create') }}" class="btn btn-xs btn-circle2 btn-success"><i class="fa fa-plus"></i> New Event</a>
                 
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -75,8 +77,13 @@
                     @if($events->count() > 0)
                         @foreach($events as $event)
                         <tr>
-                            <td>{{ $event->title}}</td>
-                            <td>{{ $event->description}}</td>
+                            <td>
+                                @if(session()->has('event_id') and  session('event_id') == $event->id)
+                                    <label class="label label-warning">New</label> 
+                                @endif
+                                {{ $event->title }}
+                            </td>
+                            <td>{{ str_limit($event->description, 30) }}</td>
                             <td>{{ $event->start}}</td>
                             <td>{{ $event->end}}</td>
                             <td class="with-btn" nowrap="">

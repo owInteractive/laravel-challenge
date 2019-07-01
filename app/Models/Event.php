@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use SoftDeletes;
+
+    protected $table = 'events';
     
     protected $fillable = [
         'title',
@@ -57,6 +59,11 @@ class Event extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'event_users');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function scopeProprietario($query)
