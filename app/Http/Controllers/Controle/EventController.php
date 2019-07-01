@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Repository\EventRepository;
 use App\Exports\EventsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use  App\Imports\EventsImport;
 
 class EventController extends Controller
 {
@@ -30,10 +31,18 @@ class EventController extends Controller
     }
     public function export($period)
     {
-        return Excel::download(new EventsExport($period), "events{$period}.csv", \Maatwebsite\Excel\Excel::CSV,
+        return Excel::download(new EventsExport($period), "events-{$period}.csv", \Maatwebsite\Excel\Excel::CSV,
                                 [
                                         'Content-Type' => 'text/csv',
                                 ]);
+    }
+    public function import(Request $request)
+    {
+        $request->validate(['csv' => 'required']);
+        
+        Excel::import(new EventsImport, $request->file('csv'));
+
+        return redirect()->back()->with('msg', 'Importação concluida.');
     }
 
     public function store(Request $request)

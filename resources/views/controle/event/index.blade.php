@@ -53,12 +53,19 @@
     <div class="panel panel-inverse">
         <div class="panel-heading">
             <div class="panel-heading-btn">
-                <a href="{{ route('controle.event.export', 'all') }}" class="btn btn-xs btn-circle2 btn-primary">
-                    <i class="fas fa-upload"></i> Export Event
-                </a>
-                <a href="{{ route('controle.event.create') }}" class="btn btn-xs btn-circle2 btn-success"><i class="fa fa-plus"></i> New Event</a>
+                {!! Form::open(['route' => 'controle.event.import', 'class' => 'navbar-form', 'files' => true]) !!}
+                    {!! Form::file('csv', ['class' => 'control-form', 'required']) !!}
+                    <button type="submit" class="btn btn-xs btn-circle2 btn-info">
+                        <i class="fas fa-download"></i> Import Event
+                    </button>
                 
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="{{ route('controle.event.export', 'all') }}" class="btn btn-xs btn-circle2 btn-primary">
+                        <i class="fas fa-upload"></i> Export Event
+                    </a>
+                    <a href="{{ route('controle.event.create') }}" class="btn btn-xs btn-circle2 btn-success"><i class="fa fa-plus"></i> New Event</a>
+                    
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                {!! Form::close() !!}
             </div>
             <h4 class="panel-title">Events</h4>
         </div>

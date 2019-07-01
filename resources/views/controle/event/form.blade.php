@@ -57,7 +57,6 @@
                             <div class="form-group">
                                 <legend>Invite</legend>
                                 <label for="start">E-mails</label>
-                                {{-- <div class="tags"></div> --}}
                                 {!! Form::hidden('emails', null, ['class' => 'form-control', 'id' => 'tags']) !!}
                             </div>
                                 

@@ -40,6 +40,7 @@ function () {
     Route::get('events-next-days', ['uses' => 'Controle\EventTodayController@nextDays', /*'permissao' => 'controle.event.nextDays'*/])->name('controle.event.nextDays');
 
     Route::get('events/export/{period}', ['uses' => 'Controle\EventController@export', ])->name('controle.event.export');
+    Route::post('events/import', ['uses' => 'Controle\EventController@import', ])->name('controle.event.import');
 
     Route::get('accepting-invite/{token}', ['uses' => 'Controle\InviteController@accepting'])->name('controle.invite.accepting');    
 });
