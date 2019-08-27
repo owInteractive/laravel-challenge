@@ -1,0 +1,76 @@
+[
+    {
+      "label": "Id",
+      "name": "id",
+      "model": "id",
+      "inputType": "number",
+      "dbType": "bigIncrements",
+      "validations": "",
+      "searchable": false,
+      "fillable": false,
+      "primary": true,
+      "inForm": false,
+      "inIndex": false,
+      "disabled": true,
+      "readonly": true
+    },
+    {
+      "label": "Title",
+      "placeholder": "Title",
+  
+      "name": "title",
+      "model": "title",
+  
+      "inputType": "text",
+  
+      "dbType": "string,190",
+      "validations": "required"
+    },
+    {
+      "label": "Description",
+      "placeholder": "Description",
+  
+      "name": "description",
+      "model": "description",
+      
+      "inputType": "text",
+  
+      "dbType": "text:nullable"
+    },
+    {
+      "label": "Start",
+      "placeholder": "Start",
+  
+      "name": "start",
+      "model": "start",
+  
+      "inputType": "datetime",
+  
+      "dbType": "dateTime",
+      "validations": "required"
+    },
+    {
+        "label": "End",
+        "placeholder": "End",
+    
+        "name": "end",
+        "model": "end",
+    
+        "inputType": "datetime",
+    
+        "dbType": "dateTime:nullable"
+    },
+    {
+        "label": "Owner",
+        "placeholder": "Owner",
+    
+        "name": "owner",
+        "model": "owner",
+    
+        "inputType": "number",
+    
+        "dbType": "bigInteger:unsigned:foreign,users,id",
+        "validations": "required"
+    }
+    
+  ]

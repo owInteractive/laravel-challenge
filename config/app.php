@@ -162,6 +162,9 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+		\InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
+		
+
         /*
          * Package Service Providers...
          */
