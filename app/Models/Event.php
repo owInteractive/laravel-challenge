@@ -81,5 +81,9 @@ class Event extends Model
         'owner' => 'required'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User','owner');
+    }
     
 }

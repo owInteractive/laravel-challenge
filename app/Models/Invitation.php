@@ -79,5 +79,9 @@ class Invitation extends Model
         'email' => 'required'
     ];
 
+    public function event()
+    {
+        return $this->belongsTo('App\Models\Events','eventid');
+    }
     
 }
