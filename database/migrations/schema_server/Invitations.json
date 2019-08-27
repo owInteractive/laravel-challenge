@@ -1,0 +1,75 @@
+[
+    {
+      "label": "Id",
+      "name": "id",
+      "model": "id",
+      "inputType": "number",
+      "dbType": "bigIncrements",
+      "validations": "",
+      "searchable": false,
+      "fillable": false,
+      "primary": true,
+      "inForm": false,
+      "inIndex": false,
+      "disabled": true,
+      "readonly": true
+    },
+    {
+      "label": "Event",
+      "placeholder": "Event",
+  
+      "name": "eventid",
+      "model": "eventid",
+  
+      "inputType": "number",
+  
+      "dbType": "bigInteger:unsigned:foreign,events,id",
+      "validations": "required"
+    },
+    {
+      "label": "Email",
+      "placeholder": "Email",
+  
+      "name": "email",
+      "model": "email",
+  
+      "inputType": "text",
+  
+      "dbType": "string,190",
+      "validations": "required"
+    },
+    {
+      "label": "Code",
+      "placeholder": "Code",
+  
+      "name": "code",
+      "model": "code",
+      
+      "inputType": "text",
+  
+      "dbType": "string,30:unique:nullable"
+    },
+    {
+      "label": "Expiration",
+      "placeholder": "Expiration",
+  
+      "name": "expiration",
+      "model": "expiration",
+  
+      "inputType": "datetime",
+  
+      "dbType": "dateTime:nullable"
+    },
+    {
+        "label": "Confirm",
+        "placeholder": "Confirm",
+    
+        "name": "confirm",
+        "model": "confirm",
+    
+        "inputType": "checkbox",
+    
+        "dbType": "boolean:nullable"
+    }
+    
+  ]
