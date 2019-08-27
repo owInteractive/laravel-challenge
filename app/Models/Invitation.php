@@ -81,7 +81,7 @@ class Invitation extends Model
 
     public function event()
     {
-        return $this->belongsTo('App\Models\Events','eventid');
+        return $this->belongsTo('App\Models\Event','eventid');
     }
     
 }

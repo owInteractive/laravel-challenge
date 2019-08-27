@@ -14,7 +14,7 @@ class InvitationsController extends Controller
     public function index()
     {
         $user=Auth::user();
-        $data=Invitations::wherehas('event', function ($query) use($user){
+        $data=Invitation::wherehas('event', function ($query) use($user){
             $query->where('owner', '=', $user['id']);
         })->with('event')->get();
         return response()->json($data, 200);
@@ -26,14 +26,14 @@ class InvitationsController extends Controller
         $requisicao=$request->isJson() ? $request->json()->all() : $request->all();
         if(empty($requisicao)) return response('Vazio', 204);
 
-        $validator = Validator::make($requisicao,Invitations::$rules);
+        $validator = Validator::make($requisicao,Invitation::$rules);
 
         if ($validator->fails()) { return  response()->json($validator->errors(), 400); }
         
         if(!empty($requisicao['expiration']))
             $requisicao['expiration']=$this->formato($requisicao['expiration']);
 
-        $data=Invitations::create($requisicao);
+        $data=Invitation::create($requisicao);
         return response()->json($data, 201);
     }
 
@@ -52,7 +52,7 @@ class InvitationsController extends Controller
         $requisicao=$request->isJson() ? $request->json()->all() : $request->all();
         if(empty($requisicao)) return response('Vazio', 204);
 
-        $validator = Validator::make($requisicao,Invitations::$rules);
+        $validator = Validator::make($requisicao,Invitation::$rules);
         if ($validator->fails()) { return  response()->json($validator->errors(), 400); }
 
         if($requisicao['expiration']===false)$requisicao['expiration']=null;
