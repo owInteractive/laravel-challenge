@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware'=>'auth:api'], function(){
+
 	Route::apiResources([
 		'events'  		=>'EventsController',
 		'invitations'  	=>'InvitationsController',
@@ -26,3 +28,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	Route::get ('today', 'EventsController@today');
 	Route::get ('next', 'EventsController@next');
 	Route::get ('all', 'EventsController@index');
+
+});

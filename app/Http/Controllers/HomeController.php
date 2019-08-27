@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $caminho='events';
+        return view('home',['caminho' => $caminho ,'fonte' => $caminho]);
     }
 }

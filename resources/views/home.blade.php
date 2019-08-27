@@ -1,11 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', 'The Calendar App')
 
 @section('content_header')
     <h1>Dashboard</h1>
 @stop
 
 @section('content')
-    <p>You are logged in!</p>
+    <div id="app">
+        <crud owner="{{Auth::user()->id}}" caminho="{{$caminho}}" fonte="{{$fonte}}" ></crud>
+    </div>
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 @stop
