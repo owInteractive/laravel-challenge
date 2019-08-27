@@ -18,3 +18,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+$fonte='events';
+$caminho='my_events';
+Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+
+$caminho='today';
+Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+
+$caminho='next';
+Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+
+$caminho='all';
+Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+
+$fonte='invitations';$caminho=$fonte;
+Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
