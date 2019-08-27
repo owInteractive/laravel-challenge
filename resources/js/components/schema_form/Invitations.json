@@ -1,0 +1,96 @@
+{
+  "fields": 
+[
+    {
+      "type":"input",
+      "label": "Id",
+      "name": "id",
+      "model": "id",
+      "inputType": "number",
+      "dbType": "bigIncrements",
+      "validations": "",
+      "searchable": false,
+      "fillable": false,
+      "primary": true,
+      "inForm": false,
+      "inIndex": false,
+      "disabled": true,
+      "readonly": true
+    },
+    {
+      "type":"select",
+      "selectOptions": {
+        "noneSelectedText": "< Nada Selecionado >",
+        "hideNoneSelectedText": true
+      },
+      "values":[],
+      
+      "label": "Event",
+      "placeholder": "Event",
+  
+      "name": "eventid",
+      "model": "eventid",
+  
+      "inputType": "number",
+  
+      "dbType": "bigInteger:unsigned:foreign,events,id",
+      "validations": "required"
+    },
+    {
+      "type":"input",
+      "label": "Email",
+      "placeholder": "Email",
+  
+      "name": "email",
+      "model": "email",
+  
+      "inputType": "text",
+  
+      "dbType": "string,190",
+      "validations": "required"
+    },
+    {
+      "type":"input",
+      "label": "Code",
+      "placeholder": "Code",
+  
+      "name": "code",
+      "model": "code",
+      
+      "inputType": "text",
+  
+      "dbType": "string,30:unique:nullable"
+    },
+    {
+      "type":"dateTimePicker",
+      "label": "Expiration",
+      "placeholder": "Expiration",
+  
+      "name": "expiration",
+      "model": "expiration",
+  
+      "inputType": "datetime",
+      "dateTimePickerOptions": {
+        "format": "YYYY-MM-DD HH:mm",
+        "sideBySide":true
+      },
+  
+      "dbType": "dateTime:nullable"
+    },
+    {
+      "type":"checkbox",
+        "label": "Confirm",
+        "placeholder": "Confirm",
+    
+        "name": "confirm",
+        "model": "confirm",
+    
+        "inputType": "checkbox",
+    
+        "dbType": "boolean:nullable",
+        "disabled": true,
+        "readonly": true
+    }
+    
+  ]
+}

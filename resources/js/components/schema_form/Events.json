@@ -1,0 +1,84 @@
+{
+    "fields": 
+  [
+    {
+        "type":"input",
+      "label": "Id",
+      "name": "id",
+      "model": "id",
+      "inputType": "number",
+      "dbType": "bigIncrements",
+      "validations": "",
+      "searchable": false,
+      "fillable": false,
+      "primary": true,
+      "inForm": false,
+      "inIndex": false,
+      "disabled": true,
+      "readonly": true
+    },
+    {
+        "type":"input",
+      "label": "Title",
+      "placeholder": "Title",
+  
+      "name": "title",
+      "model": "title",
+  
+      "inputType": "text",
+  
+      "dbType": "string,190",
+      "validations": "required",
+      "required": true
+    },
+    {
+        "type":"input",
+      "label": "Description",
+      "placeholder": "Description",
+  
+      "name": "description",
+      "model": "description",
+      
+      "inputType": "text",
+  
+      "dbType": "text:nullable"
+    },
+    {
+      "type":"dateTimePicker",
+      "label": "Start",
+      "placeholder": "Start",
+  
+      "name": "start",
+      "model": "start",
+  
+      "inputType": "datetime-local",
+      "dateTimePickerOptions": {
+        "defaultDate": "",
+        "timeZone": "UTC",
+        "format": "YYYY-MM-DD HH:mm",
+        "sideBySide":true
+      },
+  
+      "dbType": "dateTime",
+      "validations": "required",
+      "required": true
+    },
+    {
+        "type":"dateTimePicker",
+        "label": "End",
+        "placeholder": "End",
+    
+        "name": "end",
+        "model": "end",
+    
+        "inputType": "dateTime",
+        "dateTimePickerOptions": {
+          "format": "YYYY-MM-DD HH:mm",
+          "sideBySide":true
+        },
+    
+        "dbType": "dateTime:nullable"
+    }
+    
+  ]
+}
