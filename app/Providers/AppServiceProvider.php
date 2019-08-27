@@ -13,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+		\Laravel\Passport\Passport::ignoreMigrations();
         //
     }
 
