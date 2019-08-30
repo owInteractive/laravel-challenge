@@ -146,8 +146,8 @@
                 criando:true,
                 options: {
                     headings: {
-                        'event.title': "Event",
-                        'user.name': "Owner",
+                        //'event.title': "Event",
+                        //'user.name': "Owner",
                         'actions' : "Ações"
                     },
                     theme: "bootstrap3",
@@ -237,11 +237,13 @@
                 .then(response => {
                     console.log(JSON.stringify(response.data))
                     this.tableData = Object.assign([], response.data)
-                    this.tableDataCSV = Object.assign([], this.tableData)
-
+                    this.tableDataCSV =  Object.assign([], response.data)
+                    
                     this.tableDataCSV.forEach(element => {
-                      Vue.delete(element, 'user');
-                      Vue.delete(element, 'event');
+                      //delete element.user
+                      //delete element.event
+                      //Vue.delete(element, 'user');
+                      //Vue.delete(element, 'event');
                       Vue.delete(element, 'deleted_at');
                     });
                 })

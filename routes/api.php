@@ -24,6 +24,8 @@ Route::group(['middleware'=>'auth:api'], function(){
 		'invitations'  	=>'InvitationsController',
 	]);
 
+	Route::post('events/import','EventsController@import');
+
 	Route::get ('my_events', 'EventsController@owner');
 	Route::get ('today', 'EventsController@today');
 	Route::get ('next', 'EventsController@next');

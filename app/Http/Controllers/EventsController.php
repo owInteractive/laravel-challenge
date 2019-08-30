@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use Validator;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EventsImport;
 
 class EventsController extends Controller
 {
@@ -116,4 +118,31 @@ class EventsController extends Controller
             else
             return $valor;
     }
+
+    public function import(Request $request)
+    {
+
+        if($request->hasFile('filepond'))
+        {
+            $path = $request->file('filepond')->getRealPath();
+
+            (new EventsImport)->import($path, null, \Maatwebsite\Excel\Excel::CSV);
+            //$teste=Excel::import(new UsersImport, $path);
+
+            return response()->json($path,201);
+        }
+
+        $requisicao=$request->isJson() ? $request->json()->all() : $request->all();
+        if(empty($requisicao)) return response('Vazio', 204);
+
+        $validator = Validator::make($requisicao,Event::$rules);
+        if ($validator->fails()) { return  response()->json($validator->errors(), 400); }
+        
+        if(!empty($requisicao['start']))
+            $requisicao['start']=$this->formato($requisicao['start']);
+
+        $data=Event::create($requisicao);
+        return response()->json($data, 201);
+    }
+
 }
