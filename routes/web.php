@@ -19,22 +19,24 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
-	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/home', function () {
+		return redirect('/all');
+	});
 
 	$fonte='events';
-	$caminho='my_events';
-	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+	$caminho='my_events';$titulo='My Events';
+	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte, 'titulo' => $titulo]);
 
-	$caminho='today';
-	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+	$caminho='today';$titulo='Events of Today';
+	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte, 'titulo' => $titulo]);
 
-	$caminho='next';
-	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+	$caminho='next';$titulo='Events for Next 5 Days';
+	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte, 'titulo' => $titulo]);
 
-	$caminho='all';
-	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+	$caminho='all';$titulo='All Events';
+	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte, 'titulo' => $titulo]);
 
-	$fonte='invitations';$caminho=$fonte;
-	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte]);
+	$fonte='invitations';$caminho=$fonte;$titulo='Invitations Sent';
+	Route::view('/'.$caminho, 'home', ['caminho' => $caminho , 'fonte' => $fonte, 'titulo' => $titulo]);
 
 });

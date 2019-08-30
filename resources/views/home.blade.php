@@ -3,7 +3,7 @@
 @section('title', 'The Calendar App')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>{{$titulo}}</h1>
 @stop
 
 @section('content')

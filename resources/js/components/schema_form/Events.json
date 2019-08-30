@@ -53,8 +53,6 @@
   
       "inputType": "datetime-local",
       "dateTimePickerOptions": {
-        "defaultDate": "",
-        "timeZone": "UTC",
         "format": "YYYY-MM-DD HH:mm",
         "sideBySide":true
       },

@@ -71,4 +71,12 @@ class InvitationsController extends Controller
         //if($user['id']!=$invitation['owner']) return response()->json($user->name." não é o dono",403);
         return response()->json($invitation->delete(), 204);
     }
+
+    function formato($valor)
+    {
+        if((\DateTime::createFromFormat('Y-m-d H:i:s',$valor) === FALSE)&&(\DateTime::createFromFormat('Y-m-d H:i',$valor) === FALSE))
+            return \Carbon\Carbon::createFromTimestamp(substr($valor,0,10))->toDateTimeString();
+            else
+            return $valor;
+    }
 }

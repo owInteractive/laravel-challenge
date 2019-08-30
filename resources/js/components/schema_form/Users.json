@@ -1,0 +1,43 @@
+{
+  "fields": 
+[
+
+    {
+      "type":"input",
+      "label": "Name",
+      "placeholder": "Name",
+
+      "name": "name",
+      "model": "name",
+
+      "inputType": "text",
+
+      "validations": "required"
+    },
+    {
+      "type":"input",
+      "label": "Email",
+      "placeholder": "Email",
+  
+      "name": "email",
+      "model": "email",
+  
+      "inputType": "text",
+  
+      "validations": "required"
+    },
+    {
+      "type":"input",
+      "label": "Password",
+      "placeholder": "Password",
+  
+      "name": "password",
+      "model": "password",
+  
+      "inputType": "password",
+  
+      "disabled": true,
+      "readonly": true
+    }
+  ]
+}

@@ -108,11 +108,6 @@ return [
 
     'menu' => [
         [
-            'text' => 'profile',
-            'url'  => 'profile',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
             'text'    => 'Events',
             'icon'    => 'fas fa-fw fa-glass-cheers',
             'submenu' => [
@@ -142,6 +137,12 @@ return [
             'text' => 'Invitations',
             'url'  => 'invitations',
             'icon' => 'fas fa-envelope',
+        ],
+        [
+            'text' => 'profile',
+            'textClass'=> 'profile',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-user',
         ],
     ],
 
@@ -182,75 +183,5 @@ return [
     */
 
     'plugins' => [
-        [
-            'name' => 'Datatables',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js',
-                ],
-                [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Select2',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
-                ],
-                [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Chartjs',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Sweetalert2',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//unpkg.com/sweetalert/dist/sweetalert.min.js',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Pace',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
-                ],
-            ],
-        ],
     ],
 ];

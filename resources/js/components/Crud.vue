@@ -3,6 +3,15 @@
 
         <v-client-table :data="tableData" :columns="columns" :options="options">
           <a style="margin:0px 40px;" slot="beforeLimit" @click="create()" class="btn btn-primary btn-big btn-add"><i class="glyphicon glyphicon-plus"></i></a>
+          <a style="margin:0px 0px;" slot="beforeLimit" @click="upload()" class="btn btn-primary btn-big btn-add"><i class="glyphicon glyphicon-cloud-upload"></i></a>
+                    <download-csv
+                        slot="beforeLimit"
+                        style="margin:0px 15px;"
+                        class="btn btn-primary btn-big btn-add"
+
+                        :data   = "tableDataCSV">
+                        <i class="glyphicon glyphicon-cloud-download"></i>
+                    </download-csv>
           <template slot="actions" slot-scope="{ row }">
             <div style="width:67px">
                 <div class='buttons'>
@@ -14,23 +23,71 @@
 
         </v-client-table>
 
-                    <div class="modal fade" tabindex="-1" role="dialog" id="form_model">
+                    <div class="modal fade" tabindex="-1" role="dialog" id="form_model_crud">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" v-if="criando">Criar</h4>
-                                    <h4 class="modal-title" v-else>Editar</h4>
+                                    <h4 class="modal-title" v-if="criando">Create</h4>
+                                    <h4 class="modal-title" v-else>Edit</h4>
                                 </div>
 
                                 <div class="modal-body">
                                     <vue-form-generator :schema="schemagenerator" :model="model" :options="formOptions"></vue-form-generator>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" @click="store" v-if="criando" class="btn btn-primary">Salvar</button>
-                                        <button type="button" @click="update" v-else class="btn btn-primary">Atualizar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <button type="button" @click="store" v-if="criando" class="btn btn-primary">Save</button>
+                                        <button type="button" @click="update" v-else class="btn btn-primary">Update</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                      <div class="modal fade" tabindex="-1" role="dialog" id="form_model_upload">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" >Upload CSV to Import</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                  <file-pond
+                                    label-idle="Drop files here..."
+                                    allow-multiple="true"
+                                    accepted-file-types="text/csv"
+                                    @processfile="index()"
+                                    :server="server"
+                                    />
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" tabindex="-1" role="dialog" id="form_model_profile">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Edit Profile</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <vue-form-generator :schema="schemaprofile" :model="model" :options="formOptions"></vue-form-generator>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <button type="button" @click="update" class="btn btn-primary">Update</button>
                                     </div>
 
                                 </div>
@@ -42,8 +99,8 @@
 </template>
 
 <script>
-  //import moment from 'moment'
-  import moment from 'moment-timezone'
+  import JsonCSV from 'vue-json-csv'
+  Vue.component('downloadCsv', JsonCSV)
 
   import datePicker from 'vue-bootstrap-datetimepicker';
   import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
@@ -56,9 +113,14 @@
     //import "vue-form-generator/dist/vfg-core.css";
     //import 'vue-form-generator/dist/vfg.css'
 
+    import vueFilePond from 'vue-filepond';
+    import 'filepond/dist/filepond.min.css';
+    import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+    const FilePond = vueFilePond(FilePondPluginFileValidateType)
+
     export default {
         // Assets
-        components: {},
+        components: {FilePond},
 
         // Composition
         mixins: [],
@@ -68,21 +130,24 @@
         // Data
         data() {
             return {
+                server: {
+                  url:this.url() + '/api/events/import',
+                  headers:{
+                    'X-XSRF-TOKEN':this.getCookie('XSRF-TOKEN'),
+                  }
+                }
+                ,
                 columns: [],
                 tableData: [],
+                tableDataCSV: [],
                 errors: [],
                 showModal: false,
                 model: {},
                 criando:true,
                 options: {
-                    texts:{limit:"Por Pagina:",
-                        filter:"Filtro:",
-                        filterPlaceholder:"Consulta",
-                        count:"Mostrando {from} até {to} de {count} registros|{count} Registros|Um registro",
-                        noResults:"Nenhum registro correspondente",
-                    },
                     headings: {
-                        'assinanteid': "Assinante",
+                        'event.title': "Event",
+                        'user.name': "Owner",
                         'actions' : "Ações"
                     },
                     theme: "bootstrap3",
@@ -105,6 +170,7 @@
 
                 tablefields: require('../../../database/migrations/schema_server/'+this.fonte.charAt(0).toUpperCase() + this.fonte.slice(1)+'.json'),
                 schemagenerator: require('./schema_form/'+this.fonte.charAt(0).toUpperCase() + this.fonte.slice(1)+'.json'),
+                schemaprofile:    require('./schema_form/Users.json'),
                 formOptions:{
                   //validateAfterLoad: true,
                   //validateAfterChanged: true,
@@ -142,6 +208,13 @@
                 }
               return saida;
             },
+             
+            getCookie(name)
+              {
+                var re = new RegExp(name + "=([^;]+)");
+                var value = re.exec(document.cookie);
+                return (value != null) ? unescape(value[1]) : null;
+              },
 
             events(index){
                 axios
@@ -164,6 +237,13 @@
                 .then(response => {
                     console.log(JSON.stringify(response.data))
                     this.tableData = Object.assign([], response.data)
+                    this.tableDataCSV = Object.assign([], this.tableData)
+
+                    this.tableDataCSV.forEach(element => {
+                      Vue.delete(element, 'user');
+                      Vue.delete(element, 'event');
+                      Vue.delete(element, 'deleted_at');
+                    });
                 })
                 .catch(error => {
                   console.log(error)
@@ -173,20 +253,19 @@
             create()
             {
                 this.criando=true;
-                $("#form_model").modal("show");
+                $("#form_model_crud").modal("show");
                 this.model={};
                 this.model.owner=this.owner;
                 this.errors = [];
             },
 
             store() {
-              this.timezone()
               console.log(JSON.stringify(this.model))
 
               axios
               .post(this.url()+`/api/`+this.fonte, this.model)
               .then(response => {
-                $("#form_model").modal("hide");
+                $("#form_model_crud").modal("hide");
                 this.index() // Atualizar dados com o servidor
                 console.log(JSON.stringify(response.data))
                 })
@@ -200,17 +279,16 @@
             edit (data)
             {
               this.criando=false;
-              const atendimento = this.tableData.filter((obj)=>{ return obj.id === data; }).pop();
-                      this._beforeEditingCache = Object.assign({}, atendimento);
+              const item = this.tableData.filter((obj)=>{ return obj.id === data; }).pop();
+                      this._beforeEditingCache = Object.assign({}, item);
                       this.errors = [];
                       this.model= this._beforeEditingCache;
-                      $("#form_model").modal("show");
+                      $("#form_model_crud").modal("show");
             },
 
             update()
             {
                 console.log(JSON.stringify(this.model))
-                this.timezone()
 
                 var index=this.tableData.findIndex(x => x.id === this.model.id)
                 this.tableData[index] = Object.assign({}, this.model) // Não fica visivel
@@ -219,7 +297,7 @@
 
                 axios.patch(this.url()+'/api/'+this.fonte+'/' + this.model.id, this.model)
                     .then(response => {
-                        $("#form_model").modal("hide");
+                        $("#form_model_crud").modal("hide");
                         this.index() // Atualizar dados com o servidor
                         console.log(JSON.stringify(response.data))
                    })
@@ -229,6 +307,11 @@
                       console.log(error);
                       this.index()
                    });
+            },
+
+            upload()
+            {
+              $("#form_model_upload").modal("show");
             },
 
             destroy(data)
@@ -250,14 +333,6 @@
                }
             },
 
-            timezone()
-            {
-                if((this.model.start!== null)&&(this.model.hasOwnProperty('start'))&&(this.model.start!== false))  this.model.start=   moment(this.model.start).tz('America/Sao_Paulo').format("YYYY-MM-DD HH:mm:ss")
-                if((this.model.end!== null)&&(this.model.hasOwnProperty('end'))&&(this.model.end!== false))    this.model.end=     moment(this.model.end).tz('America/Sao_Paulo').format("YYYY-MM-DD HH:mm:ss")
-            }
-
-
-
         },
 
         watch: {},
@@ -266,7 +341,6 @@
         beforeCreate() {},
 
         created() {
-          console.log(JSON.stringify(this.fonte));
             this.index();
             this.columns=this.pluck(this.tablefields,'name')
 
@@ -288,7 +362,14 @@
 
         beforeMount() {},
 
-        mounted() {},
+        mounted() {
+            document.querySelectorAll("ul.nav.navbar-nav li").forEach(function(item) {
+              if(item.children[0].innerText==' Profile')
+              item.onclick = function(e) {
+                 $("#form_model_profile").modal("show");
+              }
+            });
+        },
 
         beforeUpdate() {},
 
@@ -305,6 +386,10 @@
 </script>
 
 <style>
+
+    .glyphicon {
+        font-size: 16px;
+    }
 
     .VueTables__limit-field {
         display: inline;
@@ -336,6 +421,14 @@
 
     tr:hover div.buttons {
       display: block;
+    }
+
+    .filepond--file {
+      font-size:15px !important;
+    }
+
+    .content-header{
+      text-align: center;
     }
 
 </style>
