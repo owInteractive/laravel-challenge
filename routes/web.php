@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/newEvents', function () {
+    return view('events.create');
+  });
+Route::post('/newEvents', 'EventController@store')->name('events.store');
