@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 
 
 use App\Event;
@@ -60,7 +62,7 @@ class EventController extends Controller
     public function destroy($id){
         $event = Event::findOrFail($id);
         $event->delete();
-        return redirect()->route('events.index');
+        return redirect()->route('events.index')->with('message', 'Sucesso ao excluir entrada!');
     }
      
     public function todayEvents(){
@@ -87,7 +89,7 @@ class EventController extends Controller
         return view('events.myevents', compact('events'));
     }
     public function allEvents(){
-        $events = Event::all();
+        $events = DB::table('events')->paginate(15);
         return view('events.allevents', compact('events'));
     }
 

@@ -14,9 +14,9 @@
             {{ \Session::get('message') }}
         </span>
     @endif
-    
-        <form method="POST" action="{{ route('events.update', $event->id) }}" enctype="multipart/form-data">
-         {{ method_field('PUT') }}
+
+    <form method="POST" action="{{ route('events.update', $event->id) }}" enctype="multipart/form-data">
+        {{ method_field('PUT') }}
         {!! csrf_field() !!}
         <div class="form-group">
             <input class="form-control" type="text" name="title" id="title" value="{{$event->title}}">
@@ -33,7 +33,16 @@
         
 
         <button type="submit" id="submit" class="btn btn-primary"> Save </button>
+        <button class="fadeIn fourth btn btn-danger" href="{{ route('events.destroy', $event->id) }}"
+            onclick="event.preventDefault();
+            document.getElementById('delete-form').submit();"> 
+            Apagar
+        </button>
 
+    </form>
+    <form id="delete-form" method="POST" action="{{ route('events.destroy', $event->id) }}" enctype="multipart/form-data" style="display:none;">
+        {{ method_field('DELETE') }}
+        {!! csrf_field() !!}
     </form>
   
 </div>
