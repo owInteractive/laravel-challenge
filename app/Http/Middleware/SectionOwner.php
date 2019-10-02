@@ -17,9 +17,10 @@ class SectionOwner
     public function handle($request, Closure $next)
     {   
 
-        dd($request->user()->id, $request->route('user'));
-        if( $request->user()->id != $request->route('user') ){
- 
+        
+        if( $request->user()->id != (int)$request->route('user') ){
+            
+            return redirect('/home')->with('error', 'Você não tem permissão para acessar essa página.');;
             abort(403, 'Access denied');
             
           }

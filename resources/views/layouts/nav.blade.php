@@ -39,13 +39,13 @@
                     <ul class="dropdown-menu" role="menu">
                         
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ url('/myEvents') }}">Meus Eventos</a>
+                            <a class="nav-link js-scroll-trigger" href="{{ route('events.myevents', ['user'=>Auth::id()]) }}">Meus Eventos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="{{ url('/newEvents') }}">Criar Evento</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ url('/myProfile') }}">Meu Perfil</a>
+                            <a class="nav-link js-scroll-trigger" href="{{ route('users.myprofile', ['user'=>Auth::id()]) }}">Meu Perfil</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('logout') }}"

@@ -15,7 +15,7 @@
         </span>
     @endif
     
-    <form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('users.update', ['user'=>Auth::id(), 'id'=>$user->id]) }}" enctype="multipart/form-data">
         {{ method_field('PUT') }}
         {!! csrf_field() !!}
         <div class="form-group">
@@ -32,13 +32,13 @@
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>        
         </div>
         <button type="submit" id="submit" class="btn btn-primary"> Save </button>
-        <button class="fadeIn fourth btn btn-danger" href="{{ route('users.destroy', $user->id) }}"
+        <button class="fadeIn fourth btn btn-danger" href="{{ route('users.destroy', ['user'=>Auth::id(), 'id'=>$user->id]) }}"
             onclick="event.preventDefault();
             document.getElementById('delete-form').submit();"> 
             Apagar
         </button>
     </form>
-    <form id="delete-form" method="POST" action="{{ route('users.destroy', $user->id) }}" enctype="multipart/form-data" style="display:none;">
+    <form id="delete-form" method="POST" action="{{ route('users.destroy', ['user'=>Auth::id(), 'id'=>$user->id]) }}" enctype="multipart/form-data" style="display:none;">
         {{ method_field('DELETE') }}
         {!! csrf_field() !!}
     </form>
