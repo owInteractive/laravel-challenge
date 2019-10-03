@@ -41,6 +41,11 @@ class EventController extends Controller
         return view('events.edit', compact('event'));
     }
 
+    public function show($id){
+        $event = Event::findOrFail($id);
+        return view('events.show', compact('event'));
+    }
+
     public function update (Request $request, $id){
         $validator = Validator::make($request->all(), EventController::rules(), EventController::messages());
       
@@ -69,7 +74,7 @@ class EventController extends Controller
     public function todayEvents(){
         $date = date('Y-m-d H:i:s');
         $events = Event::whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->get();
-        return view('events.index', compact('events'));
+        return view('home', compact('events'));
     }
 
     public function nextFiveDays(){
@@ -151,7 +156,7 @@ class EventController extends Controller
                 $csv_header_fields[] = $key;
             }
             if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
-                return redirect()->back();
+                return redirect()->back()->with('error', 'CSV without valid header!');;
             }  
             $csv_data = array_slice($data, 0, 2);
             foreach($csv_data as $info){
@@ -165,10 +170,10 @@ class EventController extends Controller
             }  
         }
         else {
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Empty Archive!');;
         } 
         
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Success!');;
     }
 
 
