@@ -33,9 +33,9 @@ class EventController extends Controller
 
     }
     
-    public function edit($id){
+    public function edit($user, $id){
         $event = Event::findOrFail($id);
-        if ($event->users_id != Auth::id()){
+        if ($event->users_id != $user){
             return view('home');
         }
         return view('events.edit', compact('event'));
@@ -46,7 +46,7 @@ class EventController extends Controller
         return view('events.show', compact('event'));
     }
 
-    public function update (Request $request, $id){
+    public function update (Request $request, $user, $id){
         $validator = Validator::make($request->all(), EventController::rules(), EventController::messages());
       
         if ($validator->fails()) {
@@ -54,6 +54,11 @@ class EventController extends Controller
         }
 
         $event = Event::findOrFail($id);
+
+        if ($event->users_id != $user){
+            return view('home');
+        }
+
         $event->title = $request->title;
         $event->description = $request->description;
         $combinedDTBegin = date('Y-m-d H:i:s', strtotime("$request->beginDate $request->beginTime"));
