@@ -23,10 +23,16 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('/newEvents', function () {
       return view('events.create');
     });
+  Route::get('/import', function () {
+    return view('import');
+  });
   Route::post('/newEvents', 'EventController@store')->name('events.store');
   Route::get('/events', 'EventController@todayEvents')->name('events.index');
   Route::get('/eventsNext', 'EventController@nextFiveDays')->name('events.next');
   Route::get('/allEvents', 'EventController@allEvents')->name('events.allevents');
+  Route::post('/importCSV', 'EventController@importCSV')->name('events.importcsv');
+  Route::get('/export/{archive}/{type}', 'EventController@export')->name('events.export');
+
  
 });
 

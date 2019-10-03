@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -93,6 +94,83 @@ class EventController extends Controller
         return view('events.allevents', compact('events'));
     }
 
+    public function export($archive, $type){
+        if($type=='all'){
+            $events = Event::select('title', 'description', 'start', 'end')->get();
+        }
+        else if($type=='today'){
+            $date = date('Y-m-d H:i:s');
+            $events = Event::select('title', 'description', 'start', 'end')->whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->get();
+        }
+        else if($type=='fiveDays'){
+            $date = date('Y-m-d H:i:s');
+            $fiveDays = date('Y-m-d H:i:s', strtotime('+5 day'));
+            //$events = Event::whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays)->get();
+            $events = Event::select('title', 'description', 'start', 'end')->whereBetween('start', [$date, $fiveDays])->get();
+        }
+        else if($type=='my'){
+            if (!Auth::id()){
+                return view('home');
+            }
+    
+            $events = Event::select('title', 'description', 'start', 'end')->where('users_id', Auth::id())->get();
+        }
+
+        if(!isset($events)){
+            return view('home');
+        }
+        
+        Excel::create('events', function($excel) use($events) {
+            $excel->sheet('ExportFile', function($sheet) use($events) {
+                $sheet->fromArray($events);
+            });
+        })->export($archive);
+  
+    }
+
+    
+
+    public function importCSV(Request $request){
+        if (!Auth::id()){
+            return view('home');
+        }
+        $validator = Validator::make($request->all(), EventController::rules_csv());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }   
+
+        $path = $request->file('csv_file')->getRealPath();
+       
+        $data = Excel::load($path, function($reader) {})->get()->toArray();
+        
+    
+        if (count($data) > 0) {
+            $csv_header_fields = [];
+            foreach ($data[0] as $key => $value) {
+                $csv_header_fields[] = $key;
+            }
+            if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
+                return redirect()->back();
+            }  
+            $csv_data = array_slice($data, 0, 2);
+            foreach($csv_data as $info){
+                Event::create([
+                    'title' => $info['title'],
+                    'description' => $info['description'],
+                    'start' => $info['start'],
+                    'end' => $info['end'],
+                    'users_id' => Auth::id()
+                ]);
+            }  
+        }
+        else {
+            return redirect()->back();
+        } 
+        
+        return redirect()->back();
+    }
+
 
     public function rules(){
         return [
@@ -119,6 +197,13 @@ class EventController extends Controller
             'endDate.after' => 'Insira data final posterior a data de inicio!',
             'endTime.required' => 'Insira hora de fim!',
             'endTime.date_format' => 'Insira hora válida no fim!'            
+        ];
+    }
+
+    public function rules_csv()
+    {
+        return [
+            'csv_file' => 'required|file'
         ];
     }
 }
