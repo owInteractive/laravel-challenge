@@ -3,18 +3,7 @@
 @section('content')
 <div class="container card">
     <h2 class="text-center">Create Event</h2>
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <span class="badge badge-danger badge-pill">
-                {{ $error }}
-            </span>
-        @endforeach
-    @endif
-    @if( \Session::has('message') )
-        <span id="success" class="badge badge-secondary badge-pill">
-            {{ \Session::get('message') }}
-        </span>
-    @endif
+    @include('layouts.messages')
     <form method="POST" action="{{ route('events.store') }}" enctype="multipart/form-data">
         {!! csrf_field() !!}
         <div class="form-group">
@@ -34,7 +23,7 @@
         <div class="form-group">
             <label for="endDate">Date Event End</label>
             <input class="form-control"type="date" name="endDate" id="endDate" required>
-            <small>Choose date after start date</small>
+            <small>Choose date equal or after begin date.</small>
             <br>
             <label for="endTime">Hour Event End</label>
             <input class="form-control" type="time" name="endTime" id="endTime" required>

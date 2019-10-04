@@ -3,24 +3,7 @@
 @section('content')
     <div class="container card">
         <h2 class="text-center">CSV file import</h2>
-        @if ($errors->any())
-            @foreach ($errors->all() as $error)
-                <span class="badge badge-danger badge-pill">
-                    {{ $error }}
-                </span>
-            @endforeach
-        @endif
-        @if( \Session::has('message') )
-            <span id="success" class="badge badge-secondary badge-pill">
-                {{ \Session::get('message') }}
-            </span>
-        @endif
-        @if( \Session::has('error') )
-            <span id="danger" class="badge badge-danger badge-pill">
-                {{ \Session::get('error') }}
-            </span>
-        @endif
-        
+        @include('layouts.messages')
         <div class="row justify-content-center">
             <div class="panel panel-default justify-content-center">
                 <div class="panel-body">
@@ -29,7 +12,7 @@
                         <div class="form-group{{ $errors->has('csv_file') ? ' has-error' : '' }}">
                             <input id="csv_file" type="file" class="form-control" name="csv_file" required>
                         </div>
-                        <div class="container d-flex justify-content-center display-inline">
+                        <div class="container d-flex justify-content-center">
                             <button type="submit" class="btn btn-secondary">
                                 Import CSV
                             </button>
@@ -37,6 +20,39 @@
                     </form>
                 </div>       
             </div>
+            
+
+
+                
         </div>
+        
+
+            
+            
     </div>
+    <div class="container justify-content-center">
+            @if(count($events_created)!=0)
+                <h2 class="text-center">Events Added</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Begin Date</th>
+                        <th scope="col">End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($events_created as $event)
+                            <tr>
+                                <td><a href="{{ route('events.show', ['id'=>$event->id]) }}">{{$event->title}}</a></td>
+                                <td>{{$event->start}}</td>
+                                <td>{{$event->end}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif      
+        </div>
+
+    
 @endsection

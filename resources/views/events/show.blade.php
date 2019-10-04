@@ -1,7 +1,7 @@
 @extends('layouts.app')
 <head>
 
-<meta property="og:title" content="Join to the event {{$event->title}}! It starts {{$event->start}} and ends in {{$event->end}}!" />
+<meta property="og:title" content="Join the event {{$event->title}}! It starts {{$event->start}} and ends in {{$event->end}}!" />
 <meta property="og:href" content="localhost:8000/events/{{$event->id}}" />
 <meta property="og:description" content="{{$event->description}}" />
 <meta property="og:site_name" content="Events" />
@@ -12,7 +12,7 @@
 <div class="container card">
     <h1 class="text-center">{{$event->title}}</h1>
 
-    <p class="text-center">{!! nl2br(e($event->description)) !!}</p>
+    <p class="text-center">Description: {!! nl2br(e($event->description)) !!}</p>
 
     <small class="text-center">Begin: {{$event->start}}</small><br>
     <small class="text-center">End: {{$event->end}}</small>

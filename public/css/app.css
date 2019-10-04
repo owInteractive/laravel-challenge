@@ -4874,6 +4874,33 @@ input[type="button"].btn-block {
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
+ul.pagination li{
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #6c757d;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+ul.pagination li.active{
+  z-index: 1;
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+@media screen and ( max-width: 520px ){
+  ul.pagination li {
+    display: none;
+  }
+
+  ul.pagination li:first-child,
+  ul.pagination li:last-child,
+  ul.pagination li.active {
+    display: block;
+  }
+}
 
 .page-item:last-child .page-link {
   border-top-right-radius: 0.25rem;

@@ -2,13 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="justify-content-center">
-        @if( \Session::has('error') )
-            <span id="danger" class="badge badge-danger badge-pill">
-                {{ \Session::get('error') }}
-            </span>
-        @endif
-    </div>
+    @include('layouts.messages')
     
     @if (Auth::guest())
         @include('layouts.homeOff')

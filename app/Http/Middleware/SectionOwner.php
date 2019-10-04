@@ -20,7 +20,7 @@ class SectionOwner
         
         if( $request->user()->id != (int)$request->route('user') ){
             
-            return redirect('/home')->with('error', 'Você não tem permissão para acessar essa página.');;
+            return redirect('/home')->with('error', 'You do not have permission to access this page.');;
             abort(403, 'Access denied');
             
           }

@@ -18,7 +18,12 @@ class EventController extends Controller
       
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
-        }   
+        }
+        if(date('Y-m-d', strtotime($request->beginDate)) == date('Y-m-d', strtotime($request->endDate))){
+            if(date('H:i', strtotime($request->beginTime)) > date('H:i', strtotime($request->endTime))){
+                return redirect()->back()->with('error', 'When the the end date and begin date are equal, the end hour must be a hour after or equal to begin hour.');
+            }
+        }
 
         $event = new Event;
         $event->title = $request->title;
@@ -81,7 +86,7 @@ class EventController extends Controller
      
     public function todayEvents(){
         $date = date('Y-m-d');
-        $events = Event::whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->orderBy('start')->get();
+        $events = Event::whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->orderBy('start')->paginate(6);
         return view('home', compact('events'));
     }
 
@@ -99,7 +104,7 @@ class EventController extends Controller
                 $q->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
             })
             ->orderBy('start')
-            ->get();
+            ->paginate(6);
         return view('events.fiveDays', compact('events'));
     }
 
@@ -109,12 +114,12 @@ class EventController extends Controller
             return view('home');
         }
 
-        $events = Event::where('users_id', Auth::id())->orderBy('created_at', 'DESC')->get();
+        $events = Event::where('users_id', Auth::id())->orderBy('created_at', 'DESC')->paginate(6);
         return view('events.myevents', compact('events'));
     }
 
     public function allEvents(){
-        $events = DB::table('events')->orderBy('start')->paginate(15);
+        $events = DB::table('events')->orderBy('start')->paginate(6);
         return view('events.allevents', compact('events'));
     }
 
@@ -164,6 +169,10 @@ class EventController extends Controller
     }
 
     
+    public function importCSVindex(){
+        $events_created = [];
+        return view('import', compact('events_created'));
+    }
 
     public function importCSV(Request $request){
         if (!Auth::id()){
@@ -187,10 +196,11 @@ class EventController extends Controller
             }
             if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
                 return redirect()->back()->with('error', 'CSV without valid header!');;
-            }  
-            $csv_data = array_slice($data, 0, 2);
+            } 
+            //$csv_data = array_slice($data, 0, 2);
+           
             foreach($csv_data as $info){
-                Event::create([
+                $events_created[]=Event::create([
                     'title' => $info['title'],
                     'description' => $info['description'],
                     'start' => $info['start'],
@@ -203,7 +213,7 @@ class EventController extends Controller
             return redirect()->back()->with('error', 'Empty Archive!');;
         } 
         
-        return redirect()->back()->with('message', 'Success! Csv was imported.');;
+        return view('import', compact('events_created'));
     }
 
 
@@ -213,7 +223,7 @@ class EventController extends Controller
             'description' => 'required|max:5000',
             'beginDate' => 'required|date',
             'beginTime' => 'required|date_format:H:i',
-            'endDate' => 'required|date|after:beginDate',
+            'endDate' => 'required|date|after_or_equal:beginDate',
             'endTime' => 'required|date_format:H:i'
         ];
     }

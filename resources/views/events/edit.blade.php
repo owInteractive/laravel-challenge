@@ -3,18 +3,7 @@
 @section('content')
 <div class="container card">
     <h2 class="text-center">Edit Event</h2>
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <span class="badge badge-danger badge-pill">
-                {{ $error }}
-            </span>
-        @endforeach
-    @endif
-    @if( \Session::has('message') )
-        <span id="success" class="badge badge-secondary badge-pill">
-            {{ \Session::get('message') }}
-        </span>
-    @endif
+    @include('layouts.messages')
 
     <form method="POST" action="{{ route('events.update', ['user'=>Auth::id(), 'id'=>$event->id]) }}" enctype="multipart/form-data">
         {{ method_field('PUT') }}
