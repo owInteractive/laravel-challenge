@@ -1,6 +1,6 @@
 <div class="row justify-content-center">  
-    <div class="panel panel-default justify-content-center">
-        <div class="panel-heading">Login</div>
+    <div class="panel panel-default justify-content-center col-sm-6">
+        <h3 class="text-center">Login</h3>
         <div class="panel-body">
             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
@@ -34,15 +34,13 @@
                 </div>
 
                 <div class="form-group">
-                    <div >
-                        <button type="submit" class="btn btn-primary">
-                            Login
-                        </button>
+                    <button type="submit" class="btn btn-secondary">
+                        Login
+                    </button>
 
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                            Forgot Your Password?
-                        </a>
-                    </div>
+                    <a id="forgot" href="{{ route('password.request') }}">
+                        Forgot Your Password?
+                    </a>
                 </div>
             </form>
         </div>

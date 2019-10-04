@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container card">
+        <h2 class="text-center">CSV file import</h2>
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 <span class="badge badge-danger badge-pill">
@@ -10,7 +11,7 @@
             @endforeach
         @endif
         @if( \Session::has('message') )
-            <span id="success" class="badge badge-success badge-pill">
+            <span id="success" class="badge badge-secondary badge-pill">
                 {{ \Session::get('message') }}
             </span>
         @endif
@@ -19,7 +20,7 @@
                 {{ \Session::get('error') }}
             </span>
         @endif
-        <h1 class="text-center">CSV file to import</h1>
+        
         <div class="row justify-content-center">
             <div class="panel panel-default justify-content-center">
                 <div class="panel-body">
@@ -29,7 +30,7 @@
                             <input id="csv_file" type="file" class="form-control" name="csv_file" required>
                         </div>
                         <div class="container d-flex justify-content-center display-inline">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-secondary">
                                 Import CSV
                             </button>
                         </div>

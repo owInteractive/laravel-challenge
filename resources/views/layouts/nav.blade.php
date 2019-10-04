@@ -27,38 +27,35 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="#" class="dropdown-toggle nav-link js-scroll-trigger" data-toggle="dropdown" role="button" aria-expanded="false">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
-
-                    <ul class="dropdown-menu" role="menu">
-                        
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ route('events.myevents', ['user'=>Auth::id()]) }}">My Events</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ url('/newEvents') }}">Create Events</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ url('/import') }}">Import CSV</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ route('users.myprofile', ['user'=>Auth::id()]) }}">My Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();"
-                                            class="nav-link js-scroll-trigger">
-                                Logout
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>
-                    </ul>
+        
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('events.myevents', ['user'=>Auth::id()]) }}">
+                            My Events
+                        </a>    
+                        <a class="dropdown-item" href="{{ url('/newEvents') }}">
+                            Create Events
+                        </a>
+                        <a class="dropdown-item"  href="{{ url('/import') }}">
+                            Import CSV
+                        </a> 
+                        <a class="dropdown-item"  href="{{ route('users.myprofile', ['user'=>Auth::id()]) }}">
+                            My Profile
+                        </a>
+                        <a class="dropdown-item"  href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();"
+                                        class="nav-link js-scroll-trigger">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
                 </li>
+                
             @endif
         </ul>
       </div>

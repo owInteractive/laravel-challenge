@@ -46,8 +46,8 @@ Route::middleware(['auth', 'section.owner'])->prefix('{user}')->group(function (
   Route::put('/events/edit/{id}', 'EventController@update')->name('events.update');
   Route::delete('/events/edit/{id}', 'EventController@destroy')->name('events.destroy');
   Route::get('/myProfile', 'UserController@myProfile')->name('users.myprofile');
-  Route::put('/myProfile/{id}', 'UserController@update')->name('users.update');
-  Route::delete('/myProfile/{id}', 'UserController@destroy')->name('users.destroy');
+  Route::put('/myProfile', 'UserController@update')->name('users.update');
+  Route::delete('/myProfile', 'UserController@destroy')->name('users.destroy');
 
 
  

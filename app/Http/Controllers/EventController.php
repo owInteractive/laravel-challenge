@@ -14,7 +14,7 @@ use App\Event;
 class EventController extends Controller
 {
     public function store(Request $request){
-        $validator = Validator::make($request->all(), EventController::rules(), EventController::messages());
+        $validator = Validator::make($request->all(), EventController::rules());
       
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
@@ -29,7 +29,7 @@ class EventController extends Controller
         $event->end = $combinedDTEnd;
         $event->users_id = Auth::id();       
         $event->save();
-        return redirect()->back()->with('message', 'Sucesso ao cadastrar entrada!');
+        return redirect()->back()->with('message', 'Success! Event was created.');
 
     }
     
@@ -47,7 +47,7 @@ class EventController extends Controller
     }
 
     public function update (Request $request, $user, $id){
-        $validator = Validator::make($request->all(), EventController::rules(), EventController::messages());
+        $validator = Validator::make($request->all(), EventController::rules());
       
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
@@ -66,27 +66,40 @@ class EventController extends Controller
         $event->start = $combinedDTBegin;
         $event->end = $combinedDTEnd;
         $event->save();
-        return redirect()->back()->with('message', 'Sucesso ao atualizar entrada!');
+        return redirect()->back()->with('message', 'Success! Event was updated!');
 
     }
 
-    public function destroy($id){
+    public function destroy($user, $id){
         $event = Event::findOrFail($id);
+        if($user != $event->users_id){
+            return view('home');
+        }
         $event->delete();
-        return redirect()->route('events.index')->with('message', 'Sucesso ao excluir entrada!');
+        return redirect()->route('events.myevents')->with('message', 'Success! Event was deleted.!');
     }
      
     public function todayEvents(){
-        $date = date('Y-m-d H:i:s');
-        $events = Event::whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->get();
+        $date = date('Y-m-d');
+        $events = Event::whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->orderBy('start')->get();
         return view('home', compact('events'));
     }
 
     public function nextFiveDays(){
-        $date = date('Y-m-d H:i:s');
-        $fiveDays = date('Y-m-d H:i:s', strtotime('+5 day'));
+        $date = date('Y-m-d');
+        $fiveDays = date('Y-m-d', strtotime('+5 day'));
         //$events = Event::whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays)->get();
-        $events = Event::whereBetween('start', [$date, $fiveDays])->get();
+        $events = Event::where(function($q) use ($date, $fiveDays){
+                $q->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
+            })
+            ->orWhere(function($q) use ($date, $fiveDays){
+                $q->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
+            })
+            ->orWhere(function($q) use ($date, $fiveDays){
+                $q->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
+            })
+            ->orderBy('start')
+            ->get();
         return view('events.fiveDays', compact('events'));
     }
 
@@ -96,34 +109,46 @@ class EventController extends Controller
             return view('home');
         }
 
-        $events = Event::where('users_id', Auth::id())->get();
+        $events = Event::where('users_id', Auth::id())->orderBy('created_at', 'DESC')->get();
         return view('events.myevents', compact('events'));
     }
+
     public function allEvents(){
-        $events = DB::table('events')->paginate(15);
+        $events = DB::table('events')->orderBy('start')->paginate(15);
         return view('events.allevents', compact('events'));
     }
 
     public function export($archive, $type){
         if($type=='all'){
-            $events = Event::select('title', 'description', 'start', 'end')->get();
+            $events = Event::select('title', 'description', 'start', 'end')->orderBy('start')->get();
         }
         else if($type=='today'){
-            $date = date('Y-m-d H:i:s');
-            $events = Event::select('title', 'description', 'start', 'end')->whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->get();
+            $date = date('Y-m-d');
+            $events = Event::select('title', 'description', 'start', 'end')->whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->orderBy('start')->get();
         }
         else if($type=='fiveDays'){
-            $date = date('Y-m-d H:i:s');
-            $fiveDays = date('Y-m-d H:i:s', strtotime('+5 day'));
+            $date = date('Y-m-d');
+            $fiveDays = date('Y-m-d', strtotime('+5 day'));
             //$events = Event::whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays)->get();
-            $events = Event::select('title', 'description', 'start', 'end')->whereBetween('start', [$date, $fiveDays])->get();
+            $events = Event::select('title', 'description', 'start', 'end')
+                ->where(function($q) use ($date, $fiveDays){
+                    $q->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
+                })
+                ->orWhere(function($q) use ($date, $fiveDays){
+                    $q->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
+                })
+                ->orWhere(function($q) use ($date, $fiveDays){
+                    $q->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
+                })
+                ->orderBy('start')
+                ->get();
         }
         else if($type=='my'){
             if (!Auth::id()){
                 return view('home');
             }
     
-            $events = Event::select('title', 'description', 'start', 'end')->where('users_id', Auth::id())->get();
+            $events = Event::select('title', 'description', 'start', 'end')->where('users_id', Auth::id())->orderBy('created_at', 'DESC')->get();
         }
 
         if(!isset($events)){
@@ -178,7 +203,7 @@ class EventController extends Controller
             return redirect()->back()->with('error', 'Empty Archive!');;
         } 
         
-        return redirect()->back()->with('message', 'Success!');;
+        return redirect()->back()->with('message', 'Success! Csv was imported.');;
     }
 
 
@@ -190,23 +215,6 @@ class EventController extends Controller
             'beginTime' => 'required|date_format:H:i',
             'endDate' => 'required|date|after:beginDate',
             'endTime' => 'required|date_format:H:i'
-        ];
-    }
-    public function messages(){
-        return [
-            'title.required' => 'Insert a title!',
-            'title.max' => 'Insira título com no máximo xxx!',
-            'description.required' => 'Insert a title!',
-            'description.max' => 'Insira título com no máximo xxx!',
-            'beginDate.required' => 'Insira Data de inicio!',
-            'beginDate.date' => 'Insira data válida!',
-            'beginTime.required' => 'Insira hora de inicio!',
-            'beginTime.date_format' => 'Insira hora válida!',
-            'endDate.required' => 'Insira Data de fim!',
-            'endDate.date' => 'Insira data válida!',
-            'endDate.after' => 'Insira data final posterior a data de inicio!',
-            'endTime.required' => 'Insira hora de fim!',
-            'endTime.date_format' => 'Insira hora válida no fim!'            
         ];
     }
 

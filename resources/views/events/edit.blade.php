@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container card">
+    <h2 class="text-center">Edit Event</h2>
     @if ($errors->any())
         @foreach ($errors->all() as $error)
             <span class="badge badge-danger badge-pill">
@@ -10,7 +11,7 @@
         @endforeach
     @endif
     @if( \Session::has('message') )
-        <span id="success" class="badge badge-success badge-pill">
+        <span id="success" class="badge badge-secondary badge-pill">
             {{ \Session::get('message') }}
         </span>
     @endif
@@ -35,18 +36,18 @@
         <div class="form-group">
             <label for="endDate">Date Event End</label>
             <input class="form-control"type="date" name="endDate" id="endDate" value="{{date('Y-m-d', strtotime($event->end))}}" required>
-            <small>Escolha data posterior a data de inicio</small>
+            <small>Choose date after start date</small>
             <br>
             <label for="endTime">Hour Event End</label>
             <input class="form-control" type="time" name="endTime" id="endTime" value="{{date('H:i', strtotime($event->end))}}" required>
         </div>
         
         <div class="container d-flex justify-content-center display-inline">
-            <button type="submit" id="submit" class="btn btn-primary"> Save </button>
+            <button type="submit" id="submit" class="btn btn-secondary"> Update </button>
             <button class="fadeIn fourth btn btn-danger" href="{{ route('events.destroy', ['user'=>Auth::id(), 'id'=>$event->id]) }}"
                 onclick="event.preventDefault();
                 document.getElementById('delete-form').submit();"> 
-                Apagar
+                Delete
             </button>
         </div>
 

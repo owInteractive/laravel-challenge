@@ -18,33 +18,41 @@ class UserController extends Controller
         $user = User::findOrFail(Auth::id());
         return view('users.myprofile', compact('user'));
     }
-    public function update (Request $request, $id){
-        $validator = Validator::make($request->all(), UserController::rules($request->id));
+    public function update (Request $request, $user){
+        $validator = Validator::make($request->all(), UserController::rules($user));
+
+        if ($user != Auth::id()){
+            return view('home');
+        }
       
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
+        
 
 
-        $user = User::findOrFail($id);
+        $localUser = User::findOrFail($user);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-        return redirect()->back()->with('message', 'Sucesso ao atualizar entrada!');
+        $localUser->name = $request->name;
+        $localUser->email = $request->email;
+        $localUser->password = bcrypt($request->password);
+        $localUser->save();
+        return redirect()->back()->with('message', 'Success! User was updated.');
     }
 
-    public function destroy($id){
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->route('home')->with('message', 'Sucesso ao excluir usuário!');
+    public function destroy($user){
+        if ($user != Auth::id()){
+            return view('home');
+        }
+        $localUser = User::findOrFail($user);
+        $localUser->delete();
+        return redirect()->route('home')->with('error', 'User was deleted.');
     }
 
     public function rules($email){
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$email,
+            'name' => 'required|string|max:250',
+            'email' => 'required|string|email|max:250|unique:users,email,'.$email,
             'password' => 'required|string|min:6|confirmed',
         ];
     }

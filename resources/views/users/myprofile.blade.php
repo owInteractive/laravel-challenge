@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container card">
+    <h2 class="text-center">My Profile</h2>
     @if ($errors->any())
         @foreach ($errors->all() as $error)
             <span class="badge badge-danger badge-pill">
@@ -10,7 +11,7 @@
         @endforeach
     @endif
     @if( \Session::has('message') )
-        <span id="success" class="badge badge-success badge-pill">
+        <span id="success" class="badge badge-secondary badge-pill">
             {{ \Session::get('message') }}
         </span>
     @endif
@@ -35,15 +36,15 @@
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required minlength="6">        
         </div>
         <div class="container d-flex justify-content-center display-inline">
-            <button type="submit" id="submit" class="btn btn-primary"> Save </button>
-            <button class="fadeIn fourth btn btn-danger" href="{{ route('users.destroy', ['user'=>Auth::id(), 'id'=>$user->id]) }}"
+            <button type="submit" id="submit" class="btn btn-secondary"> Update </button>
+            <button class="fadeIn fourth btn btn-danger" href="{{ route('users.destroy', ['user'=>Auth::id()]) }}"
                 onclick="event.preventDefault();
                 document.getElementById('delete-form').submit();"> 
-                Apagar
+                Delete
             </button>
         </div>
     </form>
-    <form id="delete-form" method="POST" action="{{ route('users.destroy', ['user'=>Auth::id(), 'id'=>$user->id]) }}" enctype="multipart/form-data" style="display:none;">
+    <form id="delete-form" method="POST" action="{{ route('users.destroy', ['user'=>Auth::id()]) }}" enctype="multipart/form-data" style="display:none;">
         {{ method_field('DELETE') }}
         {!! csrf_field() !!}
     </form>
