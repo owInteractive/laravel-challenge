@@ -14,8 +14,8 @@
 
     <p class="text-center">Description: {!! nl2br(e($event->description)) !!}</p>
 
-    <small class="text-center">Begin: {{$event->start}}</small><br>
-    <small class="text-center">End: {{$event->end}}</small>
+    <small class="text-center">Begin: {{date('d/m/Y H:i', strtotime($event->start))}}</small><br>
+    <small class="text-center">End: {{date('d/m/Y H:i', strtotime($event->end))}}</small>
     
     <div class="footer-section">  
         <h4 class="text-center">Invite your friends to this event</h4>

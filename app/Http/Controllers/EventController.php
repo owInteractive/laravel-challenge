@@ -81,7 +81,7 @@ class EventController extends Controller
             return view('home');
         }
         $event->delete();
-        return redirect()->route('events.myevents')->with('message', 'Success! Event was deleted.!');
+        return redirect()->route('events.myevents', compact('user'))->with('message', 'Success! Event was deleted.!');
     }
      
     public function todayEvents(){
@@ -187,8 +187,7 @@ class EventController extends Controller
         $path = $request->file('csv_file')->getRealPath();
        
         $data = Excel::load($path, function($reader) {})->get()->toArray();
-        
-    
+        // ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain"
         if (count($data) > 0) {
             $csv_header_fields = [];
             foreach ($data[0] as $key => $value) {
@@ -199,7 +198,13 @@ class EventController extends Controller
             } 
             //$csv_data = array_slice($data, 0, 2);
            
-            foreach($csv_data as $info){
+            foreach($data as $info){
+                $validator = Validator::make($info, EventController::rules_importCSV());
+                
+                if ($validator->fails()) {
+                    return redirect()->back()->with('error', 'CSV file have fields in wrong format.');
+                }
+
                 $events_created[]=Event::create([
                     'title' => $info['title'],
                     'description' => $info['description'],
@@ -227,6 +232,16 @@ class EventController extends Controller
             'endTime' => 'required|date_format:H:i'
         ];
     }
+
+    public function rules_importCSV(){
+        return [
+            'title' => 'required|max:250',
+            'description' => 'required|max:5000',
+            'start' => 'required|date',
+            'end' => 'required|date|after_or_equal:start'
+        ];
+    }
+
 
     public function rules_csv()
     {

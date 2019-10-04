@@ -10,7 +10,7 @@
                     <form class="form-horizontal" method="POST" action="{{ route('events.importcsv') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('csv_file') ? ' has-error' : '' }}">
-                            <input id="csv_file" type="file" class="form-control" name="csv_file" required>
+                            <input id="csv_file" type="file" class="form-control" name="csv_file" accept = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain" required>
                         </div>
                         <div class="container d-flex justify-content-center">
                             <button type="submit" class="btn btn-secondary">

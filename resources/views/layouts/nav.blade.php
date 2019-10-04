@@ -7,9 +7,19 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto my-2 my-lg-0">
           @if (Auth::guest())
-               <!-- <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Login</a></li>-->
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('login') }}">Login</a></li>
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('register') }}">Register</a></li>
             @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/newEvents') }}">
+                        Create Events
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  href="{{ url('/import') }}">
+                        Import CSV
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         Events <span class="caret"></span>
@@ -35,12 +45,6 @@
                         <a class="dropdown-item" href="{{ route('events.myevents', ['user'=>Auth::id()]) }}">
                             My Events
                         </a>    
-                        <a class="dropdown-item" href="{{ url('/newEvents') }}">
-                            Create Events
-                        </a>
-                        <a class="dropdown-item"  href="{{ url('/import') }}">
-                            Import CSV
-                        </a> 
                         <a class="dropdown-item"  href="{{ route('users.myprofile', ['user'=>Auth::id()]) }}">
                             My Profile
                         </a>
