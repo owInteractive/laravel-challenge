@@ -113,7 +113,7 @@ class EventController extends Controller
     }
 
     public function getMyEventsList(){
-        EventController::verifyAuthExists();
+        EventController::verifyAuthIDExists();
 
         $events = Event::where('users_id', Auth::id())->orderBy('created_at', 'DESC')->paginate(6);
         return view('events.myevents', compact('events'));
@@ -144,7 +144,7 @@ class EventController extends Controller
     }
 
     public function storeImportedCSV(Request $request){
-        EventController::verifyAuthExists();
+        EventController::verifyAuthIDExists();
 
         $validator = Validator::make($request->all(), EventController::rulesCsvFile());
 
@@ -194,12 +194,6 @@ class EventController extends Controller
         return view('import', compact('events_created'));
     }
 
-    public function verifyAuthExists (){
-        if (!Auth::id()){
-            return view('home');
-        }
-        return;
-    }
     public function verifyValidatorError($validator){
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
