@@ -9,19 +9,19 @@
         {{ method_field('PUT') }}
         {!! csrf_field() !!}
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Name <a class="required">*</a></label>
             <input class="form-control" type="text" name="name" id="name" value="{{$user->name}}" required maxlength="250">
         </div>
         <div class="form-group">
-            <label for="name">Email</label>
+            <label for="name">Email <a class="required">*</a></label>
             <input class="form-control" type="text" name="email" id="email" value="{{$user->email}}" required maxlength="250">
         </div>
         <div class="form-group">
-            <label for="name">Password</label>
+            <label for="name">Password <a class="required">*</a></label>
             <input class="form-control" type="password" name="password" id="password" required minlength="6">
         </div>
         <div class="form-group">
-            <label for="password-confirm">Confirm Password</label>
+            <label for="password-confirm">Confirm Password <a class="required">*</a></label>
             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required minlength="6">        
         </div>
         <div class="container d-flex justify-content-center display-inline">
