@@ -9,25 +9,25 @@
         {{ method_field('PUT') }}
         {!! csrf_field() !!}
         <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">Title <a class="required">*</a></label>
             <input class="form-control" type="text" name="title" id="title" value="{{$event->title}}" required maxlength="250">
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Description <a class="required">*</a></label>
             <textarea class="form-control" name="description" id="description" required maxlength="5000">{{$event->description}}</textarea>
         </div>
         <div class="form-group">
-            <label for="beginDate">Date Event Begin</label>
+            <label for="beginDate">Date Event Begin <a class="required">*</a></label>
             <input class="form-control" type="date" name="beginDate" id="beginDate" value="{{date('Y-m-d', strtotime($event->start))}}" required>
-            <label for="beginTime">Hour Event Begin</label>
+            <label for="beginTime">Hour Event Begin <a class="required">*</a></label>
             <input class="form-control" type="time" name="beginTime" id="beginTime" value="{{date('H:i', strtotime($event->start))}}" required>
         </div>
         <div class="form-group">
-            <label for="endDate">Date Event End</label>
+            <label for="endDate">Date Event End <a class="required">*</a></label>
             <input class="form-control"type="date" name="endDate" id="endDate" value="{{date('Y-m-d', strtotime($event->end))}}" required>
             <small>Choose date after start date</small>
             <br>
-            <label for="endTime">Hour Event End</label>
+            <label for="endTime">Hour Event End <a class="required">*</a></label>
             <input class="form-control" type="time" name="endTime" id="endTime" value="{{date('H:i', strtotime($event->end))}}" required>
         </div>
         

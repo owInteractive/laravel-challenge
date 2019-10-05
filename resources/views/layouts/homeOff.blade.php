@@ -6,7 +6,7 @@
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <label for="email" class=" control-label">E-Mail Address</label>
+                    <label for="email" class=" control-label">E-Mail Address <a class="required">*</a></label>
 
                     
                     <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label for="password" class="control-label">Password</label>
+                    <label for="password" class="control-label">Password <a class="required">*</a></label>
 
                     
                     <input id="password" type="password" class="form-control" name="password" required>

@@ -1,37 +1,24 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-Route::get('/', 'EventController@todayEvents')->name('events.index');
-Route::get('/home', 'EventController@todayEvents')->name('home');
-
-
+Route::get('/', 'EventController@getTodayEventsList')->name('events.index');
+Route::get('/home', 'EventController@getTodayEventsList')->name('home');
 Auth::routes();
+
 Route::group(['middleware' => ['auth']], function () {  
 
 
   Route::get('/newEvents', function () {
       return view('events.create');
     });
-  Route::get('/import', 'EventController@importCSVindex')->name('events.import');
-    
-  Route::post('/newEvents', 'EventController@store')->name('events.store');
-  //Route::get('/events', 'EventController@todayEvents')->name('events.index');
-  Route::get('/eventsNext', 'EventController@nextFiveDays')->name('events.next');
-  Route::get('/allEvents', 'EventController@allEvents')->name('events.allevents');
-  Route::post('/import', 'EventController@importCSV')->name('events.importcsv');
-  Route::get('/export/{archive}/{type}', 'EventController@export')->name('events.export');
-  Route::get('/events/{id}', 'EventController@show')->name('events.show');
+  Route::get('/import', 'EventController@importCsvView')->name('events.import');
+  Route::post('/newEvents', 'EventController@storeEvent')->name('events.store');
+
+  Route::get('/eventsNext', 'EventController@getNextFiveDaysEventsList')->name('events.next');
+  Route::get('/allEvents', 'EventController@getAllEventsList')->name('events.allevents');
+  Route::get('/events/{id}', 'EventController@showEvent')->name('events.show');
+
+  Route::post('/import', 'EventController@storeImportedCSV')->name('events.importcsv');
+  Route::get('/export/{archive}/{type}', 'EventController@exportListOfEvents')->name('events.export');
 
  
 });
@@ -40,13 +27,15 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::middleware(['auth', 'section.owner'])->prefix('{user}')->group(function () {
  
-  Route::get('myEvents', 'EventController@myEvents')->name('events.myevents');
-  Route::get('/events/edit/{id}', 'EventController@edit')->name('events.edit');
-  Route::put('/events/edit/{id}', 'EventController@update')->name('events.update');
-  Route::delete('/events/edit/{id}', 'EventController@destroy')->name('events.destroy');
+  Route::get('myEvents', 'EventController@getMyEventsList')->name('events.myevents');
+
+  Route::get('/events/edit/{id}', 'EventController@editEvent')->name('events.edit');
+  Route::put('/events/edit/{id}', 'EventController@updateEvent')->name('events.update');
+  Route::delete('/events/edit/{id}', 'EventController@destroyEvent')->name('events.destroy');
+
   Route::get('/myProfile', 'UserController@myProfile')->name('users.myprofile');
-  Route::put('/myProfile', 'UserController@update')->name('users.update');
-  Route::delete('/myProfile', 'UserController@destroy')->name('users.destroy');
+  Route::put('/myProfile', 'UserController@updateUser')->name('users.update');
+  Route::delete('/myProfile', 'UserController@destroyUser')->name('users.destroy');
 
 
  

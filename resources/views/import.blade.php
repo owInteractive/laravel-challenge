@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+    function loading(){
+        var theDiv = document.getElementById("loading");
+        theDiv.innerHTML += "Loading..."; 
+    }
+
+</script>
     <div class="container card">
         <h2 class="text-center">CSV file import</h2>
         @include('layouts.messages')
@@ -11,9 +18,10 @@
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('csv_file') ? ' has-error' : '' }}">
                             <input id="csv_file" type="file" class="form-control" name="csv_file" accept = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain" required>
+                            <small>Only .csv, .xls and .txt files</small>
                         </div>
                         <div class="container d-flex justify-content-center">
-                            <button type="submit" class="btn btn-secondary">
+                            <button type="submit" class="btn btn-secondary" onClick="loading();">
                                 Import CSV
                             </button>
                         </div>
@@ -30,6 +38,7 @@
             
             
     </div>
+    <div class="container text-center" id="loading"></div>
     <div class="container justify-content-center">
             @if(count($events_created)!=0)
                 <h2 class="text-center">Events Added</h2>

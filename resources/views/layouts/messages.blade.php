@@ -1,4 +1,4 @@
-<div class="container d-flex justify-content-center display-inline">
+<div class="container d-flex justify-content-center">
     @if ($errors->any())
         @foreach ($errors->all() as $error)
             <span class="badge badge-danger badge-pill">
@@ -7,7 +7,7 @@
         @endforeach
     @endif
     @if( \Session::has('message') )
-        <span id="success" class="badge badge-secondary badge-pill">
+        <span id="success" class="badge badge-success badge-pill">
             {{ \Session::get('message') }}
         </span>
     @endif

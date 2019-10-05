@@ -7,155 +7,125 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Event;
 
 
-
-use App\Event;
 class EventController extends Controller
 {
-    public function store(Request $request){
-        $validator = Validator::make($request->all(), EventController::rules());
+    public function storeEvent(Request $request){
+        $validator = Validator::make($request->all(), EventController::rulesEventsData());
       
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
-        if(date('Y-m-d', strtotime($request->beginDate)) == date('Y-m-d', strtotime($request->endDate))){
-            if(date('H:i', strtotime($request->beginTime)) > date('H:i', strtotime($request->endTime))){
-                return redirect()->back()->with('error', 'When the the end date and begin date are equal, the end hour must be a hour after or equal to begin hour.');
-            }
+        
+
+        $combinatedBeginDateAndTime = EventController::combineDateAndTimeInUniqueVariable($request->beginDate, $request->beginTime);
+        $combinatedEndDateAndTime = EventController::combineDateAndTimeInUniqueVariable($request->endDate, $request->endTime);
+
+        if($combinatedEndDateAndTime < $combinatedBeginDateAndTime){
+            return redirect()->back()->with('error', 'When the the end date and begin date are equal, 
+            the end hour must be a hour after or equal to begin hour.');
         }
 
         $event = new Event;
         $event->title = $request->title;
         $event->description = $request->description;
-        $combinedDTBegin = date('Y-m-d H:i:s', strtotime("$request->beginDate $request->beginTime"));
-        $combinedDTEnd = date('Y-m-d H:i:s', strtotime("$request->endDate $request->endTime"));
-        $event->start = $combinedDTBegin;
-        $event->end = $combinedDTEnd;
+        $event->start = $combinatedBeginDateAndTime;
+        $event->end = $combinatedEndDateAndTime;
         $event->users_id = Auth::id();       
+
         $event->save();
+
         return redirect()->back()->with('message', 'Success! Event was created.');
 
     }
+
     
-    public function edit($user, $id){
+    public function editEvent($user, $id){
         $event = Event::findOrFail($id);
-        if ($event->users_id != $user){
-            return view('home');
-        }
+        EventController::verifyIfUserEventOwnerEqualUserAuthID($event->users_id, $user);
         return view('events.edit', compact('event'));
     }
 
-    public function show($id){
+    public function showEvent($id){
         $event = Event::findOrFail($id);
         return view('events.show', compact('event'));
     }
 
-    public function update (Request $request, $user, $id){
-        $validator = Validator::make($request->all(), EventController::rules());
+    public function updateEvent (Request $request, $user, $id){
+        $validator = Validator::make($request->all(), EventController::rulesEventsData());
       
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
 
+        $combinatedBeginDateAndTime = EventController::combineDateAndTimeInUniqueVariable($request->beginDate, $request->beginTime);
+        $combinatedEndDateAndTime = EventController::combineDateAndTimeInUniqueVariable($request->endDate, $request->endTime);
+
+        if($combinatedEndDateAndTime < $combinatedBeginDateAndTime){
+            return redirect()->back()->with('error', 'When the the end date and begin date are equal, 
+            the end hour must be a hour after or equal to begin hour.');
+        }
+
         $event = Event::findOrFail($id);
 
-        if ($event->users_id != $user){
-            return view('home');
-        }
+        EventController::verifyIfUserEventOwnerEqualUserAuthID($event->users_id, $user);
 
         $event->title = $request->title;
         $event->description = $request->description;
-        $combinedDTBegin = date('Y-m-d H:i:s', strtotime("$request->beginDate $request->beginTime"));
-        $combinedDTEnd = date('Y-m-d H:i:s', strtotime("$request->endDate $request->endTime"));
-        $event->start = $combinedDTBegin;
-        $event->end = $combinedDTEnd;
+        $event->start = $combinatedBeginDateAndTime;
+        $event->end = $combinatedEndDateAndTime;
         $event->save();
         return redirect()->back()->with('message', 'Success! Event was updated!');
 
     }
 
-    public function destroy($user, $id){
+    public function destroyEvent($user, $id){
         $event = Event::findOrFail($id);
-        if($user != $event->users_id){
-            return view('home');
-        }
+        EventController::verifyIfUserEventOwnerEqualUserAuthID($event->users_id, $user);
         $event->delete();
         return redirect()->route('events.myevents', compact('user'))->with('message', 'Success! Event was deleted.!');
     }
      
-    public function todayEvents(){
+    public function getTodayEventsList(){
         $date = date('Y-m-d');
         $events = Event::whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->orderBy('start')->paginate(6);
         return view('home', compact('events'));
     }
 
-    public function nextFiveDays(){
+    public function getNextFiveDaysEventsList(){
         $date = date('Y-m-d');
         $fiveDays = date('Y-m-d', strtotime('+5 day'));
-        //$events = Event::whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays)->get();
-        $events = Event::where(function($q) use ($date, $fiveDays){
-                $q->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
+        $events = Event::where(function($response) use ($date, $fiveDays){
+                $response->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
             })
-            ->orWhere(function($q) use ($date, $fiveDays){
-                $q->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
+            ->orWhere(function($response) use ($date, $fiveDays){
+                $response->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
             })
-            ->orWhere(function($q) use ($date, $fiveDays){
-                $q->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
+            ->orWhere(function($response) use ($date, $fiveDays){
+                $response->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
             })
             ->orderBy('start')
             ->paginate(6);
+
         return view('events.fiveDays', compact('events'));
     }
 
-    public function myEvents(){
-
-        if (!Auth::id()){
-            return view('home');
-        }
+    public function getMyEventsList(){
+        EventController::verifyAuthExists();
 
         $events = Event::where('users_id', Auth::id())->orderBy('created_at', 'DESC')->paginate(6);
         return view('events.myevents', compact('events'));
     }
 
-    public function allEvents(){
+    public function getAllEventsList(){
         $events = DB::table('events')->orderBy('start')->paginate(6);
         return view('events.allevents', compact('events'));
     }
 
-    public function export($archive, $type){
-        if($type=='all'){
-            $events = Event::select('title', 'description', 'start', 'end')->orderBy('start')->get();
-        }
-        else if($type=='today'){
-            $date = date('Y-m-d');
-            $events = Event::select('title', 'description', 'start', 'end')->whereDate('start', '<=', $date)->whereDate('end', '>=', $date)->orderBy('start')->get();
-        }
-        else if($type=='fiveDays'){
-            $date = date('Y-m-d');
-            $fiveDays = date('Y-m-d', strtotime('+5 day'));
-            //$events = Event::whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays)->get();
-            $events = Event::select('title', 'description', 'start', 'end')
-                ->where(function($q) use ($date, $fiveDays){
-                    $q->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
-                })
-                ->orWhere(function($q) use ($date, $fiveDays){
-                    $q->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
-                })
-                ->orWhere(function($q) use ($date, $fiveDays){
-                    $q->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
-                })
-                ->orderBy('start')
-                ->get();
-        }
-        else if($type=='my'){
-            if (!Auth::id()){
-                return view('home');
-            }
-    
-            $events = Event::select('title', 'description', 'start', 'end')->where('users_id', Auth::id())->orderBy('created_at', 'DESC')->get();
-        }
-
+    public function exportListOfEvents($archive, $type){
+        $events = EventController::verifyTypeAndReturnListOfEvents($type);
         if(!isset($events)){
             return view('home');
         }
@@ -167,62 +137,157 @@ class EventController extends Controller
         })->export($archive);
   
     }
-
-    
-    public function importCSVindex(){
+ 
+    public function importCsvView(){
         $events_created = [];
         return view('import', compact('events_created'));
     }
 
-    public function importCSV(Request $request){
-        if (!Auth::id()){
-            return view('home');
-        }
-        $validator = Validator::make($request->all(), EventController::rules_csv());
+    public function storeImportedCSV(Request $request){
+        EventController::verifyAuthExists();
+
+        $validator = Validator::make($request->all(), EventController::rulesCsvFile());
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
-        }   
-
-        $path = $request->file('csv_file')->getRealPath();
-       
-        $data = Excel::load($path, function($reader) {})->get()->toArray();
-        // ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/plain"
-        if (count($data) > 0) {
-            $csv_header_fields = [];
-            foreach ($data[0] as $key => $value) {
-                $csv_header_fields[] = $key;
-            }
-            if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
-                return redirect()->back()->with('error', 'CSV without valid header!');;
-            } 
-            //$csv_data = array_slice($data, 0, 2);
-           
-            foreach($data as $info){
-                $validator = Validator::make($info, EventController::rules_importCSV());
-                
-                if ($validator->fails()) {
-                    return redirect()->back()->with('error', 'CSV file have fields in wrong format.');
-                }
-
-                $events_created[]=Event::create([
-                    'title' => $info['title'],
-                    'description' => $info['description'],
-                    'start' => $info['start'],
-                    'end' => $info['end'],
-                    'users_id' => Auth::id()
-                ]);
-            }  
         }
-        else {
-            return redirect()->back()->with('error', 'Empty Archive!');;
-        } 
+
+        $data = Excel::load($request->file('csv_file')->getRealPath(), function($reader) {})->get()->toArray();
+        $allowedfileExtension=['csv','xls','txt'];
+        $extension = $request->file('csv_file')->getClientOriginalExtension();
+        $check=in_array($extension,$allowedfileExtension);
+
+        if(!$check){
+            return redirect()->back()->with('error', 'File with invalid extension!');
+        }
+        if (count($data) <= 0) {
+            return redirect()->back()->with('error', 'Empty Archive!');
+        }
+
+        $csv_header_fields = EventController::takeCsvHeaderFields($data[0]);
+        
+        if(count($csv_header_fields)!=4){
+            return redirect()->back()->with('error', 'CSV without valid header!');
+        }
+        if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' 
+        || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
+            return redirect()->back()->with('error', 'CSV without valid header!');
+        }
+        
+        foreach($data as $info){
+            $validator = Validator::make($info, EventController::rulesCsvImportedCreate());
+            
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', 'CSV file have fields in wrong format.');
+            }
+
+            $events_created[]=Event::create([
+                'title' => $info['title'],
+                'description' => $info['description'],
+                'start' => $info['start'],
+                'end' => $info['end'],
+                'users_id' => Auth::id()
+            ]);
+        }  
+        
         
         return view('import', compact('events_created'));
     }
 
+    public function verifyAuthExists (){
+        if (!Auth::id()){
+            return view('home');
+        }
+        return;
+    }
+    public function verifyValidatorError($validator){
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+        return;
+    }
 
-    public function rules(){
+    public function combineDateAndTimeInUniqueVariable($date, $hour){
+        return date('Y-m-d H:i:s', strtotime("$date $hour"));
+    }
+
+    public function verifyIfEndDateIsMinorBeginDate($begin, $end){
+        if($end < $begin){
+            return redirect()->back()->with('error', 'When the the end date and begin date are equal, the end hour must be a hour after or equal to begin hour.');
+        }
+        return;
+    }
+    
+    public function verifyCsvHeaderFields($csv_header_fields){
+        if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
+            return redirect()->back()->with('error', 'CSV without valid header!');;
+        }
+        return;
+    }
+
+    public function verifyIfUserEventOwnerEqualUserAuthID($EventUser, $AuthID){
+        if ($EventUser!= $AuthID){
+            return view('home');
+        }
+        return;
+    }
+
+    public function verifyTypeAndReturnListOfEvents($type){
+        if($type=='all'){
+            return Event::select('title', 'description', 'start', 'end')
+                ->orderBy('start')
+                ->get();
+        }
+        else if($type=='today'){
+            $date = date('Y-m-d');
+            return Event::select('title', 'description', 'start', 'end')
+                ->whereDate('start', '<=', $date)
+                ->whereDate('end', '>=', $date)
+                ->orderBy('start')
+                ->get();
+        }
+        else if($type=='fiveDays'){
+            $date = date('Y-m-d');
+            $fiveDays = date('Y-m-d', strtotime('+5 day'));
+            return Event::select('title', 'description', 'start', 'end')
+                ->where(function($response) use ($date, $fiveDays){
+                    $response->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
+                })
+                ->orWhere(function($response) use ($date, $fiveDays){
+                    $response->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
+                })
+                ->orWhere(function($response) use ($date, $fiveDays){
+                    $response->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
+                })
+                ->orderBy('start')
+                ->get();
+        }
+        else if($type=='my'){
+            EventController::verifyAuthIDExists();
+            return Event::select('title', 'description', 'start', 'end')
+                ->where('users_id', Auth::id())
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        }
+        return;
+    }
+
+    public function takeCsvHeaderFields($data){
+        $csv_header_fields = [];
+        foreach ($data as $key => $value) {
+            $csv_header_fields[] = $key;
+        }
+        return $csv_header_fields;
+    }
+
+    public function verifyAuthIDExists(){
+        if (!Auth::id()){
+            return view('home');
+        }
+        return;
+    }
+
+    public function rulesEventsData(){
         return [
             'title' => 'required|max:250',
             'description' => 'required|max:5000',
@@ -233,7 +298,7 @@ class EventController extends Controller
         ];
     }
 
-    public function rules_importCSV(){
+    public function rulesCsvImportedCreate(){
         return [
             'title' => 'required|max:250',
             'description' => 'required|max:5000',
@@ -243,8 +308,7 @@ class EventController extends Controller
     }
 
 
-    public function rules_csv()
-    {
+    public function rulesCsvFile(){
         return [
             'csv_file' => 'required|file'
         ];

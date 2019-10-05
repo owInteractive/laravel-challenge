@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light py-3" id="sideNav">
     <div class="container">
-      <a class="nav-link js-scroll-trigger" href="{{ url('/') }}">Events</a>
+      <a class="nav-link js-scroll-trigger" href="{{ url('/') }}">Today'sEvents</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -28,9 +28,6 @@
                         <a class="dropdown-item" href="{{ url('/allEvents') }}">
                             All Events
                         </a>    
-                        <a class="dropdown-item" href="{{ url('/') }}">
-                            Today Events
-                        </a>
                         <a class="dropdown-item" href="{{ url('/eventsNext') }}">
                             Next Five Days Events
                         </a> 
