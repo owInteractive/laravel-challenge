@@ -10,6 +10,7 @@
 </head>
 @section('content')
 <div class="container card">
+    @include('layouts.messages')
     <h1 class="text-center">{{$event->title}}</h1>
 
     <p class="text-center">Description: {!! nl2br(e($event->description)) !!}</p>

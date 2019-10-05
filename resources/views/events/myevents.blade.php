@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <h1 class="text-center">My Events</h1>
+    @include('layouts.messages')
     <div class="card-group">
         <div class="col-lg-12">
             <div class="row">

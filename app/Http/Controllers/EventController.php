@@ -37,7 +37,7 @@ class EventController extends Controller
 
         $event->save();
 
-        return redirect()->back()->with('message', 'Success! Event was created.');
+        return redirect()->route('events.myevents', ['user'=>Auth::id()])->with('message', 'Success! Event was created.');
 
     }
 
@@ -77,7 +77,7 @@ class EventController extends Controller
         $event->start = $combinatedBeginDateAndTime;
         $event->end = $combinatedEndDateAndTime;
         $event->save();
-        return redirect()->back()->with('message', 'Success! Event was updated!');
+        return redirect()->route('events.show', ['id'=>$event->id])->with('message', 'Success! Event was updated!');
 
     }
 
