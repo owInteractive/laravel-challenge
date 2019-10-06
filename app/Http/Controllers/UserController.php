@@ -10,9 +10,7 @@ use App\Models\User;
 class UserController extends Controller
 {
     public function myProfile(){
-        if (!Auth::id()){
-            return view('home');
-        }
+        UserController::verifyAuthIDExists();
 
         $user = User::findOrFail(Auth::id());
         return view('users.myprofile', compact('user'));
@@ -21,16 +19,12 @@ class UserController extends Controller
     public function updateUser (Request $request, $user){
         $validator = Validator::make($request->all(), UserController::rulesUser($user));
 
-        if ($user != Auth::id()){
-            return view('home');
-        }
+        UserController::verifyAuthIDExists();
       
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
         
-
-
         $localUser = User::findOrFail($user);
 
         $localUser->name = $request->name;
@@ -41,12 +35,17 @@ class UserController extends Controller
     }
 
     public function destroyUser($user){
-        if ($user != Auth::id()){
-            return view('home');
-        }
+        UserController::verifyAuthIDExists();
         $localUser = User::findOrFail($user);
         $localUser->delete();
         return redirect()->route('home')->with('error', 'User was deleted.');
+    }
+
+    public function verifyAuthIDExists(){
+        if (!Auth::id()){
+            return view('home');
+        }
+        return;
     }
 
     public function rulesUser($email){

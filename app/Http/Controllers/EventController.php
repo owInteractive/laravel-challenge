@@ -18,7 +18,6 @@ class EventController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
-        
 
         $combinatedBeginDateAndTime = EventController::combineDateAndTimeInUniqueVariable($request->beginDate, $request->beginTime);
         $combinatedEndDateAndTime = EventController::combineDateAndTimeInUniqueVariable($request->endDate, $request->endTime);
@@ -190,33 +189,11 @@ class EventController extends Controller
             ]);
         }  
         
-        
         return view('import', compact('events_created'));
-    }
-
-    public function verifyValidatorError($validator){
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
-        return;
     }
 
     public function combineDateAndTimeInUniqueVariable($date, $hour){
         return date('Y-m-d H:i:s', strtotime("$date $hour"));
-    }
-
-    public function verifyIfEndDateIsMinorBeginDate($begin, $end){
-        if($end < $begin){
-            return redirect()->back()->with('error', 'When the the end date and begin date are equal, the end hour must be a hour after or equal to begin hour.');
-        }
-        return;
-    }
-    
-    public function verifyCsvHeaderFields($csv_header_fields){
-        if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
-            return redirect()->back()->with('error', 'CSV without valid header!');;
-        }
-        return;
     }
 
     public function verifyIfUserEventOwnerEqualUserAuthID($EventUser, $AuthID){
@@ -228,40 +205,16 @@ class EventController extends Controller
 
     public function verifyTypeAndReturnListOfEvents($type){
         if($type=='all'){
-            return Event::select('title', 'description', 'start', 'end')
-                ->orderBy('start')
-                ->get();
+            return EventController::getAllEventsListToExport();
         }
         else if($type=='today'){
-            $date = date('Y-m-d');
-            return Event::select('title', 'description', 'start', 'end')
-                ->whereDate('start', '<=', $date)
-                ->whereDate('end', '>=', $date)
-                ->orderBy('start')
-                ->get();
+            return EventController::getTodayEventsListToExport();
         }
         else if($type=='fiveDays'){
-            $date = date('Y-m-d');
-            $fiveDays = date('Y-m-d', strtotime('+5 day'));
-            return Event::select('title', 'description', 'start', 'end')
-                ->where(function($response) use ($date, $fiveDays){
-                    $response->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
-                })
-                ->orWhere(function($response) use ($date, $fiveDays){
-                    $response->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
-                })
-                ->orWhere(function($response) use ($date, $fiveDays){
-                    $response->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
-                })
-                ->orderBy('start')
-                ->get();
+            return EventController::getNextFiveDaysEventsListToExport();
         }
         else if($type=='my'){
-            EventController::verifyAuthIDExists();
-            return Event::select('title', 'description', 'start', 'end')
-                ->where('users_id', Auth::id())
-                ->orderBy('created_at', 'DESC')
-                ->get();
+            return EventController::getMyEventsListToExport();
         }
         return;
     }
@@ -272,6 +225,45 @@ class EventController extends Controller
             $csv_header_fields[] = $key;
         }
         return $csv_header_fields;
+    }
+
+    public function getTodayEventsListToExport(){
+        $date = date('Y-m-d');
+        return Event::select('title', 'description', 'start', 'end')
+        ->whereDate('start', '<=', $date)
+        ->whereDate('end', '>=', $date)
+        ->orderBy('start')
+        ->get();
+    }
+
+    public function getAllEventsListToExport(){
+        return Event::select('title', 'description', 'start', 'end')
+        ->orderBy('start')
+        ->get();
+    }
+    public function getNextFiveDaysEventsListToExport(){
+        $date = date('Y-m-d');
+        $fiveDays = date('Y-m-d', strtotime('+5 day'));
+        return Event::select('title', 'description', 'start', 'end')
+            ->where(function($response) use ($date, $fiveDays){
+                $response->whereDate('start', '>=', $date)->whereDate('start', '<=', $fiveDays);
+            })
+            ->orWhere(function($response) use ($date, $fiveDays){
+                $response->whereDate('end', '>=', $date)->whereDate('end', '<=', $fiveDays);
+            })
+            ->orWhere(function($response) use ($date, $fiveDays){
+                $response->whereDate('start', '<', $date)->whereDate('end', '>=', $fiveDays);
+            })
+            ->orderBy('start')
+            ->get();
+    }
+
+    public function getMyEventsListToExport(){
+        EventController::verifyAuthIDExists();
+        return Event::select('title', 'description', 'start', 'end')
+            ->where('users_id', Auth::id())
+            ->orderBy('created_at', 'DESC')
+            ->get();
     }
 
     public function verifyAuthIDExists(){
