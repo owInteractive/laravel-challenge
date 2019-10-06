@@ -30,7 +30,7 @@
         </div>
         
         <div class="container d-flex justify-content-center display-inline">
-            <button type="submit" id="submit" class="btn btn-secondary"> Save </button>
+            <button type="submit" id="submit" class="btn btn-secondary"> Create </button>
         </div>
 
     </form>
