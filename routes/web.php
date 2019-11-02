@@ -12,5 +12,39 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
+});
+
+Auth::routes();
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+
+    Route::get('/change-password', 'HomeController@showChangePasswordForm');
+
+    Route::post('/change-password', 'HomeController@changePassword')
+        ->name('change-password');
+
+    Route::get('/my-account', 'HomeController@myAccount')
+        ->name('my.account.get');
+
+    Route::post('/my-account', 'HomeController@myAccount')
+        ->name('my.account.post');
+
+    Route::get('/dashboard', 'HomeController@index')
+        ->name('dashboard');
+});
+
+
+
+Route::get('/', function () {
+    return redirect()->route('login');
+})->name('start');
+
+Route::get('refresh-csrf', function () {
+    return csrf_token();
+});
+
+Route::get('refresh-session', function () {
+    if (request()->session()->regenerate()) {
+        return 'Session renewed!';
+    }
 });
