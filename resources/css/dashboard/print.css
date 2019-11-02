@@ -1,0 +1,21 @@
+@media print {
+    * {
+        background: transparent;
+        color: #000;
+        text-shadow: none;
+        filter: none;
+        -ms-filter: none;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .container-fluid {
+        max-width: none;
+    }
+
+    .m-t-50 {
+        margin-top: 0px;
+    }
+}
