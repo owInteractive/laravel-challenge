@@ -35,7 +35,12 @@ return [
     'ResetPassword' => 'Resetar Senha',
     'MyAccount' => 'Minha Conta',
     'ChangePassword' => 'Alterar Senha',
-    'Logout' => 'Sair'
+    'Logout' => 'Sair',
+    'Title' => 'Titulo',
+    'Description' => 'Descrição',
+    'Start' => 'Começa em',
+    'End' => 'Termina em',
+    'Confirm' => 'Confirmar'
 
 
 

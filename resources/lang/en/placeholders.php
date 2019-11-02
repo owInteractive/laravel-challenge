@@ -15,5 +15,6 @@ return [
     'Password' => '*********',
     'ConfirmPassword' => '*********',
     'FullName' => 'Hans Rookmaaker',
-
+    'Title' => 'Enter event title',
+    'Description' => 'Enter event description',
 ];

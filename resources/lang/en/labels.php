@@ -29,6 +29,12 @@ return [
     'ChangePassword' => 'Change Password',
     'Logout' => 'Logout',
     'Update' => 'Update',
+    'Title' => 'Title',
+    'Description' => 'Description',
+    'Start' => 'Starts at',
+    'End' => 'Ends in',
+    'Confirm' => 'Confirm'
+
 
 
 

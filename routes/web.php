@@ -31,6 +31,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::get('/dashboard', 'HomeController@index')
         ->name('dashboard');
+
+    Route::resource('events', 'EventController');
+
+    Route::post('events/{id}/update', 'EventController@update')
+        ->name('events.patch');
 });
 
 

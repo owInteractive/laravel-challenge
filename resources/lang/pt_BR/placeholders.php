@@ -15,14 +15,7 @@ return [
     'Password' => 'Senha',
     'ConfirmPassword' => 'Repita a senha',
     'FullName' => 'Nome completo',
-    'Mobile' => '(00) 00000-0000',
-    'Codigo' => 'Inserir Código',
-    'Buscar' => 'Digite uma rua, bairro ou cidade...',
-    'CEP' => 'Digite o CEP da sua Rua',
-    'Neighborhood' => 'Informe o Bairro',
-    'Number' => 'Informe o Número ',
-    'PublicPlace' => 'Informe o Logradouro',
-    'City' => 'Informe a Cidade',
-    'State' => 'Informe o Estado',
+    'Title' => 'Digite o titulo do evento',
+    'Description' => 'Digite a descrição do evento',
 
 ];

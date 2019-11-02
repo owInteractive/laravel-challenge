@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $events = Auth::user()->events()->paginate();
+
+        $eventsToday = Auth::user()->events()->today()->get();
+
+        $nextEvents = Auth::user()->events()->next()->paginate();
+
+        return view('home', compact('events', 'eventsToday', 'nextEvents'));
     }
 
     /**
