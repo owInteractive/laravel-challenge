@@ -87,7 +87,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $("#mobile, #celular").mask("(00) 00000-0000");
-    </script>
+    
 @endsection

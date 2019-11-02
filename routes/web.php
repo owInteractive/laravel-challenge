@@ -36,6 +36,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::post('events/{id}/update', 'EventController@update')
         ->name('events.patch');
+
+    Route::get('/import/events', 'EventController@import')->name('events.import.get');
+
+    Route::post('/import/events', 'EventController@importCSV')->name('events.import');
+
+    Route::get('/export/{type}', 'EventController@downloadExcel')->name('events.export');
 });
 
 

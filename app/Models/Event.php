@@ -11,10 +11,10 @@ class Event extends Model
     use Blameable;
 
     protected $fillable = [
-        'title', 
-        'description', 
-        'start', 
-        'end', 
+        'title',
+        'description',
+        'start',
+        'end',
         'user_id'
     ];
 
@@ -33,11 +33,10 @@ class Event extends Model
         $today = Carbon::now();
 
         return $query->whereBetween('start', [$today->startOfDay()->toDateTimeString(), $today->endOfDay()->toDateTimeString()])
-        ->orWhereBetween('end', [$today->startOfDay()->toDateTimeString(), $today->endOfDay()->toDateTimeString()])
-        ->orderBy('start');
-
+            ->orWhereBetween('end', [$today->startOfDay()->toDateTimeString(), $today->endOfDay()->toDateTimeString()])
+            ->orderBy('start');
     }
-    
+
     /**
      * Returns events from next 5 days
      */
@@ -45,14 +44,18 @@ class Event extends Model
     {
         $today = Carbon::now();
 
-        return $query->whereBetween('start', 
-        [$today->addDay()->startOfDay()->toDateTimeString(), $today->addDays(5)->endOfDay()->toDateTimeString()])
-        ->orderBy('start');
-
+        return $query->whereBetween(
+            'start',
+            [$today->addDay()->startOfDay()->toDateTimeString(), $today->addDays(5)->endOfDay()->toDateTimeString()]
+        )
+            ->orderBy('start');
     }
 
 
+    public static function insertData($data)
+    {
 
-    
+        DB::table('users')->insert($data);
 
+    }
 }

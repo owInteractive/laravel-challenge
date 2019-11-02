@@ -8,8 +8,13 @@
             <h4 class="header-title mb-4">
                 All Events
 
-                ({{ $events->count()}})
+                ({{ $events->total()}})
             </h4>
+            <a href="{{ route('events.export', ['type' => 'csv']) }}"
+                class="pull-right btn btn-success w-md waves-effect waves-light mb-4">
+                <i class="mdi mdi-arrow-down"></i>
+                Export CSV
+            </a>
             <a href="{{ route('events.create') }}" class="pull-right btn btn-dark w-md waves-effect waves-light mb-4">
                 <i class="mdi mdi-plus-circle"></i>
                 New Event

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CsvImportRequest;
 use App\Models\Event;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Excel;
 
 class EventController extends Controller
 {
@@ -16,7 +17,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Auth::user()->events()->paginate();
+        $events = Auth::user()->events()->paginate(8);
 
         return view('events.index', compact('events'));
     }
@@ -49,7 +50,7 @@ class EventController extends Controller
         $event = Event::create($request->all());
 
 
-        return redirect('/admin/dashboard/')->with(['success' => 'Event Sent']);;
+        return redirect('/admin/dashboard/')->with(['success' => 'Successfully created event']);;
     }
 
     /**
@@ -87,9 +88,15 @@ class EventController extends Controller
         $event = Event::find($id);
 
         $event->update($request->all());
-        //dd('chegouaqui');
-        return redirect('/admin/dashboard/')->with(['success' => 'Event Sent']);
+
+        return redirect('/admin/dashboard/')->with(['success' => 'Event updated successfully']);
     }
+
+    public function import()
+    {
+        return view('events.import');
+    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -103,6 +110,58 @@ class EventController extends Controller
 
         $event->delete();
 
-        return back();
+        return back()->with('success', 'Deleted Record successfully.');
+    }
+
+   
+
+    /**
+     * Up CSV file
+     */
+
+    public function importCSV(CsvImportRequest $request)
+    {
+        
+        $path = $request->file('file')->getRealPath();
+
+        $data = Excel::load($path)->get();
+
+
+        if($data->count()){
+
+            foreach ($data as $value) {
+                
+                $value = new Event([
+                    'title' => $value->title,
+                    'description' => $value->description,
+                    'start' => $value->start,
+                    'end' => $value->end,
+                ]);
+
+                $value->save();
+                
+            }
+ 
+        }
+ 
+        return back()->with('success', 'Insert Record successfully.');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadExcel($type)
+    {
+       
+        $data = Event::get()->toArray();
+            
+        return Excel::create('my_events_ow_interactive', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
     }
 }

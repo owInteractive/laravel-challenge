@@ -10,8 +10,7 @@
 
                 ({{ $eventsToday->count()}})
             </h4>
-            <a href="{{ route('events.create') }}"
-                class="pull-right btn btn-dark w-md waves-effect waves-light mb-4">
+            <a href="{{ route('events.create') }}" class="pull-right btn btn-dark w-md waves-effect waves-light mb-4">
                 <i class="mdi mdi-plus-circle"></i>
                 New Event
             </a>
@@ -45,7 +44,7 @@
                             <td>
 
                                 {{ \Carbon\Carbon::parse($event->end)->diffForHumans() }}
-                                
+
                             </td>
 
                             <td>
@@ -60,9 +59,9 @@
                                         </a>
 
                                         <form action="{{ route('events.destroy', ['id' => $event->id])}}" method="post">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button title="Deletar" class="dropdown-item">Delete</button>
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                            <button title="Deletar" class="dropdown-item">Delete</button>
                                         </form>
 
                                     </div>
@@ -102,13 +101,21 @@
         <div class="card-box">
             <h4 class="header-title mb-4">
                 Next 5 days events
-                ({{ $nextEvents->count()}})
+                ({{ $nextEvents->total()}})
             </h4>
-            <a href="{{ route('events.index') }}"
-                class="pull-right btn btn-dark w-md waves-effect waves-light mb-4">
+
+            <a href="{{ route('events.export', ['type' => 'csv']) }}"
+                class="pull-right btn btn-success w-md waves-effect waves-light mb-4">
+                <i class="mdi mdi-arrow-down"></i>
+                Export CSV
+            </a>
+
+            <a href="{{ route('events.index') }}" class="pull-right btn btn-dark w-md waves-effect waves-light mb-4">
                 <i class="mdi mdi-more"></i>
                 See all
             </a>
+
+
             @if ($nextEvents->count() > 0)
             <div class="table-responsive">
                 <table class="table table-hover table-centered m-0">
@@ -153,9 +160,9 @@
                                         </a>
 
                                         <form action="{{ route('events.destroy', ['id' => $event->id])}}" method="post">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button title="Deletar" class="dropdown-item">Delete</button>
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                            <button title="Deletar" class="dropdown-item">Delete</button>
                                         </form>
 
                                     </div>
