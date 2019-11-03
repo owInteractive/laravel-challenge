@@ -51,11 +51,19 @@ class Event extends Model
             ->orderBy('start');
     }
 
-
-    public static function insertData($data)
+    /**
+     * Returns events that will still happen
+     */
+    public function scopeHappen($query)
     {
+        $today = Carbon::now();
 
-        DB::table('users')->insert($data);
+        return $query->where('start', '!=', $today)->where('start', '!=', $today->addDay())
+            ->orderBy('start');
+    }
 
+    public function invitations()
+    {
+        return $this->hasMany(Invite::class);
     }
 }

@@ -5,7 +5,7 @@
 
             <!-- Logo container-->
             <div class="logo">
-                <a href="{{ route('start') }}" class="logo">
+                <a href="{{ route('dashboard') }}" class="logo">
                     <span class="logo-small">{{config('app.name') }}</span>
                     <span class="logo-large">{{config('app.name') }}</span>
                 </a>
@@ -89,9 +89,13 @@
                     </li>
 
                     <li class="has-submenu">
-                        <a href="javascript:void(0)">
-                            <i class="icon-people"></i>Convide amigos
-                            <i class="fa fa-warning text-warning"></i>
+                        <a href="#">
+                            <i class="icon-people"></i>Invite
+                            <ul class="submenu">
+                                <li><a href="{{route('events.invite', ['status' => 'will-happen'])}}">See All</a> </li>
+                                <li><a href="{{route('invites.for.me')}}">For Me</a> </li>
+                            </ul>
+                            
                         </a>
                     </li>
 

@@ -15,11 +15,14 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status = null)
     {
-        $events = Auth::user()->events()->paginate(8);
+        
+        $events = $status != null ? Auth::user()->events()->happen()->paginate(8) : Auth::user()->events()->paginate(8);
 
-        return view('events.index', compact('events'));
+        
+
+        return view('events.index', compact('events', 'status'));
     }
 
     /**
@@ -50,7 +53,7 @@ class EventController extends Controller
         $event = Event::create($request->all());
 
 
-        return redirect('/admin/dashboard/')->with(['success' => 'Successfully created event']);;
+        return redirect('/admin/dashboard/')->with(['success' => 'Successfully created event']);
     }
 
     /**

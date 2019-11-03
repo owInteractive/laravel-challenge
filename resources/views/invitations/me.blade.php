@@ -6,20 +6,13 @@
     <div class="col-lg-12">
         <div class="card-box">
             <h4 class="header-title mb-4">
-                All Events
+                Invitations for me
 
-                ({{ $events->total()}})
+                ({{ $invitations->total()}})
             </h4>
-            <a href="{{ route('events.export', ['type' => 'csv']) }}"
-                class="pull-right btn btn-success w-md waves-effect waves-light mb-4">
-                <i class="mdi mdi-arrow-down"></i>
-                Export CSV
-            </a>
-            <a href="{{ route('events.create') }}" class="pull-right btn btn-dark w-md waves-effect waves-light mb-4">
-                <i class="mdi mdi-plus-circle"></i>
-                New Event
-            </a>
-            @if ($events->count() > 0)
+
+
+            @if ($invitations->count() > 0)
             <div class="table-responsive">
                 <table class="table table-hover table-centered m-0">
 
@@ -32,23 +25,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($events as $event)
+                        @foreach ($invitations as $invitation)
 
                         <tr>
                             <td>
 
-                                {{$event->title}}
+                                {{$invitation->event->title}}
                             </td>
 
                             <td>
 
-                                {{ \Carbon\Carbon::parse($event->start)->diffForHumans() }}
+                                {{ \Carbon\Carbon::parse($invitation->event->start)->diffForHumans() }}
 
                             </td>
 
                             <td>
 
-                                {{ \Carbon\Carbon::parse($event->end)->diffForHumans() }}
+                                {{ \Carbon\Carbon::parse($invitation->event->end)->diffForHumans() }}
                             </td>
 
                             <td>
@@ -58,23 +51,15 @@
                                         <i class="icon-options-vertical"></i>
                                     </a>
                                     <div class="dropdown-menu">
-                                        @if ($status == 'will-happen')
 
-                                            <a href="{{ route('invite', ['id' => $event->id])}}" class="dropdown-item">
-                                                Send
-                                            </a>
-
+                                        @if ($invitation->presence == true)
+                                            <a href="#" class="dropdown-item">
+                                                No actions
+                                            </a>    
                                         @else
-
-                                            <a href="{{ route('events.edit', ['id' => $event->id])}}" class="dropdown-item">
-                                                Edit
+                                            <a href="{{ route('accept', ['token' => $invitation->token])}}" class="dropdown-item">
+                                                Accept
                                             </a>
-
-                                            <form action="{{ route('events.destroy', ['id' => $event->id])}}" method="post">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button title="Deletar" class="dropdown-item">Delete</button>
-                                            </form>
                                         @endif
 
                                     </div>
@@ -90,7 +75,7 @@
 
             </div>
             <div class="m-t-30" style="display: inline-grid;">
-                {{ $events->links() }}
+                {{ $invitations->links() }}
             </div>
 
             @else

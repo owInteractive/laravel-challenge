@@ -104,6 +104,7 @@
                 ({{ $nextEvents->total()}})
             </h4>
 
+            @if ($nextEvents->count() > 0)
             <a href="{{ route('events.export', ['type' => 'csv']) }}"
                 class="pull-right btn btn-success w-md waves-effect waves-light mb-4">
                 <i class="mdi mdi-arrow-down"></i>
@@ -116,7 +117,7 @@
             </a>
 
 
-            @if ($nextEvents->count() > 0)
+            
             <div class="table-responsive">
                 <table class="table table-hover table-centered m-0">
 

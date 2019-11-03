@@ -15,8 +15,12 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+
+    Route::get('/', function () {
+        return redirect('/dashboard');
+    });
 
     Route::get('/change-password', 'HomeController@showChangePasswordForm');
 
@@ -42,13 +46,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::post('/import/events', 'EventController@importCSV')->name('events.import');
 
     Route::get('/export/{type}', 'EventController@downloadExcel')->name('events.export');
+
+    Route::get('events/invite/{status?}', 'EventController@index')
+        ->name('events.invite');
+
+    Route::get('/invite/{id}', 'InviteController@invite')->name('invite');
+
+    Route::get('/invites/for-me', 'InviteController@forMe')->name('invites.for.me');
+
+    Route::post('process', 'InviteController@process')->name('process');
+
+    Route::get('accept/{token}', 'InviteController@accept')->name('accept');
 });
-
-
-
-Route::get('/', function () {
-    return redirect()->route('login');
-})->name('start');
 
 Route::get('refresh-csrf', function () {
     return csrf_token();
