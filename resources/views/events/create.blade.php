@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <form class="form" method="POST" action="{{ route('register') }}">
+            <form class="form" method="POST" action="{{ route('events.store') }}">
                 {{ csrf_field() }}
                 <div class="panel panel-default">
                     <div class="panel-heading">Create an event</div>
@@ -21,7 +21,7 @@
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                             <label for="description">Description</label>
-                            <textarea id="description" class="form-control" name="description" value="{{ old('description') }}" required></textarea>
+                            <textarea id="description" class="form-control" name="description">{{ old('description') }}</textarea>
                             @if ($errors->has('description'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('description') }}</strong>

@@ -19,6 +19,16 @@ class Event extends Model
      * Get the event's owner
      */
     public function owner() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public static function boot() {
+
+        parent::boot();
+    
+        static::creating(function($event) {
+            $event->user_id = auth()->user()->id;
+        });  
+        
     }
 }

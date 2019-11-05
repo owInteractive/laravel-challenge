@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEventRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-        //
+        return view('events.index', [ 'events' => Event::all() ]);
     }
 
     /**
@@ -42,9 +43,11 @@ class EventsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEventRequest $request)
     {
-        //
+        $event = Event::create($request->all());
+       
+        return redirect()->route('events.index')->with('flash_message', 'Evente Created');
     }
 
     /**
