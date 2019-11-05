@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Carbon\Carbon as Carbon;
 
 class EventsController extends Controller
 {
@@ -24,9 +25,17 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Event::latest()->paginate(15);
+        $user = auth()->user();
 
-        return view('events.index', [ 'events' => $events ]);
+        $events = Event::creator($user)->latest()->paginate(15);
+        $events_today = Event::creator($user)->today()->get();
+        $events_next = Event::creator($user)->nextDays(5)->get();
+
+        return view('events.index', [ 
+            'events' => $events,
+            'events_today' => $events_today,
+            'events_next' => $events_next
+        ]);
     }
 
     /**
