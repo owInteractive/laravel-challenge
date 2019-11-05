@@ -24,7 +24,9 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return view('events.index', [ 'events' => Event::all() ]);
+        $events = Event::latest()->paginate(15);
+
+        return view('events.index', [ 'events' => $events ]);
     }
 
     /**
@@ -46,8 +48,10 @@ class EventsController extends Controller
     public function store(StoreEventRequest $request)
     {
         $event = Event::create($request->all());
-       
-        return redirect()->route('events.index')->with('flash', 'Event Created');
+        
+        session()->flash('message','Event created.');
+        
+        return redirect()->route('events.index');
     }
 
     /**

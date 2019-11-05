@@ -24,7 +24,7 @@ class StoreEventRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:255',
+            'title' => 'required|max:100',
             'description' => 'required',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after_or_equal:start_at',

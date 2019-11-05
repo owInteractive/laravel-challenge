@@ -70,9 +70,14 @@
                 </div>
             </div>
         </nav>
-        @if (session('flash'))
-            <div class="alert alert-info">{{ session('flash') }}</div>
-        @endif 
+        
+        <div class="container">
+            @if ($flash = session('message'))
+                <div class="alert alert-success" role="alert">
+                    {{ $flash }}
+                </div>
+            @endif 
+        </div>
 
         @yield('content')
     </div>

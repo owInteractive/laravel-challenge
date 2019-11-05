@@ -1,10 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    @foreach ($events as $event)
-        <h1>{{$event->title}}</h1>
-        <small>{{ $event->start_at }} - {{ $event->end_at }}</small>
-        <p>{{$event->description}}</p>
+    <div class="container">
+        <h1>All Events</h1>
+        @foreach ($events as $event)
+            @component('events.components.event')
+                @slot('heading')
+                    {{$event->title}}                
+                @endslot
 
-    @endforeach
+                @slot('body')
+                    <p>{{$event->short_description}}</p>
+                    <small>{{ $event->start_at->format('d/m/Y') }} to {{ $event->end_at->format('d/m/Y') }}</small>
+                @endslot
+
+            @endcomponent
+        @endforeach
+        {{ $events->links() }}
+    </div>  
 @endsection

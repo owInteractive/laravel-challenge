@@ -15,6 +15,10 @@ class Event extends Model
         'title', 'description', 'start_at', 'end_at',
     ];
 
+    protected $dates = [
+        'start_at','end_at'
+    ];
+
     /**
      * Get the event's owner
      */
@@ -29,6 +33,10 @@ class Event extends Model
         static::creating(function($event) {
             $event->user_id = auth()->user()->id;
         });  
-        
+    }
+
+    public function getShortDescriptionAttribute()
+    {
+        return str_limit($this->description, 150, '...');
     }
 }
