@@ -70,8 +70,8 @@
                 </div>
             </div>
         </nav>
-        @if (session('status'))
-            <div class="alert alert-info">{{ session('status') }}</p>
+        @if (session('flash'))
+            <div class="alert alert-info">{{ session('flash') }}</div>
         @endif 
 
         @yield('content')

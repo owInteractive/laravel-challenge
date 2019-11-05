@@ -47,7 +47,7 @@ class EventsController extends Controller
     {
         $event = Event::create($request->all());
        
-        return redirect()->route('events.index')->with('flash_message', 'Evente Created');
+        return redirect()->route('events.index')->with('flash', 'Event Created');
     }
 
     /**
