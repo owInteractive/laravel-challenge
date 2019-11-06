@@ -18,5 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/events/{event}/invite', 'EventsController@invite')->name('events.invite');
 Route::resource('events','EventsController');
 Route::resource('users', 'UsersController');

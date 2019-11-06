@@ -17,7 +17,9 @@
                         <a href="{{route('events.edit', $event->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Event</a>
                     @endcan
                     @can('invite', $event)
-                        <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Invite attendee</a>
+                        <a href="" class="btn btn-primary" data-toggle="modal" data-target="#modalInvite">
+                            <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Invite attendee
+                        </a>
                     @endcan
                     @can('delete', $event)
                         <a href="" id="delete-event" class="pull-right btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a>
@@ -90,7 +92,36 @@
                 @endif               
             </div>           
         </div>
-    </div>  
+    </div>
+
+    <div class="modal fade" id="modalInvite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <form method="POST" action="{{route('events.invite', $event->id)}}">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Invite a friend to this event</h4>
+                </div>
+                <div class="modal-body">
+                    {{ method_field('POST') }}
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="Insert a valid email">
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"><span aria-hidden="true" class="glyphicon glyphicon-send"></span> Send invite</button>
+                </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div>
 @endsection
 
 @section('scripts')

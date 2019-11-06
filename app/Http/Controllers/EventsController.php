@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
 
@@ -119,5 +120,24 @@ class EventsController extends Controller
         session()->flash('message','Event has been deleted.');
 
         return redirect()->route('events.index');
+    }
+
+    public function invite(Request $request, Event $event)
+    {
+        $this->authorize('invite', $event);
+
+        $email = request('email');
+
+        $user = User::where('email', $email)->where('email','!=', auth()->user()->email)->first();
+
+        if($user) {
+            $user->receiveInvite($event);
+        } else {
+
+        }
+        
+        session()->flash('message', 'The invitation was sent by email.');
+
+        return redirect()->route('events.show', $event->id);
     }
 }

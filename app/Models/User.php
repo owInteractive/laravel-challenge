@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\EventInviteNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -42,6 +43,13 @@ class User extends Authenticatable
     public function registrationEvents()
     {
         return $this->belongsToMany(Event::class,'registrations')->using(Registration::class)->withTimestamps();;
+    }
+
+    /**
+     * Notify the user about invites
+     */
+    public function receiveInvite($event) {
+        $this->notify(new EventInviteNotification($event));
     }
 
 }
