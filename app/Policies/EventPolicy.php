@@ -40,7 +40,7 @@ class EventPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**

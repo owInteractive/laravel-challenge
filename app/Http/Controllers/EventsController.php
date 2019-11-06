@@ -8,7 +8,6 @@ use App\Models\Event;
 use App\Models\Invite;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Carbon\Carbon as Carbon;
 
 class EventsController extends Controller
 {
