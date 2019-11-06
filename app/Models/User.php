@@ -33,4 +33,15 @@ class User extends Authenticatable
     public function events() {
         return $this->hasMany(Event::class);
     }
+
+    /**
+     * Get the event's attendees
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function registrationEvents()
+    {
+        return $this->belongsToMany(Event::class,'registrations')->using(Registration::class)->withTimestamps();;
+    }
+
 }

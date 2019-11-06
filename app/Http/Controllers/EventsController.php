@@ -68,6 +68,7 @@ class EventsController extends Controller
      */
     public function show(Event $event)
     {
+        // dd($event->attendees->toArray());
         return view('events.show', ['event' => $event]);
     }
 

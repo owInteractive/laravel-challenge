@@ -35,6 +35,16 @@ class Event extends Model
     }
 
     /**
+     * Get the event's attendees
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function attendees()
+    {
+        return $this->belongsToMany(User::class,'registrations')->using(Registration::class)->withTimestamps();
+    }
+
+    /**
      * Boot
      */
     public static function boot() {

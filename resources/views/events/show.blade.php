@@ -45,11 +45,49 @@
         </div>
         <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">Participants (0)</div>
-                <div class="panel-body text-center">
-                    <h4>There is no attendee for this event</h4>
-                    <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Invite attendee for this event</a>
-                </div>
+                <div class="panel-heading">Attendees ({{count($event->attendees)}})</div>
+                @if(count($event->attendees)>0)
+                    <div class="panel-body">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Subscribed at</th>
+                                    <!-- <th>Actions</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($event->attendees as $attendee)
+                                    <tr>
+                                        <td>
+                                            <a href="{{route('events.show', $event->id)}}">{{ $attendee->name }}</a>
+                                        </td>
+                                        <td class="text">
+                                            <a href="{{route('events.show', $event->id)}}">
+                                            <span>{{ $attendee->email }}</span>
+                                            </a>
+                                        </td>
+                                        <td>{{$attendee->pivot->created_at}}</td>
+                                        <!-- <td>
+                                            @can('update', $event)
+                                                Edit
+                                            @endcan
+                                        </td> -->
+                                    </tr>
+                                @endforeach    
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                @else
+                    <div class="panel-body text-center">
+                        <h4>There is no attendee for this event yet.</h4>
+                        @can('invite', $event)
+                        <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Invite attendee for this event</a>
+                        @endcan
+                    </div>
+                @endif               
             </div>           
         </div>
     </div>  
