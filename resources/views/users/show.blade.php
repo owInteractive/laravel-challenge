@@ -10,13 +10,35 @@
             </ol>        
         </div>
         <div class="row">
-            <div class="panel panel-default">
-                {{$user->name}}
+            <div class="panel {{ (auth()->user() == $user) ? 'panel-primary': 'panel-default' }}">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Details
+                    @if(auth()->user() == $user )
+                       <strong>(YOU)</strong>
+                    @endif
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12"><strong>User Name:</strong> {{ $user->name }}</div>
+                        <div class="col-md-12"><strong>Email: </strong>{{ $user->email }}</div>
+                        <div class="col-md-12"><strong>Member since: </strong>{{ $user->created_at->format('d/m/Y h:m:s') }}</div>
+                        <div class="col-md-12"><strong>Last update: </strong>{{ $user->updated_at->format('d/m/Y h:m:s') }}</div>
+                    </div><br>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if(auth()->user() == $user )
+                                <a href="" class="btn btn-primary">Update my profile</a>
+                            @endif
+                        </div>
+                    </div>
+                    
+                </div>
             </div>           
         </div>
         <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">Events ({{count($user->events)}})</div>
+            <div class="panel {{ (auth()->user() == $user) ? 'panel-primary': 'panel-default' }}">
+                <div class="panel-heading"><span aria-hidden="true" class="glyphicon glyphicon-calendar"></span> Events ({{count($user->events)}})</div>
                 <div class="panel-body">
                     @isset($events)
                         <table class="table table-striped table-condensed">
