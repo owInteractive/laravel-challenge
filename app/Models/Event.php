@@ -76,7 +76,7 @@ class Event extends Model
     public function scopeCreator($query, $creator)
     {   
         try{
-            return $query->where('user_id', '>=', $creator->id);
+            return $query->where('user_id', '=', $creator->id);
         } catch(Exception $e) {
             throw new Exception('Creator must be an instance of App\Models\User');
         }

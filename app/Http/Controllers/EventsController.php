@@ -55,7 +55,7 @@ class EventsController extends Controller
     {
         $event = Event::create($request->all());
         
-        session()->flash('message','Event created.');
+        session()->flash('message','Event has been created.');
         
         return redirect()->route('events.edit', $event->id);
     }
@@ -79,6 +79,8 @@ class EventsController extends Controller
      */
     public function edit(Event $event)
     {
+        $this->authorize('update', $event);
+
         return view('events.edit', ['event' => $event]);
     }
 
@@ -90,11 +92,13 @@ class EventsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateEventRequest $request, Event $event)
-    {
+    {   
+        $this->authorize('update', $event);
+        
         $event->update($request->all());
         $event->save();
         
-        session()->flash('message','Event updated.');
+        session()->flash('message','Event has been updated.');
         
         return redirect()->route('events.index');
     }
@@ -107,6 +111,12 @@ class EventsController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $this->authorize('delete', $event);
+        
+        $event->delete();
+        
+        session()->flash('message','Event has been deleted.');
+
+        return redirect()->route('events.index');
     }
 }
