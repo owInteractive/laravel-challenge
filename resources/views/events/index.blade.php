@@ -14,10 +14,9 @@
                     <small class="text-muted">{{ $event->start_at->format('h:m:s') }}</small>
                     <strong>{{$event->title}}</strong>
                     <small class="pull-right help-block"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ $event->owner->name }}</small>
-                    
                 </a>
             @empty
-                <li class="list-group-item">There is no evento for next 5 days</li>    
+                <li class="list-group-item">There is no events today</li>    
             @endforelse
             </div>
         </div>
@@ -32,7 +31,7 @@
                     <small class="pull-right help-block"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ $event->owner->name }}</small>
                 </a>
             @empty
-                <li class="list-group-item">There is no evento for next 5 days</li>    
+                <li class="list-group-item">There is no events for next 5 days</li>    
             @endforelse
             </div>
         </div>
@@ -47,11 +46,13 @@
                         <small class="pull-right help-block"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ $event->owner->name }}</small>
                     </a>
                 @empty
-                    <li class="list-group-item">There is no evento for next 5 days</li>    
+                    <li class="list-group-item">There is no events</li>    
                 @endforelse
             </div>
             <div>
+                @if (count($events)>0)
                 {{ $events->links() }}
+                @endisset
             </div>
         </div>
     </div>  

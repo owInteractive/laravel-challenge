@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
@@ -56,7 +57,7 @@ class EventsController extends Controller
         
         session()->flash('message','Event created.');
         
-        return redirect()->route('events.index');
+        return redirect()->route('events.edit', $event->id);
     }
 
     /**
@@ -67,7 +68,7 @@ class EventsController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('events.show', ['event' => $event]);
     }
 
     /**
@@ -78,7 +79,7 @@ class EventsController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('events.edit', ['event' => $event]);
     }
 
     /**
@@ -88,9 +89,14 @@ class EventsController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $event->update($request->all());
+        $event->save();
+        
+        session()->flash('message','Event updated.');
+        
+        return redirect()->route('events.index');
     }
 
     /**
