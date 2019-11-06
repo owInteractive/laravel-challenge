@@ -35,7 +35,7 @@
                     </h1>
                     <h4 class="text-muted">
                         <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ $event->start_at->format('d/m/Y h:m:s') }} - {{ $event->start_at->format('d/m/Y h:m:s') }}
-                        · <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Created by <a href="">{{ $event->owner->name }}</a>
+                        · <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Created by <a href="{{route('users.show', $event->owner->id)}}">{{ $event->owner->name }}</a>
                     </h4>
                     <div class="event-description">
                         {{$event->description}}
