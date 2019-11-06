@@ -134,17 +134,19 @@ class EventsController extends Controller
         $this->authorize('invite', $event);
 
         $email = request('email');
-
         $user = User::where('email', $email)
             ->where('email','!=', auth()->user()->email)
             ->first();
-        // dd($event->attendees->toArray());
+        
         // check if user is attending the event
-        if(!empty($event->attendees()->where('user_id', $user->id)->first())){
-            session()->flash('info', 'The user is already attending the event');
-            return redirect()->route('events.show', $event->id);
+        if(!empty($user)) {
+            $is_attendee = $event->attendees()->where('user_id', $user->id)->first(); 
+            if(!empty($is_attendee)){
+                session()->flash('info', 'The user is already attending the event');
+                return redirect()->route('events.show', $event->id);
+            }
         }
-
+        
         //check if exist an invite
         $invite = $event->invites()->where(
             ['email' => $email],
