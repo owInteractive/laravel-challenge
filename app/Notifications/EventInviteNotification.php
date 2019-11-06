@@ -12,15 +12,17 @@ class EventInviteNotification extends Notification
     use Queueable;
 
     public $event;
+    public $invite;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($event)
+    public function __construct($event, $invite)
     {
         $this->event = $event;
+        $this->invite = $invite;
     }
 
     /**
@@ -43,12 +45,15 @@ class EventInviteNotification extends Notification
     public function toMail($notifiable)
     {
         $url = url(route('events.show', $this->event->id));
+        $urlInvite = url(route('events.accept_invite', [$this->event->id, $this->invite->token]));
+
         $owner = "**{$this->event->owner->name} ({$this->event->owner->email})**";
         return (new MailMessage)
                     ->subject('Event invitation')
                     ->line($owner.' invited you to attend the event **'. $this->event->title.'**')
-                    ->action('Check Invitation', $url)
-                    ->line('Thank you for using our application!');
+                    ->action('Accept Invitation', $urlInvite)
+                    ->line('Thank you for using our application!')
+                    ->markdown('mail.invite.invite_user', ['eventUrl' => $url, 'level'=>'success']);
     }
 
     /**
