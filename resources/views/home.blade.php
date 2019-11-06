@@ -23,7 +23,7 @@
                                 @foreach ($invites as $invite )
                                     <tr>
                                         <td>{{ $invite->event->title }}</td>
-                                        <td>{{ $invite->event->start_at->format('d/m/Y') }}</td>
+                                        <td>{{ $invite->event->start_at }}</td>
                                         <td><a href="{{route('users.show', $invite->event->owner->id)}}">{{ $invite->event->owner->name }}</a></td>
                                         <td>
                                             <a href="{{route('events.accept_invite', [$invite->event->id, $invite->token])}}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Accept invite">

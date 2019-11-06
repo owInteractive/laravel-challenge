@@ -21,8 +21,8 @@
                     <div class="row">
                         <div class="col-md-12"><strong>User Name:</strong> {{ $user->name }}</div>
                         <div class="col-md-12"><strong>Email: </strong>{{ $user->email }}</div>
-                        <div class="col-md-12"><strong>Member since: </strong>{{ $user->created_at->format('d/m/Y h:m:s') }}</div>
-                        <div class="col-md-12"><strong>Last update: </strong>{{ $user->updated_at->format('d/m/Y h:m:s') }}</div>
+                        <div class="col-md-12"><strong>Member since: </strong>{{ $user->created_at}}</div>
+                        <div class="col-md-12"><strong>Last update: </strong>{{ $user->updated_at}}</div>
                     </div><br>
                     
                     <div class="row">
@@ -68,8 +68,8 @@
                                             {{ $event->owner->name }}
                                             </a>
                                         </td>
-                                        <td>{{$event->start_at->format('d/m/Y')}}</td>
-                                        <td>{{$event->end_at->format('d/m/Y')}}</td>
+                                        <td>{{$event->start_at}}</td>
+                                        <td>{{$event->end_at}}</td>
                                         <!-- <td>
                                             @can('update', $event)
                                                 Edit
