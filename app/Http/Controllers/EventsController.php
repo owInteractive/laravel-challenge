@@ -200,4 +200,25 @@ class EventsController extends Controller
             return redirect()->route('events.index');
         }
     }
+
+    /**
+     * Accept the invite
+     */
+    public function reject_invite(Request $request, Event $event, $token)
+    {
+        
+        $invite = $event->invites()
+                ->where('token',$token)
+                ->where('email', auth()->user()->email)->first();
+
+        if(!$invite) {
+            session()->flash('danger','This link is not valid.');
+            return redirect()->route('home');
+        }
+
+        $event->invites()->where('token',$token)->delete();
+
+        session()->flash('success','You recjected the invite.');
+        return redirect()->route('home');       
+    }
 }

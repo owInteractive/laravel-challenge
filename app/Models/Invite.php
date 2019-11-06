@@ -14,4 +14,14 @@ class Invite extends Model
     protected $fillable = [
         'user_id', 'event_id', 'email', 'token',
     ];
+
+    /**
+     * Get the event
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event() {
+        
+        return $this->belongsTo(Event::class);
+    }
 }
