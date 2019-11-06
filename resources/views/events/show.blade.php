@@ -36,7 +36,7 @@
                         {{$event->title}}
                     </h1>
                     <h4 class="text-muted">
-                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ $event->start_at->format('d/m/Y h:m:s') }} - {{ $event->start_at->format('d/m/Y h:m:s') }}
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> {{ $event->start_at }} - {{ $event->end_at }}
                         · <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Created by <a href="{{route('users.show', $event->owner->id)}}">{{ $event->owner->name }}</a>
                     </h4>
                     <div class="event-description">
@@ -70,7 +70,7 @@
                                             <span>{{ $attendee->email }}</span>
                                             </a>
                                         </td>
-                                        <td>{{$attendee->pivot->created_at}}</td>
+                                        <td>{{$attendee->pivot->created_at->format('m/d/Y H:m:s')}}</td>
                                         <!-- <td>
                                             @can('update', $event)
                                                 Edit

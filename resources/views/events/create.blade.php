@@ -38,7 +38,12 @@
                             <div class="col-md-6">
                                 <div class="form-group{{ $errors->has('start_at') ? ' has-error' : '' }}">
                                     <label for="start_at"  class="control-label">Start at<span class="text-danger">*</label>
-                                    <input id="start_at" type="text" class="form-control" name="start_at" value="{{ old('start_at') }}" required>
+                                    <div class="input-group date" id="start_at_datetimepicker">
+                                        <input id="start_at" type="text" class="form-control" name="start_at" value="{{ old('start_at') }}" required>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>    
                                     @if ($errors->has('start_at'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('start_at') }}</strong>
@@ -48,8 +53,13 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group{{ $errors->has('end_at') ? ' has-error' : '' }}">
-                                    <label for="end_at" class="control-label">End at<span class="text-danger">*</label>                           
-                                    <input id="end_at" type="text" class="form-control" name="end_at" value="{{ old('end_at') }}" required>
+                                    <label for="end_at" class="control-label">End at<span class="text-danger">*</label> 
+                                    <div class="input-group date" id="end_at_datetimepicker">                         
+                                        <input id="end_at" type="text" class="form-control" name="end_at" value="{{ old('end_at') }}" required>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>    
                                     @if ($errors->has('end_at'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('end_at') }}</strong>
@@ -70,4 +80,32 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $('#start_at_datetimepicker').datetimepicker({
+           format: 'MM/DD/YYYY HH:mm:ss'
+        });
+        $('#end_at_datetimepicker').datetimepicker({
+            format: 'MM/DD/YYYY HH:mm:ss',
+            useCurrent: false //Important! See issue #1075       
+        });
+
+        $("#start_at_datetimepicker").on("dp.change", function (e) {
+            $('#end_at_datetimepicker').data("DateTimePicker").minDate(e.date);
+        });
+
+        $("#end_at_datetimepicker").on("dp.change", function (e) {
+            $('#start_at_datetimepicker').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
 @endsection

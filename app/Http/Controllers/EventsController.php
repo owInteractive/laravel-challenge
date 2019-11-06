@@ -62,6 +62,7 @@ class EventsController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
+       
         $event = Event::create($request->all());
         
         session()->flash('success','Event has been created.');

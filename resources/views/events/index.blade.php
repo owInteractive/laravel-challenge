@@ -11,7 +11,7 @@
             <div class="list-group">
             @forelse ($events_today as $event)
                 <a href="{{route('events.show',$event->id)}}" class="list-group-item list-group-item-action">                    
-                    <small class="text-muted">{{ $event->start_at->format('h:m:s') }}</small>
+                    <small class="text-muted">{{ $event->start_at }}</small>
                     <strong>{{$event->title}}</strong>
                     <small class="pull-right help-block"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ $event->owner->name }}</small>
                 </a>
@@ -26,7 +26,7 @@
             <div class="list-group">
             @forelse ($events_next as $event)
                 <a href="{{route('events.show',$event->id)}}" class="list-group-item list-group-item-action">
-                    <small class="text-muted">{{ $event->start_at->format('d/m/Y h:m:s') }}</small>
+                    <small class="text-muted">{{ $event->start_at }}</small>
                     <strong>{{$event->title}}</strong>
                     <small class="pull-right help-block"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ $event->owner->name }}</small>
                 </a>
@@ -41,7 +41,7 @@
             <div class="list-group">
                 @forelse ($events as $event)
                     <a href="{{route('events.show',$event->id)}}" class="list-group-item list-group-item-action">
-                        <small class="text-muted">{{ $event->start_at->format('d/m/Y') }}</small>
+                        <small class="text-muted">{{ $event->start_at }}</small>
                         <strong>{{$event->title}}</strong>
                         <small class="pull-right help-block"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ $event->owner->name }}</small>
                     </a>

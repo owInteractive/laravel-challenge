@@ -21,7 +21,8 @@ class Event extends Model
      * Cast dates
      */
     protected $dates = [
-        'start_at','end_at'
+        'start_at',
+        'end_at'
     ];
 
     /**
@@ -72,6 +73,26 @@ class Event extends Model
     public function getShortDescriptionAttribute()
     {
         return str_limit($this->description, 150, '...');
+    }
+
+    public function getStartAtAttribute($value)
+    {
+        return Carbon::parse(request('start_at'))->format('m/d/Y h:m:s');
+    }
+
+    public function getEndAtAttribute($value)
+    {
+        return Carbon::parse(request('start_at'))->format('m/d/Y h:m:s');
+    }
+
+    public function setStartAtAttribute($value)
+    {
+        $this->attributes['start_at'] = Carbon::parse(request('start_at'))->format('Y-m-d h:m:s');
+    }
+
+    public function setEndAtAttribute($value)
+    {
+        $this->attributes['end_at'] = Carbon::parse(request('start_at'))->format('Y-m-d h:m:s');
     }
 
      /**
