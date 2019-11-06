@@ -5,13 +5,14 @@
         <div class="row">       
             <ol class="breadcrumb">
                 <li><a href="{{url('/home')}}">Home</a></li>
-                <li><a href="{{route('events.index')}}">Events</a></li>                
+                <li><a href="{{route('events.index')}}">Events</a></li>
+                <li class="active">Show</li>           
             </ol>        
         </div>
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="{{route('events.edit', $event->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Info</a>
+                    <a href="{{route('events.edit', $event->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit Event</a>
                     <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Invite attendee</a>
                     <a href="" class="pull-right btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a>
                 </div>

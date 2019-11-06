@@ -4,11 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+            <ol class="breadcrumb">
+                <li><a href="{{url('/home')}}">Home</a></li>
+                <li><a href="{{route('events.index')}}">Events</a></li>
+                <li class="active">Edit</li>              
+            </ol>    
             <form class="form" method="POST" action="{{ route('events.update', $event->id) }}">
                 {{ method_field('PUT') }}
                 {{ csrf_field() }}
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit event</div>
+                    <div class="panel-heading">Edit Event</div>
                     <div class="panel-body">
                         <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                             <label for="name" class="control-label">Title<span class="text-danger">*</label>
@@ -56,10 +61,11 @@
                         </div>            
                     </div>
                     <div class="panel-footer">                       
-                        <button type="submit" class="btn btn-primary">
-                            Edit event
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
                         </button>
-                        <a href="{{url(route('events.index'))}}" class="btn btn-default">Cancel</a>
+                        <a href="{{route('events.show', $event->id)}}" class="btn btn-default">Cancel</a>
+                        <a href="{{route('events.index')}}" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a>
                     </div>
                 </div>
             </form>  
