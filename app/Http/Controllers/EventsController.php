@@ -12,11 +12,7 @@ class EventsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['only' => [
-            'create', 'store',
-            'edit', 'update',
-            'destroy'
-        ]]);
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -27,9 +23,9 @@ class EventsController extends Controller
     {
         $user = auth()->user();
 
-        $events = Event::creator($user)->latest()->paginate(15);
+        $events = Event::creator($user)->orderBy('start_at','desc')->paginate(5);
         $events_today = Event::creator($user)->today()->get();
-        $events_next = Event::creator($user)->nextDays(5)->get();
+        $events_next = Event::creator($user)->orderBy('start_at', 'asc')->nextDays(5)->get();
 
         return view('events.index', [ 
             'events' => $events,

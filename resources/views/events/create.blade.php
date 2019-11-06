@@ -9,8 +9,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Create an event</div>
                     <div class="panel-body">
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name">Name</label>
+                        <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
+                            <label for="name">Title</label>
                             <input id="title" type="text" class="form-control" name="title" value="{{ old('title') }}" required autofocus>
                             @if ($errors->has('title'))
                                 <span class="help-block">
@@ -57,7 +57,8 @@
                     <div class="panel-footer">                       
                         <button type="submit" class="btn btn-primary">
                             Create event
-                        </button>   
+                        </button>
+                        <a href="{{url(route('events.index'))}}" class="btn btn-default">Cancel</a>
                     </div>
                 </div>
             </form>  

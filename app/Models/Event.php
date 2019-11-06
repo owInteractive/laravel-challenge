@@ -67,7 +67,7 @@ class Event extends Model
      */
     public function scopeNextDays($query, $days)
     {
-        return $query->where('start_at', '>=', Carbon::today()->toDateString());
+        return $query->whereBetween('start_at', [Carbon::today()->addDays(1)->toDateString(), Carbon::today()->addDays($days+1)->toDateString()]);
     }
 
     /**
