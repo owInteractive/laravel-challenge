@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,8 @@ class UsersController extends Controller
     {
         return view('users.show', [
             'user' => $user,
-            'events' => $user->events()->orderBy('start_at','asc')->paginate(10)
+            'events' => $user->events()->creator(auth()->user())->isAttendee(auth()->user()) 
+                ->orderBy('start_at','asc')->paginate(10)
         ]);
     }
 

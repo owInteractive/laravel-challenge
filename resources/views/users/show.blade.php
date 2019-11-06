@@ -46,6 +46,7 @@
                                 <tr>
                                     <th>Event</th>
                                     <th>Description</th>
+                                    <th>Author</th>
                                     <th>Starts at</th>
                                     <th>Ends at</th>
                                     <!-- <th>Actions</th> -->
@@ -60,6 +61,11 @@
                                         <td class="text">
                                             <a href="{{route('events.show', $event->id)}}">
                                             <span>{{ $event->description }}</span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{route('users.show', $event->owner->id)}}">
+                                            {{ $event->owner->name }}
                                             </a>
                                         </td>
                                         <td>{{$event->start_at->format('d/m/Y')}}</td>

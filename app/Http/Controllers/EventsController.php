@@ -25,9 +25,17 @@ class EventsController extends Controller
     {
         $user = auth()->user();
 
-        $events = Event::creator($user)->orderBy('start_at','desc')->paginate(5);
-        $events_today = Event::creator($user)->today()->get();
-        $events_next = Event::creator($user)->orderBy('start_at', 'asc')->nextDays(5)->get();
+        $events = Event::creator($user)
+            ->isAttendee($user)
+            ->orderBy('start_at','desc')->paginate(5);
+       
+        $events_today = Event::creator($user)
+            ->isAttendee($user)
+            ->today()->get();
+            
+        $events_next = Event::creator($user)
+            ->isAttendee($user)
+            ->orderBy('start_at', 'asc')->nextDays(5)->get();
 
         return view('events.index', [ 
             'events' => $events,

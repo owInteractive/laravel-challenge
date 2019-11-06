@@ -102,4 +102,15 @@ class Event extends Model
         }
         
     }
+
+    /**
+     * Is attendee
+     */
+    public function scopeIsAttendee($query, $attendee)
+    {   
+        return $query->orWhereHas('attendees', function($q) use($attendee) {
+            $q->where('user_id', $attendee->id);
+        });      
+        
+    }
 }
