@@ -58,6 +58,11 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <a href="{{ route('users.show', auth()->user()->id) }}">
+                                           <span class="glyphicon glyphicon-user" aria-hidden="true"></span> My profile
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -63,10 +63,10 @@
                                 @foreach ($event->attendees as $attendee)
                                     <tr>
                                         <td>
-                                            <a href="{{route('events.show', $event->id)}}">{{ $attendee->name }}</a>
+                                            <a href="{{route('users.show', $attendee->id)}}">{{ $attendee->name }}</a>
                                         </td>
                                         <td class="text">
-                                            <a href="{{route('events.show', $event->id)}}">
+                                            <a href="{{route('users.show', $attendee->id)}}">
                                             <span>{{ $attendee->email }}</span>
                                             </a>
                                         </td>
@@ -86,7 +86,7 @@
                     <div class="panel-body text-center">
                         <h4>There is no attendee for this event yet.</h4>
                         @can('invite', $event)
-                        <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Invite attendee for this event</a>
+                        <a href="" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalInvite"><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Invite attendee for this event</a>
                         @endcan
                     </div>
                 @endif               

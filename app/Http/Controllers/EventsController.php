@@ -98,8 +98,7 @@ class EventsController extends Controller
     {   
         $this->authorize('update', $event);
         
-        $event->update($request->all());
-        $event->save();
+        $event->update($request->all());        
         
         session()->flash('success','Event has been updated.');
         
@@ -194,7 +193,7 @@ class EventsController extends Controller
         $attendee = User::where('email', $invite->email)->first();
 
         if($attendee) {
-            $event->attendees()->sync($attendee);
+            $event->attendees()->attach($attendee);
             $event->invites()->where('token',$token)->delete();
 
             session()->flash('success','You are now attending the event.');

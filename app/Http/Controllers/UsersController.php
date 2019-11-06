@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $this->middleware('auth');
     }
 
     /**
@@ -60,7 +61,9 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $this->authorize('update', $user);
+        
+        return view('users.edit', ['user' => $user]);
     }
 
     /**
@@ -70,9 +73,20 @@ class UsersController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $this->authorize('update', $user);
+
+        if($request->has('password')) {            
+            $request->merge(['password' => bcrypt($request->password)]);
+        }
+        
+        $user->update($request->all());      
+        $user->notifyUpdateProfile();
+        
+        session()->flash('success','Your profile has been updated.');
+        
+        return redirect()->route('users.show', $user->id);
     }
 
     /**
@@ -83,6 +97,6 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $this->authorize('delete', $user);
     }
 }

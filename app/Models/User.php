@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\EventInviteNotification;
+use App\Notifications\UserUpdateProfileNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -50,6 +51,13 @@ class User extends Authenticatable
      */
     public function receiveInvite($event, $invite) {
         $this->notify(new EventInviteNotification($event, $invite));
+    }
+
+    /**
+     * Notify the user about update
+     */
+    public function notifyUpdateProfile() {
+        $this->notify(new UserUpdateProfileNotification());
     }
 
 }

@@ -27,9 +27,9 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            @if(auth()->user() == $user )
-                                <a href="" class="btn btn-primary">Update my profile</a>
-                            @endif
+                            @can('update', $user )
+                                <a href="{{route('users.edit', $user->id)}}" class="btn btn-primary">Update my profile</a>
+                            @endcan
                         </div>
                     </div>
                     

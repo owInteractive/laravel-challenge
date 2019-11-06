@@ -18,7 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/events/{event}/accept_invite/{token}', 'EventsController@accept_invite')->name('events.accept_invite');
 Route::post('/events/{event}/invite', 'EventsController@invite')->name('events.invite');
 Route::resource('events','EventsController');
+
 Route::resource('users', 'UsersController');
