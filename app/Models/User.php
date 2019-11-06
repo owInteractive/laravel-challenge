@@ -48,8 +48,8 @@ class User extends Authenticatable
     /**
      * Notify the user about invites
      */
-    public function receiveInvite($event) {
-        $this->notify(new EventInviteNotification($event));
+    public function receiveInvite($event, $invite) {
+        $this->notify(new EventInviteNotification($event, $invite));
     }
 
 }

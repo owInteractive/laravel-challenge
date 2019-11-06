@@ -79,8 +79,23 @@
         <div class="container">
             <div class="row">
             @if ($flash = session('message'))
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-info" role="alert">
                     {{ $flash }}
+                </div>
+            @endif
+            @if ($message = session('danger'))
+                <div class="alert alert-danger" role="alert">
+                    {{ $message }}
+                </div>
+            @endif 
+            @if ($message = session('info'))
+                <div class="alert alert-info" role="alert">
+                    {{ $message }}
+                </div>
+            @endif
+            @if ($message = session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ $message }}
                 </div>
             @endif 
             </div>

@@ -45,6 +45,16 @@ class Event extends Model
     }
 
     /**
+     * Get the event's attendees
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invites()
+    {
+        return $this->hasMany(Invite::class);
+    }
+
+    /**
      * Boot
      */
     public static function boot() {

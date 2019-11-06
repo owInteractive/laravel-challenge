@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Models\Invite;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon as Carbon;
@@ -56,7 +57,7 @@ class EventsController extends Controller
     {
         $event = Event::create($request->all());
         
-        session()->flash('message','Event has been created.');
+        session()->flash('success','Event has been created.');
         
         return redirect()->route('events.edit', $event->id);
     }
@@ -100,7 +101,7 @@ class EventsController extends Controller
         $event->update($request->all());
         $event->save();
         
-        session()->flash('message','Event has been updated.');
+        session()->flash('success','Event has been updated.');
         
         return redirect()->route('events.index');
     }
@@ -117,27 +118,87 @@ class EventsController extends Controller
         
         $event->delete();
         
-        session()->flash('message','Event has been deleted.');
+        session()->flash('success','Event has been deleted.');
 
         return redirect()->route('events.index');
     }
 
+    /** 
+     * Inviting the user
+     * 
+     * @param \App\Models\Event $event
+     * @param \Illuminate\Http\Request $request
+     */
     public function invite(Request $request, Event $event)
     {
         $this->authorize('invite', $event);
 
         $email = request('email');
+        $user = User::where('email', $email)
+            ->where('email','!=', auth()->user()->email)
+            ->first();
+        
+        // check if user is attending the event
+        if(!empty($user)) {
+            $is_attendee = $event->attendees()->where('user_id', $user->id)->first(); 
+            if(!empty($is_attendee)){
+                session()->flash('info', 'The user is already attending the event');
+                return redirect()->route('events.show', $event->id);
+            }
+        }
 
-        $user = User::where('email', $email)->where('email','!=', auth()->user()->email)->first();
-
-        if($user) {
-            $user->receiveInvite($event);
-        } else {
-
+        //check if exist an invite
+        $invite = $event->invites()->where(
+            ['email' => $email],
+            ['event_id' => $event->id]
+        )->first();
+        
+        //if exists invite redirect
+        if(!empty($invite)){
+            session()->flash('info', 'The user has already been invited to this event.');
+            return redirect()->route('events.show', $event->id);
         }
         
-        session()->flash('message', 'The invitation was sent by email.');
+        $invite = $event->invites()->create([
+            'user_id' => auth()->user()->id,
+            'event_id' => $event->id,
+            'token' => str_random(60),
+            'email' => $email
+        ]);
 
+        if($user) {
+            $user->receiveInvite($event, $invite);
+            $message = 'The invitation was sent by email.';
+        } else {
+            //send mail
+            $message = 'The invitation was sent by email.';
+        }  
+
+        session()->flash('success', $message);
         return redirect()->route('events.show', $event->id);
+    }
+
+    /**
+     * Accept the invite
+     */
+    public function accept_invite(Request $request, Event $event, $token)
+    {
+        
+        $invite = $event->invites()->where('token',$token)->first();
+        
+        if(!$invite) {
+            session()->flash('danger','This link is not valid.');
+            return redirect()->route('events.index');
+        }
+
+        $attendee = User::where('email', $invite->email)->first();
+
+        if($attendee) {
+            $event->attendees()->sync($attendee);
+            $event->invites()->where('token',$token)->delete();
+
+            session()->flash('success','You are now attending the event.');
+            return redirect()->route('events.index');
+        }
     }
 }
