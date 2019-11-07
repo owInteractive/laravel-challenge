@@ -75,10 +75,17 @@
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
                         </button>
                         <a href="{{route('events.show', $event->id)}}" class="btn btn-default">Cancel</a>
-                        <a href="{{route('events.index')}}" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove</a>
+                        <a href="" id="delete-event" class="btn btn-danger pull-right">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove
+                        </a>
+                        
                     </div>
                 </div>
             </form>  
+            <form id="delete-form" action="{{ route('events.destroy', $event->id) }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+            </form>
         </div>
     </div>
 </div>
@@ -108,6 +115,14 @@
         $("#end_at_datetimepicker").on("dp.change", function (e) {
             $('#start_at_datetimepicker').data("DateTimePicker").maxDate(e.date);
         });
+
+        $("#delete-event").click(function (e) {
+            e.preventDefault();    
+            var confirm_value = confirm('Are you sure you want to delete this event?');
+            
+            if (confirm_value)
+                $('#delete-form').submit();
+        })
     });
 </script>
 @endsection
