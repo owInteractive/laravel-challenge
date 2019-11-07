@@ -8,6 +8,15 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+body{
+    padding-top: 75px;
+}
+
+.jumbotron {
+    background-color: #fff;
+    padding-top: 20px;
+}
+
 .text-truncate {
     white-space: nowrap;
     overflow: hidden;

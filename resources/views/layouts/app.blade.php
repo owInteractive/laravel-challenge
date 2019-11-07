@@ -17,7 +17,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
 
@@ -110,6 +110,12 @@
 
         @yield('content')
     </div>
+
+    <footer class="footer">
+      <div class="container text-center">
+        <p class="text-muted">Copyright 2019 - <a href="http://www.owinteractive.com/">OW Interactive</a>. Created with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> and <span class="glyphicon glyphicon-music" aria-hidden="true"></span> by <a href="https://github.com/lincolnbrito">Lincoln Brito</a></p>
+      </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
