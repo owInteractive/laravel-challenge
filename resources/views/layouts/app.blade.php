@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'The Calendar App') }}</title>
 
     @yield('styles')
 
@@ -31,7 +31,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">                        
-                        The Calendar App
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> The Calendar App
                     </a>
                 </div>
 
