@@ -38,7 +38,20 @@
         </div>
         <div class="row">
             <div class="panel {{ (auth()->user() == $user) ? 'panel-primary': 'panel-default' }}">
-                <div class="panel-heading"><span aria-hidden="true" class="glyphicon glyphicon-calendar"></span> Events ({{count($user->events)}})</div>
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <span aria-hidden="true" class="glyphicon glyphicon-calendar"></span> 
+                            Events ({{count($user->events)}})
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <form class="d-inline clearfix" action="{{route('events.export')}}" enctype="multipart/form-data">
+                                <button type="submit" class="btn btn-sm btn-default">Export</button>
+                            </form>
+                        </div>
+                </div>
+
+                </div>
                 <div class="panel-body">
                     @isset($events)
                         <table class="table table-striped table-condensed">

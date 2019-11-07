@@ -22,7 +22,9 @@ class Event extends Model
      */
     protected $dates = [
         'start_at',
-        'end_at'
+        'end_at',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -77,12 +79,12 @@ class Event extends Model
 
     public function getStartAtAttribute($value)
     {
-        return Carbon::parse(request('start_at'))->format('m/d/Y h:m:s');
+        return Carbon::parse(request('start_at'))->format('Y-m-d h:m:s');
     }
 
     public function getEndAtAttribute($value)
     {
-        return Carbon::parse(request('start_at'))->format('m/d/Y h:m:s');
+        return Carbon::parse(request('start_at'))->format('Y-m-d h:m:s');
     }
 
     public function setStartAtAttribute($value)
@@ -92,7 +94,7 @@ class Event extends Model
 
     public function setEndAtAttribute($value)
     {
-        $this->attributes['end_at'] = Carbon::parse(request('start_at'))->format('Y-m-d h:m:s');
+        $this->attributes['end_at'] = Carbon::parse(request('end_at'))->format('Y-m-d h:m:s');
     }
 
      /**

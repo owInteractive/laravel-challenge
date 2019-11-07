@@ -94,10 +94,10 @@
 <script>
     $(function () {
         $('#start_at_datetimepicker').datetimepicker({
-           format: 'MM/DD/YYYY HH:mm:ss'
+           format: 'YYYY-MM-DD HH:mm:ss'
         });
         $('#end_at_datetimepicker').datetimepicker({
-            format: 'MM/DD/YYYY HH:mm:ss',
+            format: 'YYYY-MM-DD HH:mm:ss',
             useCurrent: false //Important! See issue #1075       
         });
 

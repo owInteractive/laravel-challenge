@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
-use App\Models\Invite;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Excel;
+
 
 class EventsController extends Controller
 {
@@ -228,5 +229,22 @@ class EventsController extends Controller
 
         session()->flash('success','You recjected the invite.');
         return redirect()->route('home');       
+    }
+
+    /**
+     * Export a flie in storage 
+     * 
+     * @param \Illluminate\Http\Request $request
+     * @return \Illumintate\Http\Response
+     */
+    public function export()
+    {
+        $events = Event::all();
+
+        Excel::create('events', function($excel) use($events){
+            $excel->sheet('ExportFile', function($sheet) use($events){
+                $sheet->fromArray($events);
+            });
+        })->export('csv');
     }
 }
