@@ -40,17 +40,27 @@
             <div class="panel {{ (auth()->user() == $user) ? 'panel-primary': 'panel-default' }}">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <span aria-hidden="true" class="glyphicon glyphicon-calendar"></span> 
                             Events ({{count($user->events)}})
                         </div>
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-8 text-right">
+                            <form class="form-inline row" method="POST" action="{{route('events.import')}}" enctype="multipart/form-data">
+                                <div class="col-md-3">
+                                    {{csrf_field()}}
+                                    <input type="file" name="events-import">
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-sm btn-default">Import</button>
+                                </div>
+                            </form>
+                            
                             <form class="d-inline clearfix" action="{{route('events.export')}}" enctype="multipart/form-data">
                                 <button type="submit" class="btn btn-sm btn-default">Export</button>
                             </form>
-                        </div>
-                </div>
 
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     @isset($events)

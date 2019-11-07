@@ -23,6 +23,7 @@ Route::get('/events/{event}/accept_invite/{token}', 'EventsController@accept_inv
 Route::get('/events/{event}/reject_invite/{token}', 'EventsController@reject_invite')->name('events.reject_invite');
 Route::post('/events/{event}/invite', 'EventsController@invite')->name('events.invite');
 Route::get('/events/export', 'EventsController@export')->name('events.export');
+Route::post('/events/import', 'EventsController@import')->name('events.import');
 Route::resource('events','EventsController');
 
 Route::resource('users', 'UsersController');

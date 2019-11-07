@@ -28,7 +28,7 @@ class EventsController extends Controller
 
         $events = Event::creator($user)
             ->isAttendee($user)
-            ->orderBy('start_at','desc')->paginate(5);
+            ->orderBy('start_at','asc')->paginate(5);
        
         $events_today = Event::creator($user)
             ->isAttendee($user)
@@ -79,7 +79,6 @@ class EventsController extends Controller
      */
     public function show(Event $event)
     {
-        // dd($event->attendees->toArray());
         return view('events.show', ['event' => $event]);
     }
 
@@ -106,7 +105,7 @@ class EventsController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {   
         $this->authorize('update', $event);
-        
+        // dd($request->all());
         $event->update($request->all());        
         
         session()->flash('success','Event has been updated.');
@@ -239,7 +238,11 @@ class EventsController extends Controller
      */
     public function export()
     {
-        $events = Event::all();
+        $user = auth()->user();
+
+        $events = Event::creator($user)
+            ->isAttendee($user)
+            ->orderBy('start_at','asc')->get();
 
         Excel::create('events', function($excel) use($events){
             $excel->sheet('ExportFile', function($sheet) use($events){
@@ -247,4 +250,36 @@ class EventsController extends Controller
             });
         })->export('csv');
     }
+
+    /**
+     * Import a flie in storage 
+     * 
+     * @param \Illluminate\Http\Request $request
+     * @return \Illumintate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        $user = auth()->user();
+
+        if($request->hasFile('events-import')) {
+            $path = $request->file('events-import')->getRealPath();
+
+            $data = Excel::load($path, function($reader){})->get();
+            
+            if(!empty($data && $data->count())) {
+                $data = $data->toArray();
+
+                for($i = 0; $i < count($data); $i++) {
+                    $imported[] = $data[$i];
+                }
+
+                Event::insert($imported);
+            }
+            session()->flash('success','Events imported');
+            return redirect()->route('events.index');
+        }
+
+        session()->flash('danger','Could not import events');
+        return redirect()->route('events.index');
+    }    
 }
