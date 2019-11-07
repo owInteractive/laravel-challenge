@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <span aria-hidden="true" class="glyphicon glyphicon-calendar"></span> 
-                            Events ({{count($user->events)}})
+                            Events ({{count($events)}})
                         </div>
                     </div>
                 </div>
