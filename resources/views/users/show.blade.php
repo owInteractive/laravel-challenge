@@ -44,25 +44,23 @@
                             <span aria-hidden="true" class="glyphicon glyphicon-calendar"></span> 
                             Events ({{count($user->events)}})
                         </div>
-                        <div class="col-md-8 text-right">
-                            <form class="form-inline row" method="POST" action="{{route('events.import')}}" enctype="multipart/form-data">
-                                <div class="col-md-3">
-                                    {{csrf_field()}}
-                                    <input type="file" name="events-import">
-                                </div>
-                                <div class="col-md-6">
-                                    <button type="submit" class="btn btn-sm btn-default">Import</button>
-                                </div>
-                            </form>
-                            
-                            <form class="d-inline clearfix" action="{{route('events.export')}}" enctype="multipart/form-data">
-                                <button type="submit" class="btn btn-sm btn-default">Export</button>
-                            </form>
-
-                        </div>
                     </div>
                 </div>
                 <div class="panel-body">
+
+                    <form class="d-inline clearfix" action="{{route('events.export')}}" enctype="multipart/form-data">
+                        <button type="submit" class="btn btn-md btn-default">
+                            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+                            Export events
+                        </button>
+                        <a class="float-left btn btn-md btn-default" data-toggle="modal" data-target="#modalImport">
+                            <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+                            Import events
+                        </a>
+                    </form>
+                    
+                    <br>
+
                     @isset($events)
                         <table class="table table-striped table-condensed">
                             <thead>
@@ -113,5 +111,34 @@
                 </div>
             </div>           
         </div>
-    </div>  
+    </div>
+
+    <div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <form method="POST" action="{{route('events.import')}}" enctype="multipart/form-data">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Import Events</h4>
+                </div>
+                <div class="modal-body">
+                    {{ method_field('POST') }}
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="events-import">Import events</label>
+                                <input type="file" class="form-control" name="events-import">
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> Import</button>
+                </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div>
 @endsection
