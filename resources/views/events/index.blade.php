@@ -5,7 +5,7 @@
 
     <div class="card-header d-flex justify-content-between">
         <span class="align-self-center">All Events</span>
-        <a href="#" class="btn btn-primary btn-sm">New event</a>
+        <a href="/events/create" class="btn btn-primary btn-sm">New event</a>
     </div>
 
     <div class="card-body">

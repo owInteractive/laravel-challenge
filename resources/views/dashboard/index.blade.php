@@ -7,7 +7,7 @@
             <span class="align-self-center">Upcoming events</span>
             <div>
                 <a href="/events" class="btn btn-secondary btn-sm">All events</a>
-                <a href="#" class="btn btn-primary btn-sm">New event</a>
+                <a href="/events/create" class="btn btn-primary btn-sm">New event</a>
             </div>
         </div>
 
