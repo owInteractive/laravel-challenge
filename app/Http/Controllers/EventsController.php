@@ -16,7 +16,8 @@ class EventsController extends Controller
             ->get()
             ->sortBy('start_at');
 
-        return view('events.index', compact('events'));
+        $calendar = Event::groupByDay($events);
+        return view('events.index', compact('calendar'));
 
     }
 
