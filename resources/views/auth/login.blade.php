@@ -8,7 +8,7 @@
 
         <div>
             <a href="#" class="btn btn-secondary btn-sm">Forgot password?</a>
-            <a href="#" class="btn btn-primary btn-sm">Sign up</a>
+            <a href="/register" class="btn btn-primary btn-sm">Sign up</a>
         </div>
 
     </div>
