@@ -19,3 +19,5 @@ Route::group(['prefix' => 'events'], function() {
     Route::get('create', 'EventsController@create');
 
 });
+
+Route::get('/login', 'Auth\LoginController@index');
