@@ -14,46 +14,48 @@
         <div class="card-body">
 
             <h5>Today</h5>
-
             <div class="list-group">
 
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Event title 1</h5>
-                    </div>
-                    <p class="mb-1">Event description 1.</p>
-                    <small class="text-muted">09/01/2020 8h - 13/01/2020 18h</small>
-                </a>
+                @forelse ($todayEvents as $event)
 
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Event title 2</h5>
+                    <a href="/events/{{$event->id}}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{$event->title}}</h5>
+                        </div>
+                        <p class="mb-1">{{$event->description}}</p>
+                        <small class="text-muted">{{$event->start_at}} - {{$event->end_at}}</small>
+                    </a>
+
+                @empty
+
+                    <div class="alert alert-secondary" role="alert">
+                        There are no events for today.
                     </div>
-                    <p class="mb-1">Event description 2.</p>
-                    <small class="text-muted">09/01/2020 8h - 13/01/2020 18h</small>
-                </a>
+
+                @endforelse
 
             </div>
 
-            <h5 class="mt-3">Next days</h5>
-
+            <h5 class="mt-3">Next 5 days</h5>
             <div class="list-group">
 
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Event title 1</h5>
-                    </div>
-                    <p class="mb-1">Event description 1.</p>
-                    <small class="text-muted">09/01/2020 8h - 13/01/2020 18h</small>
-                </a>
+                @forelse ($next5DaysEvents as $event)
 
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Event title 2</h5>
+                    <a href="/events/{{$event->id}}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{$event->title}}</h5>
+                        </div>
+                        <p class="mb-1">{{$event->description}}</p>
+                        <small class="text-muted">{{$event->start_at}} - {{$event->end_at}}</small>
+                    </a>
+
+                @empty
+
+                    <div class="alert alert-secondary" role="alert">
+                        There are no events for the next 5 days.
                     </div>
-                    <p class="mb-1">Event description 2.</p>
-                    <small class="text-muted">09/01/2020 8h - 13/01/2020 18h</small>
-                </a>
+
+                @endforelse
 
             </div>
 
