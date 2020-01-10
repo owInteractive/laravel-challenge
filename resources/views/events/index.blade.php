@@ -8,15 +8,9 @@
         <a href="/events/create" class="btn btn-primary btn-sm">New event</a>
     </div>
 
-    <div class="card-body pt-0">
+    <div class="card-body">
 
         <div class="list-group">
-
-            @foreach($calendar as $day => $events)
-
-                <h5 class="mt-4">
-                    {{date('d/m/Y', strtotime($day))}}
-                </h5>
 
                 @foreach($events as $event)
 
@@ -30,8 +24,12 @@
 
                 @endforeach
 
-            @endforeach
+        </div>
 
+        <div class="d-flex mt-4">
+            <div class="mx-auto">
+                {{ $events->links("pagination::bootstrap-4") }}
+            </div>
         </div>
 
     </div>

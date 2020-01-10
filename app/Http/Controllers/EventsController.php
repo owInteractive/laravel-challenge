@@ -13,11 +13,10 @@ class EventsController extends Controller
 
         $events = Event::query()
             ->where('user_id', auth()->id())
-            ->get()
-            ->sortBy('start_at');
+            ->orderBy('start_at')
+            ->paginate(15);
 
-        $calendar = Event::groupByDay($events);
-        return view('events.index', compact('calendar'));
+        return view('events.index', compact('events'));
 
     }
 
