@@ -6,7 +6,7 @@
         <div class="card-header d-flex justify-content-between">
             <span class="align-self-center">Upcoming events</span>
             <div>
-                <a href="#" class="btn btn-secondary btn-sm">All events</a>
+                <a href="/events" class="btn btn-secondary btn-sm">All events</a>
                 <a href="#" class="btn btn-primary btn-sm">New event</a>
             </div>
         </div>

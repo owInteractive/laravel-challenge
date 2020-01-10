@@ -12,3 +12,9 @@
 */
 
 Route::get('/', 'DashboardController@index');
+
+Route::group(['prefix' => 'events'], function() {
+
+    Route::get('', 'EventsController@index');
+
+});
