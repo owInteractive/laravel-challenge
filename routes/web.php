@@ -18,6 +18,8 @@ Route::group(['prefix' => 'events', 'middleware' => 'auth'], function() {
     Route::get('', 'EventsController@index');
     Route::get('create', 'EventsController@create');
 
+    Route::post('create', 'EventsController@store');
+
 });
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
