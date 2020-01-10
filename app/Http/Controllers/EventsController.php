@@ -10,7 +10,7 @@ class EventsController extends Controller
     public function index() {
 
         $events = Event::query()
-            ->where('user_id', 1)
+            ->where('user_id', auth()->id())
             ->get()
             ->sortBy('start_at');
 
