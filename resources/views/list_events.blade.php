@@ -7,7 +7,19 @@
                 <h5 class="mb-1">{{$event->title}}</h5>
             </div>
             <p class="mb-1">{{$event->description}}</p>
-            <small class="text-muted">{{$event->start_at}} - {{$event->end_at}}</small>
+
+            <small class="text-info">
+                <i class="fa fa-calendar-check-o"></i>
+                {{date('d/m/Y H:i', strtotime($event->start_at))}}
+            </small>
+
+            <br>
+
+            <small class="text-secondary">
+                <i class="fa fa-calendar-minus-o"></i>
+                {{date('d/m/Y H:i', strtotime($event->end_at))}}
+            </small>
+
         </a>
 
     @empty
