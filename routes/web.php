@@ -20,4 +20,5 @@ Route::group(['prefix' => 'events'], function() {
 
 });
 
-Route::get('/login', 'Auth\LoginController@index');
+Route::get('/login', 'Auth\LoginController@showLoginForm');
+Route::post('/login', 'Auth\LoginController@login');
