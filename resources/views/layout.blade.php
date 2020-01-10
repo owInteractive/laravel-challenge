@@ -41,6 +41,11 @@
                     <small>{{Auth::user()->name}}</small>
                 </a>
 
+                <form action="/logout" method="post">
+                    {{ csrf_field() }}
+                    <button class="btn btn-sm btn-outline-danger ml-2" type="submit">Logout</button>
+                </form>
+
             @endif
 
         </div>
