@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
@@ -28,8 +29,8 @@ class EventsController extends Controller
     {
         $title = $request->title;
         $description = $request->description;
-        $startAt = $request->start;
-        $endAt = $request->end;
+        $startAt = Carbon::parse($request->start)->toDateTimeString();
+        $endAt = Carbon::parse($request->end)->toDateTimeString();
 
         Event::create([
             'title' => $title,
