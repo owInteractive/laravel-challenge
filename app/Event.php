@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,11 @@ class Event extends Model
         'end_at',
         'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public static function getTodayEvents(): Collection
     {
