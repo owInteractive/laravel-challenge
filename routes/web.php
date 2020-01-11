@@ -17,8 +17,13 @@ Route::group(['prefix' => 'events', 'middleware' => 'auth'], function() {
 
     Route::get('', 'EventsController@index');
     Route::get('create', 'EventsController@create');
+    Route::get('{id}', 'EventsController@show')->where('id', '[0-9]+');
 
     Route::post('create', 'EventsController@store');
+
+    Route::put('{id}', 'EventsController@update')->where('id', '[0-9]+');
+
+    Route::delete('{id}', 'EventsController@destroy')->where('id', '[0-9]+');
 
 });
 

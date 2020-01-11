@@ -22,6 +22,14 @@ class EventsController extends Controller
         return view('events.create');
     }
 
+    public function show(int $id)
+    {
+        $event = Event::query()
+            ->find($id);
+
+        return view('events.show', compact('event'));
+    }
+
     public function store(Request $request)
     {
         $title = $request->title;
@@ -29,7 +37,7 @@ class EventsController extends Controller
         $startAt = Carbon::parse($request->start)->toDateTimeString();
         $endAt = Carbon::parse($request->end)->toDateTimeString();
 
-        Event::create([
+        $event = Event::create([
             'title' => $title,
             'description' => $description,
             'start_at' => $startAt,
@@ -37,7 +45,39 @@ class EventsController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect('/events');
+        return redirect('/events/' . $event->id);
+
+    }
+
+    public function update(int $id, Request $request)
+    {
+
+        $title = $request->title;
+        $description = $request->description;
+        $startAt = Carbon::parse($request->start)->toDateTimeString();
+        $endAt = Carbon::parse($request->end)->toDateTimeString();
+
+        Event::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->update([
+                'title' => $title,
+                'description' => $description,
+                'start_at' => $startAt,
+                'end_at' => $endAt,
+            ]);
+
+        return redirect()->back();
+
+    }
+
+    public function destroy(int $id, Request $request)
+    {
+
+        Event::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->delete();
+
+        return redirect('/');
 
     }
 
