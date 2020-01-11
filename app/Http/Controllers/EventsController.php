@@ -94,10 +94,22 @@ class EventsController extends Controller
         $event = Event::where('id', $id)
             ->whereHas('participants', function($query) {
                 $query->where('user_id', auth()->id());
-                $query->where('owner', true);
             })
             ->first();
 
+        if (!is_a($event, Event::class)) {
+            return redirect('/')
+                ->withErrors('This event could not be found.');
+        }
+
+        if (!$event->amIOwner()) {
+            // Authenticated user is not the owner of event, but participant. Then leave it.
+            $event->participants()->detach(auth()->id());
+            return redirect('/')
+                ->with('success', "You leave the event '{$event->title}'.");
+        }
+
+        // Authenticated user is the owner. Detach everyone and delete.
         $event->participants()->detach();
         $event->delete();
 

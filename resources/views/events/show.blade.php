@@ -11,7 +11,7 @@
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
                 <button class="btn btn-sm btn-danger" type="submit">
-                    Delete event
+                    @if($event->amIOwner()) Delete @else Leave @endif event
                 </button>
             </form>
 

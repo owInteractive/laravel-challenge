@@ -18,6 +18,11 @@ class Event extends Model
         'user_id',
     ];
 
+    public function amIOwner(): bool
+    {
+        return $this->participants->find(auth()->id())->pivot->owner;
+    }
+
     public function participants()
     {
         return $this->belongsToMany(User::class)
