@@ -33,7 +33,7 @@ class ParticipantMiddleware
                 ->withErrors('This event could not be found.');
         }
 
-        if ($event->user->id !== $this->auth->getUser()->id) {
+        if ($event->participants()->find($this->auth->getUser()->id) === null) {
             return redirect('/')
                 ->withErrors('This event could not be found.');
         }

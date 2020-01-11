@@ -18,9 +18,11 @@ class Event extends Model
         'user_id',
     ];
 
-    public function user()
+    public function participants()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class)
+            ->withPivot('owner')
+            ->withTimestamps();
     }
 
     public function getStartAtAsW3c()
@@ -37,7 +39,9 @@ class Event extends Model
     {
         $todayDate = Carbon::today()->toDateString();
         return Event::query()
-            ->where('user_id', auth()->id())
+            ->whereHas('participants', function($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->whereDate('start_at', '=', $todayDate)
             ->orderBy('start_at')
             ->get();
@@ -48,7 +52,9 @@ class Event extends Model
         $todayDate = Carbon::today()->toDateString();
         $nextDaysDate = Carbon::today()->addDay($days)->toDateString();
         return Event::query()
-            ->where('user_id', auth()->id())
+            ->whereHas('participants', function($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->whereDate('start_at', '>', $todayDate)
             ->whereDate('start_at', '<=', $nextDaysDate)
             ->orderBy('start_at')
@@ -58,7 +64,9 @@ class Event extends Model
     public static function getAllEventsPaginated(int $perPage): LengthAwarePaginator
     {
         return Event::query()
-            ->where('user_id', auth()->id())
+            ->whereHas('participants', function($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->orderBy('start_at')
             ->paginate($perPage);
     }

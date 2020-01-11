@@ -61,9 +61,16 @@
                 </div>
 
                 <ul class="list-group">
-                    <li title="Owner" class="list-group-item">
-                        <small>{{$event->user->name}} <i class="fa fa-star text-warning"></i></small>
-                    </li>
+                    @foreach($event->participants as $participant)
+                        <li @if($participant->pivot->owner == true) title="Owner" @endif class="list-group-item">
+                            <small>
+                                {{$participant->name}}
+                                @if($participant->pivot->owner == true)
+                                    <i class="fa fa-star text-warning"></i>
+                                @endif
+                            </small>
+                        </li>
+                    @endforeach
                 </ul>
 
             </div>
