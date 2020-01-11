@@ -38,5 +38,6 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
 
     Route::get('', 'ProfileController@index');
     Route::put('', 'ProfileController@update');
+    Route::put('change-password', 'ProfileController@updatePassword');
 
 });

@@ -37,7 +37,7 @@
 
             <div class="col-6 border-left">
 
-                <form method="post">
+                <form action="/profile/change-password" method="post">
 
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
@@ -56,7 +56,7 @@
 
                     <div class="form-group">
                         <label for="inputConfNewPass">Confirm New Password</label>
-                        <input type="password" name="confirm-new-password" class="form-control"
+                        <input type="password" name="new-password_confirmation" class="form-control"
                                id="inputConfNewPass" placeholder="Confirm New Password">
                     </div>
 
