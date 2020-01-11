@@ -38,13 +38,15 @@
                     </li>
                 </ul>
 
-                <a href="#">
+                <a href="/profile" class="text-dark">
                     <small>{{Auth::user()->name}}</small>
                 </a>
 
                 <form action="/logout" method="post">
                     {{ csrf_field() }}
-                    <button class="btn btn-sm btn-outline-danger ml-2" type="submit">Logout</button>
+                    <button title="Logout" class="btn btn-sm btn-outline-danger ml-2" type="submit">
+                        <i class="fa fa-sign-out"></i>
+                    </button>
                 </form>
 
             @endif
