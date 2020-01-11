@@ -11,12 +11,9 @@ class EventsController extends Controller
 
     public function index() {
 
-        $events = Event::query()
-            ->where('user_id', auth()->id())
-            ->orderBy('start_at')
-            ->paginate(15);
-
-        return view('events.index', compact('events'));
+        return view('events.index', [
+            'events' => Event::getAllEventsPaginated(15),
+        ]);
 
     }
 
