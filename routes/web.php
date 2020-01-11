@@ -33,3 +33,5 @@ Route::post('logout', 'Auth\LoginController@logout');
 
 Route::get('register', 'Auth\RegisterController@showRegistrationForm');
 Route::post('register', 'Auth\RegisterController@register');
+
+Route::get('profile', 'ProfileController@index')->middleware('auth');
