@@ -27,6 +27,11 @@ class EventsController extends Controller
         $event = Event::query()
             ->find($id);
 
+        if (!is_a($event, Event::class)) {
+            return redirect('/')
+                ->withErrors('This event could not be found.');
+        }
+
         return view('events.show', compact('event'));
     }
 
