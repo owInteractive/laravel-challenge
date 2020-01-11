@@ -45,7 +45,8 @@ class EventsController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect('/events/' . $event->id);
+        return redirect('/events/' . $event->id)
+            ->with('success', 'Event created successfully.');
 
     }
 
@@ -66,7 +67,9 @@ class EventsController extends Controller
                 'end_at' => $endAt,
             ]);
 
-        return redirect()->back();
+        return redirect()
+            ->back()
+            ->with('success', 'Event updated successfully.');
 
     }
 
@@ -77,7 +80,8 @@ class EventsController extends Controller
             ->where('user_id', auth()->id())
             ->delete();
 
-        return redirect('/');
+        return redirect('/')
+            ->with('success', 'Your event has been deleted.');
 
     }
 
