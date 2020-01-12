@@ -19,7 +19,7 @@
 
         <div class="card-body row">
 
-            <div class="col-9">
+            <div class="col-md-9">
 
                 <form method="post">
 
@@ -60,7 +60,7 @@
 
             </div>
 
-            <div class="col-3 border-left">
+            <div class="col-md-3 mt-4 mt-md-0 border-left">
 
                 <div class="d-flex justify-content-between mb-2">
                     <span class="align-self-center">Participants</span>

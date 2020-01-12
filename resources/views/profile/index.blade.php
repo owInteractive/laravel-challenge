@@ -10,7 +10,7 @@
 
         <div class="card-body row">
 
-            <div class="col-6">
+            <div class="col-md-6">
 
                 <form method="post">
 
@@ -35,7 +35,7 @@
 
             </div>
 
-            <div class="col-6 border-left">
+            <div class="col-md-6 mt-4 mt-md-0 border-left">
 
                 <form action="/profile/change-password" method="post">
 

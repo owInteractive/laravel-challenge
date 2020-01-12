@@ -10,7 +10,7 @@
 
         <div class="card-body row">
 
-            <div class="col-6">
+            <div class="col-md-6">
 
                 <form action="/events/import" id="importForm" method="post" enctype="multipart/form-data">
 
@@ -26,7 +26,7 @@
 
             </div>
 
-            <div class="col-6 border-left">
+            <div class="col-md-6 border-left">
 
                 <form action="/events/export" method="post">
 
