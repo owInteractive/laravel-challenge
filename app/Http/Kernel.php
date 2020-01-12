@@ -50,6 +50,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'event.owner' => \App\Http\Middleware\OwnerMiddleware::class,
         'event.participant' => \App\Http\Middleware\ParticipantMiddleware::class,
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
