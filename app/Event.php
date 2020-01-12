@@ -68,24 +68,24 @@ class Event extends Model
             ->get();
     }
 
-    public static function getAllEvents(): Collection
+    /**
+     * @param int|void $perPage
+     * @return Collection|LengthAwarePaginator
+     */
+    public static function getAllEvents($perPage = null)
     {
-        return Event::query()
-            ->whereHas('participants', function($query) {
-                $query->where('user_id', auth()->id());
-            })
-            ->orderBy('start_at')
-            ->get();
-    }
 
-    public static function getAllEventsPaginated(int $perPage): LengthAwarePaginator
-    {
-        return Event::query()
+        $allEvents = Event::query()
             ->whereHas('participants', function($query) {
                 $query->where('user_id', auth()->id());
             })
-            ->orderBy('start_at')
-            ->paginate($perPage);
+            ->orderBy('start_at');
+
+        if (is_int($perPage) && $perPage > 0) {
+            return $allEvents->paginate($perPage);
+        }
+
+        return $allEvents->get();
     }
 
     public static function groupByDay(Collection $events): array

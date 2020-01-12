@@ -20,7 +20,7 @@ class EventsController extends Controller
     public function index() {
 
         return view('events.index', [
-            'events' => Event::getAllEventsPaginated(15),
+            'events' => Event::getAllEvents(15),
         ]);
 
     }
