@@ -34,7 +34,7 @@
                         <a class="nav-link" href="/">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Import / Export</a>
+                        <a class="nav-link" href="/events/import-export">Import / Export events</a>
                     </li>
                 </ul>
 

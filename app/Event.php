@@ -66,6 +66,16 @@ class Event extends Model
             ->get();
     }
 
+    public static function getAllEvents(): Collection
+    {
+        return Event::query()
+            ->whereHas('participants', function($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->orderBy('start_at')
+            ->get();
+    }
+
     public static function getAllEventsPaginated(int $perPage): LengthAwarePaginator
     {
         return Event::query()
