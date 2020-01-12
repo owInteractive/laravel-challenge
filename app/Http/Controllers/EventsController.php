@@ -69,12 +69,14 @@ class EventsController extends Controller
 
             return redirect()
                 ->back()
-                ->withErrors('Failed to create your event. Please, try again.');
+                ->withErrors('Failed to create your event. Please, try again.')
+                ->withInput($request->only('title', 'description', 'start_at', 'end_at'));
 
         } catch (EventCreationException $e) {
             return redirect()
                 ->back()
-                ->withErrors($e->getMessage());
+                ->withErrors($e->getMessage())
+                ->withInput($request->only('title', 'description', 'start_at', 'end_at'));
         }
 
         return redirect('/events/' . $event->id)
