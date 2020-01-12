@@ -2,33 +2,30 @@
 
 @section('content')
 
+    @if (session('status'))
+        <div class="alert alert-success mt-3">
+            {{ session('status') }}
+        </div>
+    @endif
+
     <div class="card mt-3">
 
         <div class="card-header d-flex justify-content-between">
-            <span class="align-self-center">Sign up</span>
-
-            <div>
-                <a href="/login" class="btn btn-primary btn-sm">Sign in</a>
-            </div>
-
+            <span class="align-self-center">Reset your password</span>
         </div>
 
         <div class="card-body">
 
-            <form method="post" action="{{ route('register') }}">
+            <form method="post" action="{{ route('password.request') }}">
 
                 {{ csrf_field() }}
 
-                <div class="form-group">
-                    <label for="inputName">Name</label>
-                    <input type="text" name="name" class="form-control" id="inputName"
-                           placeholder="Name" value="{{ old('name') }}" required autofocus>
-                </div>
+                <input type="hidden" name="token" value="{{ $token }}">
 
                 <div class="form-group">
                     <label for="inputEmail">E-mail</label>
                     <input type="email" name="email" class="form-control" id="inputEmail"
-                           placeholder="E-mail" value="{{ old('email') }}" required>
+                           placeholder="E-mail" value="{{ $email or old('email') }}" required autofocus>
                 </div>
 
                 <div class="form-group">
@@ -43,12 +40,12 @@
                            id="inputPasswordConfirmation" placeholder="Confirm Password" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="submit" class="btn btn-primary">Reset Password</button>
 
             </form>
 
         </div>
 
     </div>
-    
+
 @endsection
