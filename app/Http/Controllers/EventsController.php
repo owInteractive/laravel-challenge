@@ -87,8 +87,14 @@ class EventsController extends Controller
 
         $title = $request->title;
         $description = $request->description;
-        $startAt = Carbon::parse($request->start)->toDateTimeString();
-        $endAt = Carbon::parse($request->end)->toDateTimeString();
+        $startAt = Carbon::parse($request->start);
+        $endAt = Carbon::parse($request->end);
+
+        if ($startAt->timestamp > $endAt->timestamp) {
+            return redirect()
+                ->back()
+                ->withErrors('The end date should be greater than start date.');
+        }
 
         Event::where('id', $id)
             ->whereHas('participants', function($query) {
@@ -98,8 +104,8 @@ class EventsController extends Controller
             ->update([
                 'title' => $title,
                 'description' => $description,
-                'start_at' => $startAt,
-                'end_at' => $endAt,
+                'start_at' => $startAt->toDateTimeString(),
+                'end_at' => $endAt->toDateTimeString(),
             ]);
 
         return redirect()
