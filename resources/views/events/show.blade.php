@@ -107,7 +107,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="inputEmail">E-mail</label>
-                                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="E-mail">
+                                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="E-mail" required>
                             </div>
                         </div>
 

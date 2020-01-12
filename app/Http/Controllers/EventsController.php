@@ -47,6 +47,13 @@ class EventsController extends Controller
 
     public function store(Request $request)
     {
+
+        $this->validate($request, [
+            'title' => 'required',
+            'start' => 'required|date|before_or_equal:end',
+            'end' => 'required|date|after_or_equal:start'
+        ]);
+
         $title = $request->title;
         $description = $request->description;
         $startAt = Carbon::parse($request->start)->toDateTimeString();
@@ -86,6 +93,12 @@ class EventsController extends Controller
 
     public function update(int $id, Request $request)
     {
+
+        $this->validate($request, [
+            'title' => 'required',
+            'start' => 'required|date|before_or_equal:end',
+            'end' => 'required|date|after_or_equal:start'
+        ]);
 
         $title = $request->title;
         $description = $request->description;
@@ -238,6 +251,10 @@ class EventsController extends Controller
 
     public function invite(int $id, Request $request)
     {
+
+        $this->validate($request, [
+            'email' => 'required|email',
+        ]);
 
         $event = Event::find($id);
         if (!$event->amIOwner()) {
