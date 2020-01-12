@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\Helpers\EventSerializer;
 use App\Helpers\EventUnserializer;
+use App\Mail\InviteParticipant;
 use App\Models\User;
 use Carbon\Carbon;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class EventsController extends Controller
 {
@@ -212,6 +215,84 @@ class EventsController extends Controller
         return redirect()
             ->back()
             ->with('success', sizeof($events) . ' events has been imported successfully.');
+
+    }
+
+    public function invite(int $id, Request $request)
+    {
+
+        $event = Event::find($id);
+        if (!$event->amIOwner()) {
+            return redirect()
+                ->back()
+                ->withErrors('Only the owner of the event can invite participants.');
+        }
+
+        $email = $request->email;
+
+        // Check if is already a participant
+        $participant = $event->participants()->where('email', $email)->first();
+        if (!is_null($participant)) {
+            return redirect()
+                ->back()
+                ->withErrors($participant->name . '  is already a participant in this event.');
+        }
+
+        $payload = array(
+            "iss" => "ow-calendar",
+            "iat" => Carbon::now()->timestamp,
+            'exp' => Carbon::now()->addDays(7)->timestamp,
+            'event' => $id,
+            'invited' => $email,
+        );
+
+        $token = JWT::encode($payload, env('APP_KEY'));
+
+        Mail::to($email)->send(new InviteParticipant($event, Auth::user()->name, $token));
+
+        return redirect()
+            ->back()
+            ->with('success', "A e-mail with instructions has been sent to {$email}");
+
+    }
+
+    public function acceptInvite(string $token)
+    {
+        try {
+
+            $payload = JWT::decode($token, env('APP_KEY'), array('HS256'));
+
+        } catch (\Exception $e) {
+            return redirect('/')
+                ->withErrors('This token is not valid.');
+        }
+
+        // Check if the token is for the logged person
+        if (Auth::user()->email !== $payload->invited) {
+            return redirect('/')
+                ->withErrors('You need to be logged with the same e-mail you\'ve been invited.');
+        }
+
+        $event = Event::find($payload->event);
+
+        // Check if the event exists
+        if (!is_a($event, Event::class)) {
+            return redirect('/')
+                ->withErrors('The event has been deleted.');
+        }
+
+        // Check if already a participant
+        if ($event->participants()->find(Auth::user()->id)) {
+            return redirect('/events/' . $event->id);
+        }
+
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->events()->attach($event, ['owner' => false]);
+
+        return redirect('/events/' . $event->id)
+            ->with('success', 'You accepted the invite for this event.');
 
     }
 

@@ -23,10 +23,13 @@ Route::group(['prefix' => 'events', 'middleware' => 'auth'], function() {
     Route::post('import', 'EventsController@importEvents');
     Route::post('export', 'EventsController@exportEvents');
 
+    Route::get('join/{token}', 'EventsController@acceptInvite');
+
     Route::group(['middleware' => 'event.participant'], function() {
         Route::get('{id}', 'EventsController@show')->where('id', '[0-9]+');
         Route::put('{id}', 'EventsController@update')->where('id', '[0-9]+');
         Route::delete('{id}', 'EventsController@destroy')->where('id', '[0-9]+');
+        Route::post('{id}/invite', 'EventsController@invite')->where('id', '[0-9]+');
     });
 
 });
