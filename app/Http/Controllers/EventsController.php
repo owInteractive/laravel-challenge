@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Exceptions\EventCreationException;
 use App\Helpers\EventSerializer;
 use App\Helpers\EventUnserializer;
 use App\Mail\InviteParticipant;
@@ -70,6 +71,10 @@ class EventsController extends Controller
                 ->back()
                 ->withErrors('Failed to create your event. Please, try again.');
 
+        } catch (EventCreationException $e) {
+            return redirect()
+                ->back()
+                ->withErrors($e->getMessage());
         }
 
         return redirect('/events/' . $event->id)
@@ -212,6 +217,9 @@ class EventsController extends Controller
             return redirect('/events/import-export')
                 ->withErrors('Failed to import your events. Please, try again.');
 
+        } catch (EventCreationException $e) {
+            return redirect('/events/import-export')
+                ->withErrors($e->getMessage());
         }
 
         return redirect()
@@ -300,15 +308,37 @@ class EventsController extends Controller
 
     /**
      * @param Event[] $events
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException|EventCreationException
+     * @return void
      */
     private function persistEvents(iterable $events)
     {
 
         foreach ($events as $event) {
+
             if (!is_a($event, Event::class)) {
                 throw new \InvalidArgumentException();
             }
+
+            if (empty($event->title)) {
+                throw new EventCreationException('The title is required.');
+            }
+
+            if (empty($event->start_at)) {
+                throw new EventCreationException('The start date is required.');
+            }
+
+            if (empty($event->end_at)) {
+                throw new EventCreationException('The end date is required.');
+            }
+
+            $startAt = Carbon::parse($event->start_at);
+            $endAt = Carbon::parse($event->end_at);
+
+            if ($startAt->timestamp > $endAt->timestamp) {
+                throw new EventCreationException('The end date should be greater than start date.');
+            }
+
         }
 
         foreach ($events as $event) {
