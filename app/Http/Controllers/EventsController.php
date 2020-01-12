@@ -63,7 +63,7 @@ class EventsController extends Controller
 
         try {
 
-            $this->persistEvents([$event]);
+            Event::createEvents([$event]);
 
         } catch (\InvalidArgumentException $e) {
 
@@ -216,7 +216,7 @@ class EventsController extends Controller
 
         try {
 
-            $this->persistEvents($events);
+            Event::createEvents($events);
 
         } catch (\InvalidArgumentException $e) {
 
@@ -309,53 +309,6 @@ class EventsController extends Controller
 
         return redirect('/events/' . $event->id)
             ->with('success', 'You accepted the invite for this event.');
-
-    }
-
-    /**
-     * @param Event[] $events
-     * @throws \InvalidArgumentException|EventCreationException
-     * @return void
-     */
-    private function persistEvents(iterable $events)
-    {
-
-        foreach ($events as $event) {
-
-            if (!is_a($event, Event::class)) {
-                throw new \InvalidArgumentException();
-            }
-
-            if (empty($event->title)) {
-                throw new EventCreationException('The title is required.');
-            }
-
-            if (empty($event->start_at)) {
-                throw new EventCreationException('The start date is required.');
-            }
-
-            if (empty($event->end_at)) {
-                throw new EventCreationException('The end date is required.');
-            }
-
-            $startAt = Carbon::parse($event->start_at);
-            $endAt = Carbon::parse($event->end_at);
-
-            if ($startAt->timestamp > $endAt->timestamp) {
-                throw new EventCreationException('The end date should be greater than start date.');
-            }
-
-        }
-
-        foreach ($events as $event) {
-
-            $event->save();
-
-            /** @var User $user */
-            $user = Auth::user();
-            $user->events()->attach($event, ['owner' => true]);
-
-        }
 
     }
 

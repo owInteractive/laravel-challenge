@@ -2,11 +2,13 @@
 
 namespace App;
 
+use App\Exceptions\EventCreationException;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class Event extends Model
 {
@@ -96,6 +98,53 @@ class Event extends Model
         }
 
         return $calendar;
+    }
+
+    /**
+     * @param Event[] $events
+     * @throws \InvalidArgumentException|EventCreationException
+     * @return void
+     */
+    public static function createEvents(iterable $events)
+    {
+
+        foreach ($events as $event) {
+
+            if (!is_a($event, Event::class)) {
+                throw new \InvalidArgumentException();
+            }
+
+            if (empty($event->title)) {
+                throw new EventCreationException('The title is required.');
+            }
+
+            if (empty($event->start_at)) {
+                throw new EventCreationException('The start date is required.');
+            }
+
+            if (empty($event->end_at)) {
+                throw new EventCreationException('The end date is required.');
+            }
+
+            $startAt = Carbon::parse($event->start_at);
+            $endAt = Carbon::parse($event->end_at);
+
+            if ($startAt->timestamp > $endAt->timestamp) {
+                throw new EventCreationException('The end date should be greater than start date.');
+            }
+
+        }
+
+        foreach ($events as $event) {
+
+            $event->save();
+
+            /** @var User $user */
+            $user = Auth::user();
+            $user->events()->attach($event, ['owner' => true]);
+
+        }
+
     }
 
 }
