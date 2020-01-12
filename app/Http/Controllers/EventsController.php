@@ -39,7 +39,9 @@ class EventsController extends Controller
                 ->withErrors('This event could not be found.');
         }
 
-        return view('events.show', compact('event'));
+        $amIOwner = $event->amIOwner();
+
+        return view('events.show', compact('event', 'amIOwner'));
     }
 
     public function store(Request $request)

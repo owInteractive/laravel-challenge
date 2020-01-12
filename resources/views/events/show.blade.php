@@ -7,11 +7,11 @@
         <div class="card-header d-flex justify-content-between">
             <span class="align-self-center">{{$event->title}}</span>
 
-            <form method="post" onsubmit="return confirm('Are you sure do you want to @if($event->amIOwner()) delete @else leave @endif this event?')">
+            <form method="post" onsubmit="return confirm('Are you sure do you want to @if($amIOwner) delete @else leave @endif this event?')">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
                 <button class="btn btn-sm btn-danger" type="submit">
-                    @if($event->amIOwner()) Delete @else Leave @endif event
+                    @if($amIOwner) Delete @else Leave @endif event
                 </button>
             </form>
 
@@ -23,31 +23,38 @@
 
                 <form method="post">
 
-                    {{ csrf_field() }}
-                    {{ method_field('PUT') }}
+                    @if($amIOwner)
+                        {{ csrf_field() }}
+                        {{ method_field('PUT') }}
+                    @endif
 
                     <div class="form-group">
                         <label for="inputTitle">Title</label>
                         <input type="text" name="title" class="form-control" id="inputTitle" placeholder="Event title"
-                               value="{{$event->title}}">
+                               value="{{$event->title}}" @if(!$amIOwner) disabled @endif>
                     </div>
 
                     <div class="form-group">
                         <label for="inputDescription">Description</label>
-                        <textarea name="description" class="form-control" id="inputDescription" rows="3">{{$event->description}}</textarea>
+                        <textarea name="description" class="form-control" id="inputDescription"
+                                  @if(!$amIOwner) disabled @endif rows="3">{{$event->description}}</textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="inputStart">Start in</label>
-                        <input type="datetime-local" name="start" class="form-control" id="inputStart" value="{{$event->getStartAtAsW3c()}}">
+                        <input type="datetime-local" name="start" class="form-control" id="inputStart"
+                               value="{{$event->getStartAtAsW3c()}}" @if(!$amIOwner) disabled @endif>
                     </div>
 
                     <div class="form-group">
                         <label for="inputEnd">End in</label>
-                        <input type="datetime-local" name="end" class="form-control" id="inputEnd" value="{{$event->getEndAtAsW3c()}}">
+                        <input type="datetime-local" name="end" class="form-control" id="inputEnd"
+                               value="{{$event->getEndAtAsW3c()}}" @if(!$amIOwner) disabled @endif>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Update event</button>
+                    @if($amIOwner)
+                        <button type="submit" class="btn btn-primary">Update event</button>
+                    @endif
 
                 </form>
 
@@ -57,7 +64,7 @@
 
                 <div class="d-flex justify-content-between mb-2">
                     <span class="align-self-center">Participants</span>
-                    @if($event->amIOwner())
+                    @if($amIOwner)
                         <button data-toggle="modal" data-target="#exampleModal"
                                 class="btn btn-sm btn-secondary">Invite</button>
                     @endif
@@ -83,7 +90,7 @@
     </div>
 
 
-    @if($event->amIOwner())
+    @if($amIOwner)
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
