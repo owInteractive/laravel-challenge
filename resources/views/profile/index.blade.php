@@ -40,7 +40,7 @@
                 <form action="/profile/change-password" method="post">
 
                     {{ csrf_field() }}
-                    {{ method_field('PUT') }}
+                    {{ method_field('PATCH') }}
 
                     <div class="form-group">
                         <label for="inputCurrPass">Current Password</label>
