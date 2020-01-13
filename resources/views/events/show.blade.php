@@ -42,14 +42,14 @@
 
                     <div class="form-group">
                         <label for="inputStart">Start in</label>
-                        <input type="datetime-local" name="start" class="form-control" id="inputStart"
-                               value="{{$event->getStartAtAsW3c()}}" @if(!$amIOwner) disabled @endif>
+                        <input type="text" name="start" class="form-control form_datetime" id="inputStart"
+                               readonly value="{{ date('m/d/Y H:i', strtotime($event->start_at)) }}" @if(!$amIOwner) disabled @endif>
                     </div>
 
                     <div class="form-group">
                         <label for="inputEnd">End in</label>
-                        <input type="datetime-local" name="end" class="form-control" id="inputEnd"
-                               value="{{$event->getEndAtAsW3c()}}" @if(!$amIOwner) disabled @endif>
+                        <input type="text" name="end" class="form-control form_datetime" id="inputEnd"
+                               readonly value="{{ date('m/d/Y H:i', strtotime($event->end_at)) }}" @if(!$amIOwner) disabled @endif>
                     </div>
 
                     @if($amIOwner)

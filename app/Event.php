@@ -32,16 +32,6 @@ class Event extends Model
             ->withTimestamps();
     }
 
-    public function getStartAtAsW3c()
-    {
-        return Carbon::parse($this->start_at)->format('Y-m-d\TH:i');
-    }
-
-    public function getEndAtAsW3c()
-    {
-        return Carbon::parse($this->end_at)->format('Y-m-d\TH:i');
-    }
-
     public static function getTodayEvents(): Collection
     {
         $todayDate = Carbon::today()->toDateString();

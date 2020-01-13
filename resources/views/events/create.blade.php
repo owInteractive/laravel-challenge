@@ -27,14 +27,14 @@
 
                 <div class="form-group">
                     <label for="inputStart">Start in</label>
-                    <input type="datetime-local" name="start" class="form-control"
-                           id="inputStart" value="{{old('start_at')}}">
+                    <input type="text" readonly name="start" class="form-control form_datetime"
+                           id="inputStart" value="">
                 </div>
 
                 <div class="form-group">
                     <label for="inputEnd">End in</label>
-                    <input type="datetime-local" name="end" class="form-control"
-                           id="inputEnd" value="{{old('end_at')}}">
+                    <input type="text" readonly name="end" class="form-control form_datetime"
+                           id="inputEnd" value="">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Create event</button>
@@ -44,5 +44,7 @@
         </div>
 
     </div>
+
+
 
 @endsection
