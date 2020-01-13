@@ -152,7 +152,14 @@ class EventsController extends Controller
 
         // Authenticated user is the owner. Detach everyone and delete.
         $event->participants()->detach();
-        $event->delete();
+        try {
+
+            $event->delete();
+
+        } catch (\Exception $e) {
+            return redirect('/')
+                ->withErrors('Failed to delete this event. Please, try again.');
+        }
 
         return redirect('/')
             ->with('success', 'Your event has been deleted.');
