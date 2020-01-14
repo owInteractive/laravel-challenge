@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        \Illuminate\Support\Facades\Schema::defaultStringLength(191); // Corrige erro ao dar o comando "php artisan migrate" em BD com mysql com versao menor que 5.7
     }
 
     /**
