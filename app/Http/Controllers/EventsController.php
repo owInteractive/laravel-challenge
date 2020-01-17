@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class EventsController extends Controller
@@ -151,12 +152,15 @@ class EventsController extends Controller
         }
 
         // Authenticated user is the owner. Detach everyone and delete.
-        $event->participants()->detach();
+        DB::beginTransaction();
         try {
 
+            $event->participants()->detach();
             $event->delete();
+            DB::commit();
 
         } catch (\Exception $e) {
+            DB::rollback();
             return redirect('/')
                 ->withErrors('Failed to delete this event. Please, try again.');
         }
