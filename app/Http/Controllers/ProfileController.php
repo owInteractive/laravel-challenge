@@ -18,13 +18,32 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
 
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email'
+        ]);
+
+        $payload = ['name' => $request->name];
+
         /** @var User $user */
         $user = Auth::user();
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        if ($user->email !== $request->email) {
+            $this->validate($request, [
+                'email' => 'unique:users',
+            ]);
+            $payload['email'] = $request->email;
+        }
+
+        try {
+
+            $user->update($payload);
+
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withErrors('Failed to update your profile. Please, try again.');
+        }
 
         return redirect()
             ->back()
