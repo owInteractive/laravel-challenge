@@ -1,5 +1,7 @@
 <?php
 
+use App\Event;
+use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 
 /*
@@ -16,3 +18,20 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('users:count', function () {
+    $this->info(User::count() . ' registered users.');
+})->describe('Get number of Users');
+
+Artisan::command('users:list', function () {
+
+    $users = User::all();
+    $users->each(function ($user, $key) {
+        $this->info(sprintf('%s (%s)', $user->name, $user->email));
+    });
+
+})->describe('List Users');
+
+Artisan::command('events:count', function () {
+    $this->info(Event::count() . ' events created.');
+})->describe('Get number of created events.');
