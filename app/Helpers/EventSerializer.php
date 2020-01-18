@@ -6,6 +6,7 @@ namespace App\Helpers;
 
 use App\Event;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use League\Csv\Writer;
 
 class EventSerializer
@@ -21,15 +22,19 @@ class EventSerializer
     {
 
         $attributes = ['title', 'description', 'start_at', 'end_at'];
+
         $csv = Writer::createFromString('');
         $csv->insertOne($attributes);
 
-        $e = array();
         foreach ($events as $event) {
-            $e[] = Arr::only($event->toArray(), $attributes);
+
+            if (!is_a($event, Event::class)) {
+                throw new \InvalidArgumentException('Argument passed must be an iterable of Event');
+            }
+
+            $csv->insertOne(Arr::only($event->toArray(), $attributes));
         }
 
-        $csv->insertAll($e);
         return $csv->getContent();
 
     }
