@@ -9,6 +9,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Event extends Model
 {
@@ -125,14 +126,23 @@ class Event extends Model
 
         }
 
-        foreach ($events as $event) {
+        DB::beginTransaction();
+        try {
 
-            $event->save();
+            foreach ($events as $event) {
 
-            /** @var User $user */
-            $user = Auth::user();
-            $user->events()->attach($event, ['owner' => true]);
+                $event->save();
 
+                /** @var User $user */
+                $user = Auth::user();
+                $user->events()->attach($event, ['owner' => true]);
+
+            }
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw new EventCreationException('Failed to persist events.');
         }
 
     }
