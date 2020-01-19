@@ -1,11 +1,10 @@
 <?php
 
 use Carbon\Carbon;
-use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UsersTableSeeder extends Seeder
+class UsersEventsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,11 +15,9 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 
-        $faker = Factory::create();
+        DB::transaction(function () {
 
-        DB::beginTransaction();
-
-        try {
+            $faker = Faker\Factory::create();
 
             $userId = DB::table('users')->insertGetId([
                 'name' => $faker->name,
@@ -47,12 +44,7 @@ class UsersTableSeeder extends Seeder
                 "updated_at" => Carbon::now(),
             ]);
 
-            DB::commit();
-
-        } catch (Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+        });
 
     }
 }
