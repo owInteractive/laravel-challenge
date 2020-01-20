@@ -97,7 +97,7 @@ class EventsController extends Controller
 
         $this->validate($request, [
             'title' => 'required',
-            'start' => 'required|date|before_or_equal:end',
+            'start' => 'required|date',
             'end' => 'required|date|after_or_equal:start'
         ]);
 
@@ -106,23 +106,25 @@ class EventsController extends Controller
         $startAt = Carbon::parse($request->start);
         $endAt = Carbon::parse($request->end);
 
-        if ($startAt->timestamp > $endAt->timestamp) {
+        try {
+
+            Event::where('id', $id)
+                ->whereHas('participants', function ($query) {
+                    $query->where('user_id', auth()->id());
+                    $query->where('owner', true);
+                })
+                ->update([
+                    'title' => $title,
+                    'description' => $description,
+                    'start_at' => $startAt->toDateTimeString(),
+                    'end_at' => $endAt->toDateTimeString(),
+                ]);
+
+        } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->withErrors('The end date should be greater than start date.');
+                ->withErrors('Failed to update this event. Please, try again.');
         }
-
-        Event::where('id', $id)
-            ->whereHas('participants', function($query) {
-                $query->where('user_id', auth()->id());
-                $query->where('owner', true);
-            })
-            ->update([
-                'title' => $title,
-                'description' => $description,
-                'start_at' => $startAt->toDateTimeString(),
-                'end_at' => $endAt->toDateTimeString(),
-            ]);
 
         return redirect()
             ->back()
