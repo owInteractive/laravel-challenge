@@ -39,16 +39,21 @@
                     </li>
                 </ul>
 
-                <a href="/profile" class="text-dark">
-                    <small>{{Auth::user()->name}}</small>
-                </a>
+                <div class="d-flex">
 
-                <form action="/logout" method="post">
-                    {{ csrf_field() }}
-                    <button title="Logout" class="btn btn-sm btn-outline-danger ml-2" type="submit">
-                        <i class="fa fa-sign-out"></i>
-                    </button>
-                </form>
+                    <a href="/profile" title="Edit your profile" class="btn btn-sm btn-secondary" style="border-radius: 5px 0 0 5px;">
+                        <small>{{Auth::user()->name}}</small>
+                    </a>
+
+                    <form action="/logout" method="post">
+                        {{ csrf_field() }}
+                        <button title="Logout" class="btn btn-sm btn-danger"
+                                style="border-radius: 0 5px 5px 0;" type="submit">
+                            <i class="fa fa-sign-out"></i>
+                        </button>
+                    </form>
+
+                </div>
 
             @endif
 
