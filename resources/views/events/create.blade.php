@@ -45,6 +45,8 @@
 
     </div>
 
+@endsection
 
-
+@section('scripts')
+    @include('subviews.datetime_picker', ['input' => '.form_datetime'])
 @endsection
