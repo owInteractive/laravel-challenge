@@ -203,18 +203,11 @@ class EventsController extends Controller
     public function importEvents(Request $request)
     {
 
-        if (!$request->hasFile('ow_events') || !$request->file('ow_events')->isValid()) {
-            return redirect('/events/import-export')
-                ->withErrors('The file upload was not succeded. Please, try again.');
-        }
+        $this->validate($request, [
+            'ow_events' => 'required|file|mimetypes:text/plain'
+        ]);
 
         $file = $request->file('ow_events');
-
-        if ($file->getMimeType() !== 'text/plain') {
-            return redirect('/events/import-export')
-                ->withErrors('The provided file must be a CSV Text file.');
-        }
-
         $csv = file_get_contents($file->getRealPath());
 
         if ($csv === false) {
