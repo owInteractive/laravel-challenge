@@ -10,7 +10,7 @@
 
     <div class="card-body">
 
-        @include('list_events',
+        @include('subviews.list_events',
                 ['events' => $events, 'emptyMessage' => 'There are no events to show.'])
 
         <div class="d-flex mt-4">

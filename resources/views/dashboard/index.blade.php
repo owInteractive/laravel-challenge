@@ -14,11 +14,11 @@
         <div class="card-body">
 
             <h5>Today</h5>
-            @include('list_events',
+            @include('subviews.list_events',
                 ['events' => $todayEvents, 'emptyMessage' => 'There are no events for today.'])
 
             <h5 class="mt-3">Next 5 days</h5>
-            @include('list_events',
+            @include('subviews.list_events',
                 ['events' => $next5DaysEvents, 'emptyMessage' => 'There are no events for the next 5 days.'])
 
         </div>

@@ -10,14 +10,14 @@
 
             <small class="text-info">
                 <i class="fa fa-calendar-check-o"></i>
-                {{date('d/m/Y H:i', strtotime($event->start_at))}}
+                {{date('m/d/Y H:i', strtotime($event->start_at))}}
             </small>
 
             <br>
 
             <small class="text-secondary">
                 <i class="fa fa-calendar-minus-o"></i>
-                {{date('d/m/Y H:i', strtotime($event->end_at))}}
+                {{date('m/d/Y H:i', strtotime($event->end_at))}}
             </small>
 
         </a>
