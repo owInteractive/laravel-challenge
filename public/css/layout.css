@@ -1,0 +1,27 @@
+body {
+    background-color: #67B7BF;
+}
+
+input#inputFile[type="file"] {
+    display: none;
+}
+
+.custom-btn-file {
+    border: 1px solid #ccc;
+    padding: 80px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 100%;
+    background: whitesmoke;
+}
+
+.custom-btn-file:hover {
+    background-color: #e8e8e8;
+}
+
+.custom-btn-file i {
+    font-size: 35px;
+}

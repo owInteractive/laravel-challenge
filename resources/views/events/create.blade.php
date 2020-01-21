@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('css')
+    <link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" media="screen">
+@endsection
+
 @section('content')
 
     <div class="card mt-3">
