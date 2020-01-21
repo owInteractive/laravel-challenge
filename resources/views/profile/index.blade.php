@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'OW Calendar | Profile')
+
 @section('content')
 
     <div class="card mt-3">

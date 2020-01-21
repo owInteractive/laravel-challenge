@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('title')
+    OW Calendar | {{ $event->title }}
+@endsection
+
 @section('css')
     <link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" media="screen">
 @endsection

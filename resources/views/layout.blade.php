@@ -12,7 +12,7 @@
 
     <link href="{{ URL::asset('css/layout.css') }}" rel="stylesheet" media="screen">
 
-    <title>OW Calendar</title>
+    <title>@yield('title', 'OW Calendar')</title>
 
 </head>
 <body>
