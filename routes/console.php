@@ -25,10 +25,10 @@ Artisan::command('users:count', function () {
 
 Artisan::command('users:list', function () {
 
-    $users = User::all();
-    $users->each(function ($user, $key) {
-        $this->info(sprintf('%s (%s)', $user->name, $user->email));
-    });
+    $headers = ['name', 'email'];
+    $users = User::get($headers);
+
+    $this->table($headers, $users);
 
 })->describe('List Users');
 
