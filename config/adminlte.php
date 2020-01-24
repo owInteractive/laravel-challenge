@@ -186,7 +186,7 @@ return [
         'MENU',
         [
             'text'        => 'eventos',
-            'url'         => 'admin/pages',
+            'url'         => '/events',
             'icon'        => 'fa fa-home',
             'label'       => 4,
             'label_color' => 'success',
