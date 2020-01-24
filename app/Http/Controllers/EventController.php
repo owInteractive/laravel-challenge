@@ -14,7 +14,11 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $user = auth()->user();
+        
+        $events = $user->events()->paginate(2);
+        
+
         return view("events.index")->with(['events'=>$events]);
     }
 
@@ -101,4 +105,5 @@ class EventController extends Controller
         return redirect()->route('events.index')
                         ->with('success','Product deleted successfully');
     }
+
 }
