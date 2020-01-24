@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/events/import','EventController@import')->name('events.import');
+    Route::get('/events/export','EventController@exportEvents')->name('events.export');
     Route::post('/events/importEvents','EventController@importEvents')->name('events.importEvents');
     Route::resource('/events', 'EventController');
     

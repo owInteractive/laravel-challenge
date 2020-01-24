@@ -7,6 +7,7 @@ use App\Models\Event;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\Eventsmport;
+use App\Exports\EventExport;
 use Carbon\Carbon;
 
 
@@ -111,9 +112,16 @@ class EventController extends Controller
                         ->with('success','Product deleted successfully');
     }
 
-    
     public function import(){
         return view('events.import');
+    }
+
+    public function exportEvents(){
+        $user = auth()->user();
+        $events = $user->events()->select('title','description','start','end')->get()->toArray();
+        array_unshift($events,['title','description','start','end']);// add column headers
+        $export = new EventExport($events);
+        return Excel::download($export, 'events.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function importEvents(Request $request){
@@ -123,17 +131,10 @@ class EventController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }   
-        //dd(request()->file('csv_file'));
-        // dd( $request->file('csv_file')->getRealPath());
 
-       // $path = $request->file('csv_file')->getRealPath();
-       
-        //$data = Excel::import($path, function($reader) {})->get()->toArray();
         $data = Excel::toArray(new Eventsmport,  request()->file('csv_file'));
 
         foreach($data[0] as $info){
-
-            // dd(Carbon::createFromFormat('m/d/Y H:i:s', $info['start'])->toDateTimeString());
             Event::create([
                 'title' => $info['title'],
                 'description' => $info['description'],
@@ -143,32 +144,6 @@ class EventController extends Controller
             ]);
         }  
 
-        //dd($array);
-        //Excel::import(new Eventsmport, $request->file('csv_file'));
-
-        // if (count($data) > 0) {
-        //     $csv_header_fields = [];
-        //     foreach ($data[0] as $key => $value) {
-        //         $csv_header_fields[] = $key;
-        //     }
-        //     if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
-        //         return redirect()->back();
-        //     }  
-        //     $csv_data = array_slice($data, 0, 2);
-        //     foreach($csv_data as $info){
-        //         Event::create([
-        //             'title' => $info['title'],
-        //             'description' => $info['description'],
-        //             'start' => $info['start'],
-        //             'end' => $info['end'],
-        //             'users_id' => $user->id()
-        //         ]);
-        //     }  
-        // }
-        // else {
-        //     return redirect()->back();
-        // } 
-        
         return redirect()->back();
     }
 
@@ -180,24 +155,6 @@ class EventController extends Controller
             'beginTime' => 'required|date_format:H:i',
             'endDate' => 'required|date|after:beginDate',
             'endTime' => 'required|date_format:H:i'
-        ];
-    }
-
-    public function messages(){
-        return [
-            'title.required' => 'Insert a title!',
-            'title.max' => 'Insira título com no máximo xxx!',
-            'description.required' => 'Insert a title!',
-            'description.max' => 'Insira título com no máximo xxx!',
-            'beginDate.required' => 'Insira Data de inicio!',
-            'beginDate.date' => 'Insira data válida!',
-            'beginTime.required' => 'Insira hora de inicio!',
-            'beginTime.date_format' => 'Insira hora válida!',
-            'endDate.required' => 'Insira Data de fim!',
-            'endDate.date' => 'Insira data válida!',
-            'endDate.after' => 'Insira data final posterior a data de inicio!',
-            'endTime.required' => 'Insira hora de fim!',
-            'endTime.date_format' => 'Insira hora válida no fim!'            
         ];
     }
 

@@ -18,6 +18,10 @@
           </div>
           <div class="pull-right">
             <a class="btn btn-success" href="{{ route('events.import') }}"> Importar</a>
+          </div>
+          <div class="pull-right">
+            <a class="btn btn-success" href="{{ route('events.export') }}"> Exportar</a>
+          </div>
         </div>
       </div>
     </div>
