@@ -18,7 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/events/import','EventController@import')->name('events.import');
+    Route::post('/events/importEvents','EventController@importEvents')->name('events.importEvents');
     Route::resource('/events', 'EventController');
-
+    
     Route::get('/home', 'HomeController@index')->name('home');
 });

@@ -191,6 +191,20 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
+        [
+            'text'    => 'Eventos',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'level_one',
+                    'url'  => '/events',
+                ],
+                [
+                    'text' => 'Importar Eventos',
+                    'url'  => '/events/import',
+                ],
+            ],
+        ],
         // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',

@@ -16,6 +16,9 @@
           <div class="pull-right">
               <a class="btn btn-success" href="{{ route('events.create') }}"> Criar</a>
           </div>
+          <div class="pull-right">
+            <a class="btn btn-success" href="{{ route('events.import') }}"> Importar</a>
+        </div>
       </div>
     </div>
 

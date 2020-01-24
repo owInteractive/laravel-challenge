@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
+use App\Imports\Eventsmport;
+use Carbon\Carbon;
+
 
 class EventController extends Controller
 {
@@ -106,4 +111,100 @@ class EventController extends Controller
                         ->with('success','Product deleted successfully');
     }
 
+    
+    public function import(){
+        return view('events.import');
+    }
+
+    public function importEvents(Request $request){
+        $user = auth()->user();
+        $validator = Validator::make($request->all(), EventController::rules_csv());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }   
+        //dd(request()->file('csv_file'));
+        // dd( $request->file('csv_file')->getRealPath());
+
+       // $path = $request->file('csv_file')->getRealPath();
+       
+        //$data = Excel::import($path, function($reader) {})->get()->toArray();
+        $data = Excel::toArray(new Eventsmport,  request()->file('csv_file'));
+
+        foreach($data[0] as $info){
+
+            // dd(Carbon::createFromFormat('m/d/Y H:i:s', $info['start'])->toDateTimeString());
+            Event::create([
+                'title' => $info['title'],
+                'description' => $info['description'],
+                'start' => Carbon::createFromFormat('m/d/Y H:i:s', $info['start'])->toDateTimeString(),
+                'end' => Carbon::createFromFormat('m/d/Y H:i:s', $info['end'])->toDateTimeString(),
+                'user_id' => $user->id
+            ]);
+        }  
+
+        //dd($array);
+        //Excel::import(new Eventsmport, $request->file('csv_file'));
+
+        // if (count($data) > 0) {
+        //     $csv_header_fields = [];
+        //     foreach ($data[0] as $key => $value) {
+        //         $csv_header_fields[] = $key;
+        //     }
+        //     if($csv_header_fields[0]!='title' || $csv_header_fields[1]!='description' || $csv_header_fields[2]!='start' || $csv_header_fields[3]!='end'){
+        //         return redirect()->back();
+        //     }  
+        //     $csv_data = array_slice($data, 0, 2);
+        //     foreach($csv_data as $info){
+        //         Event::create([
+        //             'title' => $info['title'],
+        //             'description' => $info['description'],
+        //             'start' => $info['start'],
+        //             'end' => $info['end'],
+        //             'users_id' => $user->id()
+        //         ]);
+        //     }  
+        // }
+        // else {
+        //     return redirect()->back();
+        // } 
+        
+        return redirect()->back();
+    }
+
+    public function rules(){
+        return [
+            'title' => 'required|max:250',
+            'description' => 'required|max:5000',
+            'beginDate' => 'required|date',
+            'beginTime' => 'required|date_format:H:i',
+            'endDate' => 'required|date|after:beginDate',
+            'endTime' => 'required|date_format:H:i'
+        ];
+    }
+
+    public function messages(){
+        return [
+            'title.required' => 'Insert a title!',
+            'title.max' => 'Insira título com no máximo xxx!',
+            'description.required' => 'Insert a title!',
+            'description.max' => 'Insira título com no máximo xxx!',
+            'beginDate.required' => 'Insira Data de inicio!',
+            'beginDate.date' => 'Insira data válida!',
+            'beginTime.required' => 'Insira hora de inicio!',
+            'beginTime.date_format' => 'Insira hora válida!',
+            'endDate.required' => 'Insira Data de fim!',
+            'endDate.date' => 'Insira data válida!',
+            'endDate.after' => 'Insira data final posterior a data de inicio!',
+            'endTime.required' => 'Insira hora de fim!',
+            'endTime.date_format' => 'Insira hora válida no fim!'            
+        ];
+    }
+
+    public function rules_csv()
+    {
+        return [
+            'csv_file' => 'required|file'
+        ];
+    }
 }
