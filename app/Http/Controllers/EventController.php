@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Validator;
 use App\Imports\Eventsmport;
 use App\Exports\EventExport;
 use Carbon\Carbon;
@@ -126,42 +125,28 @@ class EventController extends Controller
 
     public function importEvents(Request $request){
         $user = auth()->user();
-        $validator = Validator::make($request->all(), EventController::rules_csv());
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }   
-
         $data = Excel::toArray(new Eventsmport,  request()->file('csv_file'));
 
-        foreach($data[0] as $info){
-            Event::create([
-                'title' => $info['title'],
-                'description' => $info['description'],
-                'start' => Carbon::createFromFormat('m/d/Y H:i:s', $info['start'])->toDateTimeString(),
-                'end' => Carbon::createFromFormat('m/d/Y H:i:s', $info['end'])->toDateTimeString(),
-                'user_id' => $user->id
-            ]);
-        }  
+        $line = 1;
+        try{
+            foreach($data[0] as $info){
+                Event::create([
+                    'title' => $info['title'],
+                    'description' => $info['description'],
+                    'start' => Carbon::createFromFormat('m/d/Y H:i:s', $info['start'])->toDateTimeString(),
+                    'end' => Carbon::createFromFormat('m/d/Y H:i:s', $info['end'])->toDateTimeString(),
+                    'user_id' => $user->id
+                ]);
 
-        return redirect()->back();
-    }
+                $line++;
+            }  
+        }catch(Exception $e){
+            return redirect()->route('events.index')
+                        ->with('error','Falha ao importar arquivo. linha:'.$line);
+        }
+        
 
-    public function rules(){
-        return [
-            'title' => 'required|max:250',
-            'description' => 'required|max:5000',
-            'beginDate' => 'required|date',
-            'beginTime' => 'required|date_format:H:i',
-            'endDate' => 'required|date|after:beginDate',
-            'endTime' => 'required|date_format:H:i'
-        ];
-    }
-
-    public function rules_csv()
-    {
-        return [
-            'csv_file' => 'required|file'
-        ];
+        return redirect()->route('events.index')
+                        ->with('success','Lista de Eventos Importadas com Sucesso.');
     }
 }

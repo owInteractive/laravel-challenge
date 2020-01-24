@@ -1,44 +1,40 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', 'Eventos')
 
 @section('content_header')
     <h1 class="m-0 text-dark">Eventos</h1>
 @stop
 
 @section('content')
-
-    <div class="row">
-      <div class="col-lg-12 margin-tb">
-          <div class="pull-left">
-              <h2></h2>
-          </div>
-          <div class="pull-right">
-              <a class="btn btn-success" href="{{ route('events.create') }}"> Criar</a>
-          </div>
-          <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('events.import') }}"> Importar</a>
-          </div>
-          <div class="pull-right">
-            <a class="btn btn-success" href="{{ route('events.export') }}"> Exportar</a>
-          </div>
-        </div>
+    @if ($message = Session::get('success'))
+      <div class="alert alert-success">
+          <p>{{ $message }}</p>
       </div>
-    </div>
-
+    @endif
+    @if ($messageerror = Session::get('error'))
+      <div class="alert alert-danger">
+          <p>{{ $messageerror }}</p>
+      </div>
+    @endif
     <div class="row">
         <div class="col-12">
 
-          @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-          @endif
+          
 
 
             <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Eventos</h3>
+                  <div class="row">
+                    <div style="text-align:left;" class="col-md-6">
+                      <a class="btn btn-success" href="{{ route('events.create') }}"> Criar Novo</a>
+                    
+                    </div>
+                    <div style="text-align:right;" class="col-md-6">
+                      <a class="btn btn-success" href="{{ route('events.import') }}"> Importar</a>
+                      <a class="btn btn-info" href="{{ route('events.export') }}"> Exportar</a>
+                    </div>
+                  </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
