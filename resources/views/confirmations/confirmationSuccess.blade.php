@@ -72,31 +72,15 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
+                    <div class="col-md-6 col-md-offset-3">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="jumbotron" style="background-color:white;padding: 15px 15px;border-radius: 20px;">
-                                    <form method="POST" action="{{ route('confirmevent.store') }}"  >
-                                        @csrf
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h1>Confirmar Evento</h1>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <p>{{$event->user->name}} te convidou para o evento:</p>
-                                                <b>{{$event->title}}</b>.
-                                                <p>Confirme sua presença inserindo seu nome abaixo.</p>
-                                            </div>
-                                            <div class="col-md-12" style="margin-bottom:15px;">
-                                                <input type="hidden" name="event_id" value="{{$event->id}}">
-                                                <input type="text" name="name" class="form-control input-lg" placeholder="Insira seu Nome">
-                                            </div>
-                                            <div class="col-md-12" >
-                                                <button class="btn btn-primary btn-lg btn-block" type="submit">Estarei Lá</button>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 class="alert alert-success">Presença Confirmada com sucesso</h1>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

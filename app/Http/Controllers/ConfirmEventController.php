@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Confirmation;
 use App\Models\Event;
 
 class ConfirmEventController extends Controller
@@ -12,5 +13,20 @@ class ConfirmEventController extends Controller
         
 
         return view("events.confirmevent",['event'=>$event]);
+    }
+
+    public function store(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'event_id' => 'required',
+        ]);
+  
+        Confirmation::create($request->all());
+   
+        return redirect()->route('confirmevent.successconfirm');
+    }
+
+    public function successConfirmation(){
+        return view('confirmations.confirmationSuccess');
     }
 }

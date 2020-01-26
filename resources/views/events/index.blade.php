@@ -71,7 +71,7 @@
                       
                                     <button type="submit" class="btn btn-danger">Delete</button>
 
-                                  <a class="btn btn-success" href="#" onclick="chooseEvent('{{$event->title}}','{{$event->description}}','{{route('/events')}}')"  data-toggle="modal" data-target="#myModal">Compartilhar</a>
+                                  <a class="btn btn-success" href="#" onclick="chooseEvent('{{$event->title}}','{{$event->description}}','{{route('confirmevent.index',$event->id)}}')"  data-toggle="modal" data-target="#myModal">Compartilhar</a>
 
                                 </form>
                                 {{-- <a href="{{ route('events.edit',$event->id) }}" class="btn btn-secondary">Editar</a>
