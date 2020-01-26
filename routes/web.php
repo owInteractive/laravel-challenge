@@ -25,4 +25,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('event', 'EventController@store')->name('event.store');
     Route::delete('event/{filter}', 'EventController@destroy')->name('event.destroy');
 
+    //CSV Routes
+    Route::get('import', 'CsvController@import')->name('import');
+    Route::get('export', 'CsvController@exportAll')->name('export.all');
+    Route::get('export/{id}', 'CsvController@exportSingle')->name('export.single');
+    Route::post('import', 'CsvController@importExcel')->name('import');
+
 });
