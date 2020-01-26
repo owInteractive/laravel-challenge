@@ -25,7 +25,7 @@ Artisan::command('users:count', function () {
 
 Artisan::command('users:list', function () {
 
-    $headers = ['name', 'email'];
+    $headers = ['id', 'name', 'email'];
     $users = User::get($headers);
 
     $this->table($headers, $users);
