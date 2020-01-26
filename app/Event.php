@@ -12,14 +12,18 @@ class Event extends Model
       'user_id',
       'title',
       'description',
-      'date_time_start',
-      'date_time_end'
+      'start_datetime',
+      'end_datetime'
     ];
     protected $hidden = [
       'id',
       'user_id',
+      'title',
+      'description',
+      'start_datetime',
+      'end_datetime',
       'created_at',
       'updated_at',
-      'deleted_at',
+      'deleted_at'
     ];
 }

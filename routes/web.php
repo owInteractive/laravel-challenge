@@ -29,6 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('import', 'CsvController@import')->name('import');
     Route::get('export', 'CsvController@exportAll')->name('export.all');
     Route::get('export/{id}', 'CsvController@exportSingle')->name('export.single');
-    Route::post('import', 'CsvController@importExcel')->name('import');
+    Route::post('import', 'CsvController@importCsv')->name('import');
+
+    //Invite Routes
+    Route::get('invite/{id}', 'InviteController@invite')->name('invite');
+    Route::post('invite/{id}', 'InviteController@mail')->name('invite');
 
 });

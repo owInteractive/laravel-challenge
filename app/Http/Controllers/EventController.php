@@ -35,11 +35,11 @@ class EventController extends Controller
           } 
           else if ($filter == 'five') {
             $events = Event::where('user_id', Auth::user()->id)
-                ->where('date_time_start', '<', Carbon::today()->addDays(6))->where('date_time_end', '>=', Carbon::today())->paginate(10);
+                ->where('start_datetime', '<', Carbon::today()->addDays(6))->where('end_datetime', '>=', Carbon::today())->paginate(10);
           }
           else if ($filter == 'today') {
             $events = Event::where('user_id', Auth::user()->id)
-                ->where('date_time_start', '<', Carbon::today()->addDays(1))->where('date_time_end', '>=', Carbon::today())->paginate(10);
+                ->where('start_datetime', '<', Carbon::today()->addDays(1))->where('end_datetime', '>=', Carbon::today())->paginate(10);
           }
 
           return view('event.index', compact('events'));
@@ -53,7 +53,7 @@ class EventController extends Controller
     }
 
     //Delete event by id
-    public function destroy() {
+    public function destroy($id) {
         $event = Event::findOrFail($id);
         $event->delete();
         

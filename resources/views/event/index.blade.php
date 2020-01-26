@@ -39,13 +39,13 @@
           @foreach($events as $event)
           <tr>
             <td>
-              {{\Carbon\Carbon::parse($event->date_time_start)->format('d/m/Y')}}<br>
-              at: {{\Carbon\Carbon::parse($event->date_time_start)->format('H:i')}}
+              {{\Carbon\Carbon::parse($event->start_datetime)->format('d/m/Y')}}<br>
+              at: {{\Carbon\Carbon::parse($event->start_datetime)->format('H:i')}}
             </td>
             <td><strong class="text-info">{{$event->title}}</strong></td>
             <td>
-              {{\Carbon\Carbon::parse($event->date_time_end)->format('d/m/Y')}}<br>
-              at: {{\Carbon\Carbon::parse($event->date_time_end)->format('H:i')}}
+              {{\Carbon\Carbon::parse($event->end_datetime)->format('d/m/Y')}}<br>
+              at: {{\Carbon\Carbon::parse($event->end_datetime)->format('H:i')}}
             </td>
             <td>{{$event->description}}</td>
             <td><a href="{{ route('event.show',$event->id)}}" class="btn btn-primary">Edit</a></td>
@@ -68,4 +68,4 @@
       </table>
       {{ $events->links() }}
       <div>
-@endsection
+        @endsection
