@@ -12,19 +12,16 @@ class Event extends Model
         'description',
         'start_at',
         'end_at',
-        'user_id',
     ];
 
     public function isOwner(int $userId): bool
     {
-
         $participant = $this->participants()->find($userId);
 
         if (!is_a($participant, User::class)) {
             return false;
         }
         return $participant->pivot->owner;
-
     }
 
     public function participants()
