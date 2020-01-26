@@ -11,6 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+
+    //Events Routes
+    Route::get('/', 'EventController@index');
+    Route::get('event', 'EventController@index')->name('event.index');
+    Route::get('event/{id}', 'EventController@show')->name('event.show');
+    Route::get('event/filter/{filter}', 'EventController@filter')->name('event.filter');
+    Route::post('event', 'EventController@store')->name('event.store');
+    Route::delete('event/{filter}', 'EventController@destroy')->name('event.destroy');
+
 });
