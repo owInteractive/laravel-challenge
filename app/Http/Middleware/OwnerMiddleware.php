@@ -34,7 +34,7 @@ class OwnerMiddleware
                 ->withErrors('This event could not be found.');
         }
 
-        if (!$event->amIOwner()) {
+        if (!$event->isOwner(auth()->id())) {
             return redirect('/')
                 ->withErrors('You dont have permission to perform this action.');
         }

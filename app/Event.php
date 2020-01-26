@@ -15,9 +15,16 @@ class Event extends Model
         'user_id',
     ];
 
-    public function amIOwner(): bool
+    public function isOwner(int $userId): bool
     {
-        return $this->participants->find(auth()->id())->pivot->owner;
+
+        $participant = $this->participants()->find($userId);
+
+        if (!is_a($participant, User::class)) {
+            return false;
+        }
+        return $participant->pivot->owner;
+
     }
 
     public function participants()

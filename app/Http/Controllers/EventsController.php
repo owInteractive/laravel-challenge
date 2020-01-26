@@ -52,7 +52,7 @@ class EventsController extends Controller
                 ->withErrors('This event could not be found.');
         }
 
-        $amIOwner = $event->amIOwner();
+        $amIOwner = $event->isOwner(auth()->id());
 
         return view('events.show', compact('event', 'amIOwner'));
     }
@@ -157,7 +157,7 @@ class EventsController extends Controller
                 ->withErrors('This event could not be found.');
         }
 
-        if (!$event->amIOwner()) {
+        if (!$event->isOwner(auth()->id())) {
             // Authenticated user is not the owner of event, but participant. Then leave it.
             $event->participants()->detach(auth()->id());
             return redirect('/')
@@ -274,7 +274,7 @@ class EventsController extends Controller
         ]);
 
         $event = Event::find($id);
-        if (!$event->amIOwner()) {
+        if (!$event->isOwner(auth()->id())) {
             return redirect()
                 ->back()
                 ->withErrors('Only the owner of the event can invite participants.');
