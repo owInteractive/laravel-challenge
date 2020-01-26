@@ -18,10 +18,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
+    
     Route::get('/events/import','EventController@import')->name('events.import');
     Route::get('/events/export','EventController@exportEvents')->name('events.export');
     Route::post('/events/importEvents','EventController@importEvents')->name('events.importEvents');
+
+    Route::get('/home', 'HomeController@index')->name('home');
+
     Route::resource('/events', 'EventController');
     
-    Route::get('/home', 'HomeController@index')->name('home');
 });
+
+Route::get('/confirmevent/{id}','ConfirmEventController@index')->name('confirmevent.index');
