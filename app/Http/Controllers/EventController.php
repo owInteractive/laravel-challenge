@@ -89,7 +89,9 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::find($id);
-        return view('events.edit')->with(['event'=> $event]);
+        // dd($event->confirmations()->orderBy('name')->get());
+        $event->confirmations = $event->confirmations()->orderBy('name')->get();
+        return view('events.show')->with(['event'=> $event]);
     }
 
     /**
