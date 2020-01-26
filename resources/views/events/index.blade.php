@@ -61,20 +61,18 @@
                                 <td>
                                   <form action="{{ route('events.destroy',$event->id) }}" method="POST">
    
-                                    <a class="btn btn-info" href="{{ route('events.show',$event->id) }}">Show</a>
+                                    <a class="btn btn-info" href="{{ route('events.show',$event->id) }}">Detalhes</a>
                     
-                                    <a class="btn btn-primary" href="{{ route('events.edit',$event->id) }}">Edit</a>
+                                    <a class="btn btn-primary" href="{{ route('events.edit',$event->id) }}">Editar</a>
                    
                                     @csrf
                                     @method('DELETE')
                       
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-danger">Apagar</button>
 
                                   <a class="btn btn-success" href="#" onclick="chooseEvent('{{$event->title}}','{{$event->description}}','{{route('confirmevent.index',$event->id)}}')"  data-toggle="modal" data-target="#myModal">Compartilhar</a>
 
                                 </form>
-                                {{-- <a href="{{ route('events.edit',$event->id) }}" class="btn btn-secondary">Editar</a>
-                                <a href="{{ route('events.destroy',$event->id) }}" class="btn btn-danger">Deletar</a> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -86,18 +84,6 @@
                     {{$events->links()}}                      
                   @endif
                 </div>
-
-
-                <!-- /.card-body -->
-                {{-- <div class="card-footer clearfix">
-                  <ul class="pagination pagination-sm m-0 float-right">
-                    <li class="page-item"><a class="page-link" href="#">«</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">»</a></li>
-                  </ul>
-                </div> --}}
               </div>
         </div>
     </div>

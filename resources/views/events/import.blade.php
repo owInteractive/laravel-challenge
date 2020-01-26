@@ -18,6 +18,8 @@
     
                             <div class="form-group{{ $errors->has('csv_file') ? ' has-error' : '' }}">
                                 <label for="csv_file" class="col-md-4 control-label">Escolha o Arquivo para importar</label>
+
+                            <a href="{{asset('import_file_example.csv')}}"> Ver arquivo de exemplo de importação </a>
     
                                 <div class="col-md-6">
                                     <input id="csv_file" type="file" class="form-control" name="csv_file" required>
@@ -30,8 +32,9 @@
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Import CSV
+                                        Importar CSV
                                     </button>
+                                     <a href="/events" >Voltar para Eventos</a>
                                 </div>
     
                             </div>

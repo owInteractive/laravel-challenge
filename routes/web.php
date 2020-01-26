@@ -20,12 +20,12 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/events/today','EventController@today');
     Route::get('/events/nextfive','EventController@nextfive');
-    Route::resource('/events', 'EventController');
 
     /** Event Routes */
     Route::get('/events/import','EventController@import')->name('events.import');
     Route::get('/events/export','EventController@exportEvents')->name('events.export');
     Route::post('/events/importEvents','EventController@importEvents')->name('events.importEvents');
+    Route::resource('/events', 'EventController');
 
     /** Home Routes */
     Route::get('/home', 'HomeController@index')->name('home');

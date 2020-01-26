@@ -77,6 +77,8 @@
                    
                 </div>
             </div>
+
+            <a href="/events" class="btn btn-default btn-lg btn-block">Voltar</a>
         </div>
     </div>
 
