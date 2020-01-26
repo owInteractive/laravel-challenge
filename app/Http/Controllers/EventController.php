@@ -132,7 +132,7 @@ class EventController extends Controller
         $event->delete();
   
         return redirect()->route('events.index')
-                        ->with('success','Product deleted successfully');
+                        ->with('success','Evento foi apagado com sucesso.');
     }
 
     public function import(){
