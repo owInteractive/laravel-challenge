@@ -8,6 +8,7 @@ use App\Helpers\EventSerializer;
 use App\Helpers\EventUnserializer;
 use App\Mail\InviteParticipant;
 use App\Models\User;
+use App\Repositories\EventRepository;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -18,10 +19,20 @@ use Illuminate\Support\Facades\Mail;
 class EventsController extends Controller
 {
 
+    /**
+     * @var EventRepository
+     */
+    private $eventRepository;
+
+    public function __construct(EventRepository $eventRepository)
+    {
+        $this->eventRepository = $eventRepository;
+    }
+
     public function index() {
 
         return view('events.index', [
-            'events' => Event::getAllEvents(15),
+            'events' => $this->eventRepository->getAllEvents(15),
         ]);
 
     }
@@ -71,7 +82,7 @@ class EventsController extends Controller
 
         try {
 
-            Event::createEvents([$event]);
+            $this->eventRepository->createEvents($event);
 
         } catch (\InvalidArgumentException $e) {
 
@@ -180,7 +191,7 @@ class EventsController extends Controller
     public function exportEvents()
     {
 
-        $events = Event::getAllEvents();
+        $events = $this->eventRepository->getAllEvents();
 
         if (sizeof($events) <= 0) {
             return redirect('/events/import-export')
@@ -237,7 +248,7 @@ class EventsController extends Controller
 
         try {
 
-            Event::createEvents($events);
+            $this->eventRepository->createEvents($events);
 
         } catch (\InvalidArgumentException $e) {
 
