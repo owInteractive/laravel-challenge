@@ -10,7 +10,6 @@
     @if ($message = Session::get('success'))
       <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-          <h5><i class="icon fas fa-ban"></i> Erro!</h5>
         {{ $message }}
       </div>
     @endif
@@ -82,7 +81,10 @@
                     </tbody>
                   </table>
 
-                  {{$events->links()}}
+                  {{-- {{ $events->links() or 'not-exist' }} --}}
+                  @if(method_exists ( $events ,'links' ))
+                    {{$events->links()}}                      
+                  @endif
                 </div>
 
 
@@ -103,19 +105,36 @@
 
     <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Compartilhar</h4>
       </div>
       <div class="modal-body">
+        Via:
         <ul>
           <li style="list-style-type: none;">
             <a class="btn btn-app" onclick="shareEvent('whats')">
-              <i class="fas fa-barcode"></i> Whatsapp
+              <i class="fab fa-whatsapp"></i> Whatsapp
+            </a>
+
+            <a class="btn btn-app" onclick="shareEvent('email')">
+              <i class="fas fa-envelope-square"></i> Email
             </a>
           </li>
         </ul>
+        
+        <div class="row">
+          <div class="col-md-12">
+            ou Copie o link e envie para seu convidado
+
+          </div>
+          <div class="col-md-12">
+            <input class="form-control" type="text" disabled id="share-link" value="" />
+          </div>
+         
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -138,15 +157,26 @@ function chooseEvent(title, description, url){
   eventDetails.description = description;
   eventDetails.title = title;
   eventDetails.url = url;
+
+  document.getElementById('share-link').value = url;
 }
 
 function shareEvent(by){
 
   let message= `Você foi convidado para o evento ${eventDetails.title} - ${eventDetails.description}. Clique no link e confirme sua presença: ${eventDetails.url}`
 
-  window.open(
+
+  if(by == `whats`){
+    window.open(
     'https://api.whatsapp.com/send?text='+message,
     '_system', 'location=yes'); 
+  }else if(by == 'email'){
+    window.open(
+    `mailto:?subject=Convite para evento&amp;body=${message}.`,
+    '_system', 'location=yes'); 
+  }
+
+  
     return false;
 }
 </script>

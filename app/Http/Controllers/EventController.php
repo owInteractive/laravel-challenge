@@ -21,7 +21,26 @@ class EventController extends Controller
     {
         $user = auth()->user();
         
-        $events = $user->events()->paginate(2);
+        $events = $user->events()->paginate(5);
+        
+
+        return view("events.index")->with(['events'=>$events]);
+    }
+
+    public function nextfive()
+    {
+        $user = auth()->user();
+        
+        $events = Event::creator($user)->nextDays(5)->get();
+
+        return view("events.index")->with(['events'=>$events]);
+    }
+
+    public function today()
+    {
+        $user = auth()->user();
+        
+        $events = Event::creator($user)->today()->get();
         
 
         return view("events.index")->with(['events'=>$events]);
@@ -48,8 +67,6 @@ class EventController extends Controller
         $user = auth()->user();
         
         $request->merge(["user_id"=>$user->id]);
-// dd($request->all());
-
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -60,7 +77,7 @@ class EventController extends Controller
         Event::create($request->all());
    
         return redirect()->route('events.index')
-                        ->with('success','Product created successfully.');
+                        ->with('success','Evento criado com sucesso.');
     }
 
     /**
@@ -71,7 +88,8 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        $event = Event::find($id);
+        return view('events.edit')->with(['event'=> $event]);
     }
 
     /**
@@ -82,7 +100,8 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
+        $event = Event::find($id);
+        return view('events.edit')->with(['event'=> $event]);
     }
 
     /**
@@ -94,7 +113,10 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $event = Event::find($id)->update($request->all());
+
+        return redirect()->route('events.index')
+                        ->with('success','Evento editado com sucesso.');
     }
 
     /**

@@ -184,19 +184,25 @@ return [
         //     'can'  => 'manage-blog',
         // ],
         'MENU',
-        [
-            'text'        => 'eventos',
-            'url'         => '/events',
-            'icon'        => 'fa fa-home',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
+        // [
+        //     'text'        => 'Eventos',
+        //     'url'         => '/events',
+        //     'icon'        => 'fa fa-home',
+        // ],
         [
             'text'    => 'Eventos',
-            'icon'    => 'fas fa-fw fa-share',
+            'icon'    => 'fas fa-fw fa-home',
             'submenu' => [
                 [
-                    'text' => 'level_one',
+                    'text' => 'HOJE',
+                    'url'  => '/events/today',
+                ],
+                [
+                    'text' => 'Próximos 5 dias',
+                    'url'  => '/events/nextfive',
+                ],
+                [
+                    'text' => 'Todos',
                     'url'  => '/events',
                 ],
                 [

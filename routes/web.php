@@ -18,6 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/events/today','EventController@today');
+    Route::get('/events/nextfive','EventController@nextfive');
     Route::resource('/events', 'EventController');
 
     /** Event Routes */
