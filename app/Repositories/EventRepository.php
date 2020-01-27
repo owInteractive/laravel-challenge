@@ -9,6 +9,7 @@ use App\Exceptions\EventCreationException;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -101,30 +102,33 @@ class EventRepository
         return $allEvents->get();
     }
 
-    public function getTodayEvents(): Collection
+    public function getTodayEvents(int $userId): array
     {
         $todayDate = Carbon::today()->toDateString();
-        return Event::query()
-            ->whereHas('participants', function($query) {
-                $query->where('user_id', auth()->id());
-            })
-            ->whereDate('start_at', '=', $todayDate)
-            ->orderBy('start_at')
-            ->get();
+        return $this->getEventsInRange($todayDate, $todayDate, $userId);
     }
 
-    public function getNextDaysEvents(int $days): Collection
+    public function getNextDaysEvents(int $days, int $userId): array
     {
-        $todayDate = Carbon::today()->toDateString();
-        $nextDaysDate = Carbon::today()->addDay($days)->toDateString();
+        $from = Carbon::today()->addDay()->toDateString();
+        $to = Carbon::today()->addDays($days)->toDateString();
+
+        return $this->getEventsInRange($from, $to, $userId);
+    }
+
+    public function getEventsInRange(string $from, string $to, int $userId): array
+    {
+        $from = Carbon::parse($from)->setTimeFromTimeString('00:00:00')->toDateTimeString();
+        $to = Carbon::parse($to)->setTimeFromTimeString('23:59:59')->toDateTimeString();
+
         return Event::query()
-            ->whereHas('participants', function($query) {
-                $query->where('user_id', auth()->id());
+            ->whereHas('participants', function(Builder $query) use ($userId) {
+                $query->where('user_id', $userId);
             })
-            ->whereDate('start_at', '>', $todayDate)
-            ->whereDate('start_at', '<=', $nextDaysDate)
+            ->whereBetween('start_at', [$from, $to])
             ->orderBy('start_at')
-            ->get();
+            ->get()
+            ->all();
     }
 
 }
