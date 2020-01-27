@@ -31,7 +31,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/event') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'CalendarAPP') }}
                     </a>
                 </div>
 

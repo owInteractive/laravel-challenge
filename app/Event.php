@@ -18,10 +18,6 @@ class Event extends Model
     protected $hidden = [
       'id',
       'user_id',
-      'title',
-      'description',
-      'start_datetime',
-      'end_datetime',
       'created_at',
       'updated_at',
       'deleted_at'

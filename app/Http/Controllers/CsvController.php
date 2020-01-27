@@ -19,18 +19,18 @@ class CsvController extends Controller
   public function exportAll()
   {
     $event = Event::where('user_id', Auth::user()->id)->get()->toArray();
-    return Excel::create('calendar_events', function ($csv) use ($event) {
-      $csv->sheet('mySheet', function ($sheet) use ($event) {
-        $sheet->fromArray($event);
-      });
+    return Excel::create('calendar_events', function ($excel) use ($event) {
+       $excel->sheet('mySheet', function ($sheet) use ($event) {
+          $sheet->fromArray($event);
+       });
     })->download('csv');
   }
 
   public function exportSingle($id)
   {
     $event = Event::findOrFail($id)->toArray();
-    return Excel::create('calendar_events', function ($csv) use ($event) {
-      $csv->sheet('mySheet', function ($sheet) use ($event) {
+    return Excel::create('calendar_events', function ($excel) use ($event) {
+      $excel->sheet('mySheet', function ($sheet) use ($event) {
         $sheet->fromArray($event);
       });
     })->download('csv');
@@ -38,7 +38,7 @@ class CsvController extends Controller
 
   public function importCsv(Request $request)
   {
-    $path = $request->file('import_file')->getRealPath();
+    ($path = $request->file('import_file')->getRealPath());
     $events = Excel::load($path)->get();
     if ($events->count()) {
       foreach ($events as $key => $value) {
