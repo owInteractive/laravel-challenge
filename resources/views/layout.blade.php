@@ -28,10 +28,10 @@
             @if (Auth::check())
 
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item  {{ (request()->is('/')) ? 'active' : '' }}">
                         <a class="nav-link" href="/">Dashboard</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ (request()->is('events/import-export')) ? 'active' : '' }}">
                         <a class="nav-link" href="/events/import-export">Import / Export events</a>
                     </li>
                 </ul>
