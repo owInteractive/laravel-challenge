@@ -12,11 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('event');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::get('/eventos', 'EventController@index')->name('event');
+Route::get('/eventos', 'EventController@index')->name('event')->middleware('auth');
+Route::get('/eventos/formulario/{id?}', 'EventController@formEvent')->name('event.form')->middleware('auth');
+Route::post('/eventos/cadastrar', 'EventController@create')->name('event.create')->middleware('auth');
+Route::get('/eventos/atualizar/{id}', 'EventController@update')->name('event.update')->middleware('auth');
+Route::get('/eventos/deletar/{id}', 'EventController@delete')->name('event.delete')->middleware('auth');
