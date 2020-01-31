@@ -11,6 +11,27 @@ class EventController extends Controller
     public function __construct()
     {
     }
+    public function filter($date){
+        
+        if($date == 'today'){
+            $today = date('d/m');
+
+            $events = DB::table('events')
+            ->where('date_begin', $today)
+            ->paginate(3);
+
+            return view('event', compact('events'));
+        }else{
+            $inFiveDays = date('d/m', strtotime('+5days'));
+
+             $events = DB::table('events')
+            ->where('date_begin', $inFiveDays)
+            ->paginate(3);
+
+            return view('event', compact('events'));
+        }
+    }
+    
     public function index($id = null)
     {
         $events = Event::all();
