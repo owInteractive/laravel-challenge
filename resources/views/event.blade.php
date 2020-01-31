@@ -1,10 +1,15 @@
 @extends('/layouts/app')
 @section('content')
-<h1>eventos
-    <a class="btn btn-primary" type="button" href="{{ route('event.form') }}">Adicionar</a>
-</h1>
 
-
+    <div class="">
+        <a class="btn btn-primary" type="button" href="{{ route('event.form') }}">Adicionar</a>
+        <!--
+        <a class="btn btn-success active" type="button" href="{{ route('event') }}">Todos</a>
+        <a class="btn btn-success" type="button" href="{{ route('filter','today') }}">Eventos hoje</a>
+        <a class="btn btn-success" type="button" href="{{ route('filter','in-5-days') }}">Eventos em 5 dias</a>
+        !-->
+    </div>
+<br />
 <div class="row">
     @foreach($events as $event)
     <div class="col-sm-6 col-md-4">
@@ -30,4 +35,5 @@
     </div>
     @endforeach
 </div>
+{{ $events->links() }}
 @endsection
