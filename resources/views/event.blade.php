@@ -3,11 +3,9 @@
 
     <div class="">
         <a class="btn btn-primary" type="button" href="{{ route('event.form') }}">Adicionar</a>
-        <!--
         <a class="btn btn-success active" type="button" href="{{ route('event') }}">Todos</a>
         <a class="btn btn-success" type="button" href="{{ route('filter','today') }}">Eventos hoje</a>
         <a class="btn btn-success" type="button" href="{{ route('filter','in-5-days') }}">Eventos em 5 dias</a>
-        !-->
     </div>
 <br />
 <div class="row">
