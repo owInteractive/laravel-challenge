@@ -63,6 +63,10 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+
+                                    <li>
+                                        <a href="{{url('/events')}}">Events</a>
+                                    </li>
                                 </ul>
                             </li>
                         @endif
