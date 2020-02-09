@@ -148,6 +148,7 @@ class EventController extends Controller
         $event->description = $request->input('description');
         $event->start_date = "{$request->input('start_date')} {$request->input('start_time')}:00";
         $event->finish_date = "{$request->input('finish_date')} {$request->input('finish_time')}:00";
+        
         // Applying
         return response()->json($event->save());
     }
@@ -155,11 +156,18 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Event  $event
+     * @param  GET  id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
-        //
+        // Decrypting the id
+        $id = Event::decryptId($id);
+        $event = Event::find($id);
+
+        // If the authenticated user is not the event owner
+        if($event['id'] != \Auth::user()->id) return response()->json(['error' => ['This event does not belong to you!']], 400);
+
+        return response()->json($event->delete());
     }
 }

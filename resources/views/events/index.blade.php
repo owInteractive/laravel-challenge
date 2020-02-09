@@ -41,8 +41,8 @@
                                             <td>{{date('m/d/Y H:i', strtotime($event['finish_date']))}}</td>
                                             <td class="icons-col">
                                                 <a href="{{route('event-new')}}"><i class="fa fa-eye"></i></a>
-                                                <a href="/event/{{\Crypt::encryptString($event['id'])}}/update"><i class="fa fa-pencil"></i></a>
-                                                <i class="fa fa-trash"></i>
+                                                <a href="/event/{{\Crypt::encryptString($event['id'])}}/edit"><i class="fa fa-pencil"></i></a>
+                                                <i onClick="destroy(this, '{{\Crypt::encryptString($event['id'])}}')" class="fa fa-trash"></i>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -59,4 +59,37 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function destroy(icon, id) {
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure you want to delete this event? Everything data related to this event will be lost!',
+                buttons: {
+                    "Yes! I am": function () {
+                        $(icon).toggleClass("fa-trash fa-spinner").addClass('fa-pulse');
+                        $.ajax({
+                            url: `/event/${id}/`,
+                            type: 'DELETE',
+                            success: function(response) {
+                                toastr['success']('Your event has been deleted!')
+                                $(icon).parent().parent().fadeOut()
+                            },
+                            error: function(response) {
+                                for(let i in response.responseJSON) {
+                                    for(let j in response.responseJSON[i]) {
+                                        toastr['error'](`${response.responseJSON[i][j]}`)
+                                    }
+                                }
+                                $(icon).toggleClass("fa-trash fa-spinner").removeClass('fa-pulse');
+                            }
+                        });
+                    },
+                    "Nah! I am not": function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+    </script>
 @endsection
