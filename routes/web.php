@@ -18,5 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('/events', 'EventsController');
+
+Route::group(['middleware' => ['web', 'calendar-app-middleware']], function () {
+    Route::resource('/events', 'EventsController');
+});
+
 
