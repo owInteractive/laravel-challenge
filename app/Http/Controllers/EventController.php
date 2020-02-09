@@ -75,12 +75,21 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Event  $event
+     * @param  GET  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show($id)
     {
-        //
+        // Decrypting the id
+        $id = Event::decryptId($id);
+        $event = Event::find($id);
+
+        // If has no event
+        if(empty($event)) {
+            return redirect(route('event-list'))->withErrors('This event does not exists!');
+        }
+
+        return view('events.show')->with('event', $event);
     }
 
     /**
@@ -101,7 +110,7 @@ class EventController extends Controller
         }
 
         // If the authenticated user is the event owner
-        if($event['id'] === \Auth::user()->id){
+        if($event['user_id'] === \Auth::user()->id){
             return view('events.edit')->with('event', $event);
         } else {
             return redirect(route('event-list'))->withErrors('This event does not belong to you!');
@@ -127,7 +136,7 @@ class EventController extends Controller
         }
 
         // If the authenticated user is not the event owner
-        if($event['id'] != \Auth::user()->id) return redirect(route('event-list'))->withErrors('This event does not belong to you!');
+        if($event['user_id'] != \Auth::user()->id) return redirect(route('event-list'))->withErrors('This event does not belong to you!');
 
         // If the start date is equal than the finish date, the finish time must be greater than the start time
         $rule_finish_time = ($request->input('start_date') == $request->input('finish_date')) ? '|after:start_time' : '';
@@ -166,7 +175,7 @@ class EventController extends Controller
         $event = Event::find($id);
 
         // If the authenticated user is not the event owner
-        if($event['id'] != \Auth::user()->id) return response()->json(['error' => ['This event does not belong to you!']], 400);
+        if($event['user_id'] != \Auth::user()->id) return response()->json(['error' => ['This event does not belong to you!']], 400);
 
         return response()->json($event->delete());
     }
