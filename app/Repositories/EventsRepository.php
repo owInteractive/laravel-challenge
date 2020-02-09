@@ -4,17 +4,15 @@ namespace App\Repositories;
 
 use App\Models\Events;
 
-class EventsRepository
+class EventsRepository extends BaseRepository
 {
-    private $events;
-
     public function __construct(Events $events)
     {
-        $this->events = $events;
+        parent::__construct($events);
     }
 
     public function get()
     {
-        return $this->events->get();
+        return $this->model->get();
     }
 }
