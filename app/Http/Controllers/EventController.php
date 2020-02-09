@@ -6,6 +6,7 @@ use App\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Crypt;
 
 class EventController extends Controller
 {
@@ -85,24 +86,70 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Event  $event
+     * @param  GET id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Event $event)
+    public function edit($id)
     {
-        //
+        // Decrypting the id
+        $id = Event::decryptId($id);
+        $event = Event::find($id);
+        
+        // If has no event
+        if(empty($event)) {
+            return redirect(route('event-list'))->withErrors('This event does not exists!');
+        }
+
+        // If the authenticated user is the event owner
+        if($event['id'] === \Auth::user()->id){
+            return view('events.edit')->with('event', $event);
+        } else {
+            return redirect(route('event-list'))->withErrors('This event does not belong to you!');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
+     * @param  GET id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
-    {
-        //
+    public function update(Request $request, $id)
+    {   
+        // Decrypting the id
+        $id = Event::decryptId($id);
+        $event = Event::find($id);
+
+        // If has no event
+        if(empty($event)) {
+            return redirect(route('event-list'))->withErrors('This event does not exists!');
+        }
+
+        // If the authenticated user is not the event owner
+        if($event['id'] != \Auth::user()->id) return redirect(route('event-list'))->withErrors('This event does not belong to you!');
+
+        // If the start date is equal than the finish date, the finish time must be greater than the start time
+        $rule_finish_time = ($request->input('start_date') == $request->input('finish_date')) ? '|after:start_time' : '';
+        // Custom rule
+        $rule = [
+            'title' => 'required',
+            'description' => 'required',
+            'start_date' => 'date_format:Y-m-d|after:yesterday',
+            'start_time' => 'date_format:H:i|after:now',
+            'finish_date' => 'date_format:Y-m-d|after_or_equal:start_time',
+            'finish_time' => 'date_format:H:i' . $rule_finish_time
+        ];
+        
+        // Validating
+        $this->validate($request, $rule);
+        
+        $event->title = $request->input('title');
+        $event->description = $request->input('description');
+        $event->start_date = "{$request->input('start_date')} {$request->input('start_time')}:00";
+        $event->finish_date = "{$request->input('finish_date')} {$request->input('finish_time')}:00";
+        // Applying
+        return response()->json($event->save());
     }
 
     /**
