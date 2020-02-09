@@ -37,11 +37,11 @@
 			"closeButton": true,
 			"debug": false,
 			"newestOnTop": false,
-			"progressBar": false,
+			"progressBar": true,
 			"positionClass": "toast-bottom-right",
 			"preventDuplicates": false,
 			"onclick": null,
-			"showDuration": "300",
+			"showDuration": "3500",
 			"hideDuration": "1000",
 			"timeOut": "2500",
 			"extendedTimeOut": "1000",
@@ -73,7 +73,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/home') }}">
                         EventScheduler
                     </a>
                 </div>
