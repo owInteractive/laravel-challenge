@@ -96,7 +96,7 @@
             $("#btnDone").html("<i class='fa fa-spinner fa-pulse'></i> Wait...").prop('disabled', true);
 
             $.ajax({
-                url: `/event/${id}/update`,
+                url: `/event/${id}`,
                 type: 'PUT',
                 data: data,
                 success: function(response) {
