@@ -31,6 +31,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('event')->group(function() {
         Route::get('/', 'EventController@create')->name('event-new');
         Route::post('/', 'EventController@store')->name('event-post');
+        Route::get('/{id}/update', 'EventController@edit');
+        Route::put('/{id}/update', 'EventController@update');
     });
     
 });
