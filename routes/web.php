@@ -18,3 +18,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/profile', 'UserController@index')->name('profile');
+
+    Route::put('/user', 'UserController@update')->name('user-update');
+
+    Route::prefix('events')->group(function () {
+        Route::get('/', 'EventController@index')->name('event-list');
+    });
+
+    Route::prefix('event')->group(function() {
+        Route::get('/', 'EventController@create')->name('event-new');
+        Route::post('/', 'EventController@store')->name('event-post');
+    });
+    
+});
