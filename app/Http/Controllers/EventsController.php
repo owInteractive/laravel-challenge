@@ -14,14 +14,10 @@ class EventsController extends Controller
         $this->eventsBusiness = $eventsBusiness;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $events = $this->eventsBusiness->getAll();
+        return view('events.eventsView')->with('events', $events);
     }
 
     /**

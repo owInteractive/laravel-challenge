@@ -13,4 +13,8 @@ class EventsBusiness
         $this->eventsRepository = $eventsRepository;
     }
 
+    public function getAll()
+    {
+        return $this->eventsRepository->get();
+    }
 }

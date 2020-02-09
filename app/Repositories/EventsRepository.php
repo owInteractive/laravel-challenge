@@ -13,4 +13,8 @@ class EventsRepository
         $this->events = $events;
     }
 
+    public function get()
+    {
+        return $this->events->get();
+    }
 }
