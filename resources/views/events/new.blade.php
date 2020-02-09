@@ -4,6 +4,7 @@
     <div class="container">
         <div class="page-title">
             <span class="page-title-text text-primary">Creating new event</span>
+            <button onClick="window.open('{{route('event-list')}}', '_parent')" class="btn btn-primary btn-flat pull-right">My Events</button>
         </div>
     </div>
     <div class="container">
@@ -110,7 +111,6 @@
                     $("input").removeClass('input-error');
                     $("textarea").removeClass('input-error');
                     for(let i in response.responseJSON) {
-                        console.log(i);
                         $("#"+i).addClass('input-error');
                         for(let j in response.responseJSON[i]) {
                             toastr['error'](`${response.responseJSON[i][j]}`)
