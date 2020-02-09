@@ -16,8 +16,8 @@ body {
     font-weight: 400;
 }
 
-hr {
-    margin: 15px;
+.text-primary {
+    color: #5b3a89;
 }
 
 .form-control, .btn-flat, .input-group-addon {
@@ -267,6 +267,31 @@ hr {
     font-weight: 600;
 }
 
+.event-title {
+    font-size: 5rem;
+    text-align: center !important;
+    /* font-weight: bolder; */
+}
+
+.event-title-icon {
+    cursor: pointer;
+}
+
+.event-title-btn {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 40px;
+}
+
+.event-description {
+    text-align: justify;
+    font-size: 1.5rem;
+}
+
 @media (max-width: 767px) {
     .box {
         text-align: center;
@@ -281,7 +306,12 @@ hr {
     }
     .content-box .box-body {
         padding: 0px;
-        padding-top: 15px;
-        padding-bottom: 15px;
+        padding: 15px;
+    }
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
     }
 }
