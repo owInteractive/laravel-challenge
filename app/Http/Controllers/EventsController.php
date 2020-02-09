@@ -20,25 +20,15 @@ class EventsController extends Controller
         return view('events.eventsView')->with('events', $events);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('events.eventsForm');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        return $this->eventsBusiness->create($data);
     }
 
     /**
