@@ -40,7 +40,7 @@
                                             <td>{{date('m/d/Y H:i', strtotime($event['start_date']))}}</td>
                                             <td>{{date('m/d/Y H:i', strtotime($event['finish_date']))}}</td>
                                             <td class="icons-col">
-                                                <a href="{{route('event-new')}}"><i class="fa fa-eye"></i></a>
+                                                <a href="/event/{{\Crypt::encryptString($event['id'])}}"><i class="fa fa-eye"></i></a>
                                                 <a href="/event/{{\Crypt::encryptString($event['id'])}}/edit"><i class="fa fa-pencil"></i></a>
                                                 <i onClick="destroy(this, '{{\Crypt::encryptString($event['id'])}}')" class="fa fa-trash"></i>
                                             </td>

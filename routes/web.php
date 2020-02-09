@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{id}/edit', 'EventController@edit');
         Route::put('/{id}', 'EventController@update');
         Route::delete('/{id}', 'EventController@destroy');
+        Route::get('/{id}', 'EventController@show');
     });
     
 });
