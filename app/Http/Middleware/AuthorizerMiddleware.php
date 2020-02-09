@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Support\Facades\Auth;
+
+class AuthorizerMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        if (!$request->is('login') && Auth::guest()) {
+            return redirect('login');
+        }
+
+        return $next($request);
+    }
+}
