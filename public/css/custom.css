@@ -252,6 +252,21 @@ hr {
     border-radius: 0px;
 }
 
+.callout {
+    border-radius: 3px;
+    margin: 0 0 20px 0;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid;
+    background-color: #5b3a89 !important;
+    border-color: #422a64;
+    color:white;
+}
+
+.callout h4{
+    margin-top: 0;
+    font-weight: 600;
+}
+
 @media (max-width: 767px) {
     .box {
         text-align: center;
