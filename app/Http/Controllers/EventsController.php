@@ -16,8 +16,13 @@ class EventsController extends Controller
 
     public function index()
     {
-        $events = $this->eventsBusiness->getAll();
-        return view('events.eventsView')->with('events', $events);
+        $todayEvents = $this->eventsBusiness->getTodayEvents();
+        $fiveDayEvents = $this->eventsBusiness->getFiveDayEvents();
+        $paginatedEvents = $this->eventsBusiness->getAllPaginated();
+        return view('events.eventsView')
+            ->with('fiveDayEvents', $fiveDayEvents)
+            ->with('todayEvents', $todayEvents)
+            ->with('paginatedEvents', $paginatedEvents);
     }
 
     public function create()
