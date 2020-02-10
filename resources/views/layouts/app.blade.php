@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>OW Interactive - Calendar APP</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     @yield('css')
@@ -68,7 +68,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{url('/events')}}">Events</a>
+                                    <a href="{{route('events.index')}}">Events</a>
                                     <a href="{{url('/events/create')}}">Events Create</a>
                                 </li>
                             </ul>
