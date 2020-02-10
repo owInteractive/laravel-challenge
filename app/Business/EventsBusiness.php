@@ -4,6 +4,7 @@ namespace App\Business;
 
 use App\Repositories\EventsRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EventsBusiness
 {
@@ -47,7 +48,8 @@ class EventsBusiness
     {
         $data['start_date'] = Carbon::parse($data['start_date'])->toDateTimeString();
         $data['end_date'] = Carbon::parse($data['end_date'])->toDateTimeString();
-        return $this->eventsRepository->create($data);
+        $data['user_id'] = Auth::user()->id;
+        $event = $this->eventsRepository->create($data);
     }
 
     public function find($id)
