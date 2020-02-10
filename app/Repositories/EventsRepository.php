@@ -27,4 +27,9 @@ class EventsRepository extends BaseRepository
     {
         return $this->model->paginate(10);
     }
+
+    public function find($id)
+    {
+        return $this->model->with('user', 'participants')->find($id);
+    }
 }
