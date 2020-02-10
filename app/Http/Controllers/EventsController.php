@@ -33,7 +33,8 @@ class EventsController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        return $this->eventsBusiness->create($data);
+        $this->eventsBusiness->create($data);
+        return redirect('events');
     }
 
     /**
