@@ -32,4 +32,9 @@ class EventsRepository extends BaseRepository
     {
         return $this->model->with('user', 'participants')->find($id);
     }
+
+    public function delete($id)
+    {
+        return $this->model->find($id)->delete();
+    }
 }

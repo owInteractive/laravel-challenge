@@ -56,14 +56,12 @@ class EventsController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Events  $events
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Events $events)
+    public function destroy($id)
     {
-        //
+        $return = $this->eventsBusiness->delete($id);
+        if ($return['success']) {
+            return redirect('events');
+        }
+        return redirect('events')->withErrors(['errors', $return['message']]);
     }
 }

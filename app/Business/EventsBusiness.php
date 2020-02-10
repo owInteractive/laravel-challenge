@@ -57,4 +57,20 @@ class EventsBusiness
         return $this->eventsRepository->find($id);
     }
 
+    public function delete($id)
+    {
+        try {
+            $this->eventsRepository->delete($id);
+            return [
+                'success' => true,
+                'message' => "Event {$id} deleted!",
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => "Error on deleting Event with id: {$id}",
+                'exception' => $e->getMessage(),
+            ];
+        }
+    }
 }
