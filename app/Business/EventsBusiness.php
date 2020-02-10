@@ -50,5 +50,9 @@ class EventsBusiness
         return $this->eventsRepository->create($data);
     }
 
+    public function find($id)
+    {
+        return $this->eventsRepository->find($id);
+    }
 
 }

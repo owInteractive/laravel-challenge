@@ -37,35 +37,20 @@ class EventsController extends Controller
         return redirect('events');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Events  $events
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Events $events)
+    public function show($id)
     {
-        //
+        $event = $this->eventsBusiness->find($id);
+        return view('events.eventsShow')
+            ->with('creator', $event)
+            ->with('participants', $event)
+            ->with('event', $event);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Events  $events
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Events $events)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Events  $events
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Events $events)
     {
         //
