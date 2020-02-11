@@ -98,33 +98,11 @@ class EventsBusiness
         return $data;
     }
 
-    public function exportEvents()
+    public function createEventsFromCSV(array $events)
     {
-        $allEvents = $this->eventsRepository->getEventsFromUser(Auth::user()->id);
-        $rows = $this->buildRows($allEvents);
-        $csv = $this->exportCSVService->exportCsv(self::CSV_HEADERS, $rows);
-        return $csv;
-    }
-
-    private function buildRows($events)
-    {
-        $rows = [];
         foreach ($events as $event) {
-            $row = [
-                'title' => $event->title,
-                'description' => $event->description,
-                'start_date' => $event->start_date,
-                'end_date' => $event->end_date,
-            ];
-            if (count($event->participants) > 0) {
-                $participants = [];
-                foreach ($event->participants as $participant) {
-                    $participants[] = $participant->email;
-                }
-                $row['participants'] = implode('|', $participants);
-            }
-            $rows[] = $row;
+            $this->create($event);
         }
-        return $rows;
+        return true;
     }
 }
