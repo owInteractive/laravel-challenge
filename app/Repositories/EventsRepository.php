@@ -42,4 +42,11 @@ class EventsRepository extends BaseRepository
     {
         return $event->participants()->sync($participantsIds);
     }
+
+    public function getEventsFromUser($userId)
+    {
+        return $this->model->where('user_id', $userId)
+            ->with('user', 'participants')
+            ->get();
+    }
 }
