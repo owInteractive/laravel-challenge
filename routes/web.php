@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['web', 'calendar-app-middleware']], function () {
     Route::resource('/events', 'EventsController');
+    Route::post('/events/export', 'EventsController@export')->name('events.export');
 });
 
 
