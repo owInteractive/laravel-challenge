@@ -70,6 +70,11 @@ The simplest way to run the app is through the `artisan server`, which relies on
 To start the web server, run the following command from the project's root directory:
 
 ```
+php artisan cache:clear
+php artisan config:clear
+composer update
+php artisan migrate:fresh --seed
+
 php artisan serve
 ```
 
