@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Business\EventsBusiness;
+use App\Business\EventsExportBusiness;
+use App\Business\EventsImportBusiness;
 use App\Business\UserBusiness;
 use Illuminate\Http\Request;
 
@@ -10,14 +12,20 @@ class EventsController extends Controller
 {
     private $eventsBusiness;
     private $userBusiness;
+    private $eventsExportBusiness;
+    private $eventsImportBusiness;
 
     public function __construct(
         EventsBusiness $eventsBusiness,
-        UserBusiness $userBusiness
+        UserBusiness $userBusiness,
+        EventsExportBusiness $eventsExportBusiness,
+        EventsImportBusiness $eventsImportBusiness
     )
     {
         $this->eventsBusiness = $eventsBusiness;
         $this->userBusiness = $userBusiness;
+        $this->eventsExportBusiness = $eventsExportBusiness;
+        $this->eventsImportBusiness = $eventsImportBusiness;
     }
 
     public function index()
@@ -78,9 +86,18 @@ class EventsController extends Controller
 
     public function export()
     {
-        $csv = $this->eventsBusiness->exportEvents();
+        $csv = $this->eventsExportBusiness->exportEvents();
         return response($csv)
             ->header('Content-Type', 'text/csv')
             ->header('Content-Disposition', 'filename="' . time() . '_events.csv"');
+    }
+
+    public function import(Request $request)
+    {
+        $uploadedFile = $request->file('events');
+        $fileData = file_get_contents($uploadedFile->getRealPath());
+        $events = $this->eventsImportBusiness->extractEvents($fileData);
+        $this->eventsBusiness->createEventsFromCSV($events);
+        return redirect('events');
     }
 }
