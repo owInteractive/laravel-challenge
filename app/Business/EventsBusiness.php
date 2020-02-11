@@ -3,30 +3,16 @@
 namespace App\Business;
 
 use App\Repositories\EventsRepository;
-use App\Services\ExportCSVService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class EventsBusiness
 {
-    const CSV_HEADERS = [
-        'title',
-        'description',
-        'start_date',
-        'end_date',
-        'participants',
-    ];
-
     private $eventsRepository;
-    private $exportCSVService;
 
-    public function __construct(
-        EventsRepository $eventsRepository,
-        ExportCSVService $exportCSVService
-    )
+    public function __construct(EventsRepository $eventsRepository)
     {
         $this->eventsRepository = $eventsRepository;
-        $this->exportCSVService = $exportCSVService;
     }
 
     public function getTodayEvents()
