@@ -44737,7 +44737,7 @@ if (false) {
 /* 43 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: ENOENT: no such file or directory, open 'C:\\Workspaces\\owinteractive\\laravel-challenge\\resources\\assets\\sass\\app.sass'\n    at C:\\Workspaces\\owinteractive\\laravel-challenge\\node_modules\\webpack\\lib\\NormalModule.js:195:19\n    at C:\\Workspaces\\owinteractive\\laravel-challenge\\node_modules\\loader-runner\\lib\\LoaderRunner.js:367:11\n    at C:\\Workspaces\\owinteractive\\laravel-challenge\\node_modules\\loader-runner\\lib\\LoaderRunner.js:203:19\n    at C:\\Workspaces\\owinteractive\\laravel-challenge\\node_modules\\enhanced-resolve\\lib\\CachedInputFileSystem.js:70:14\n    at processTicksAndRejections (internal/process/task_queues.js:76:11)");
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

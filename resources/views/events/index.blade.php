@@ -21,6 +21,14 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-xs-12">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-default btn-success btn-flat" style="margin-right: 15px"><i class="fa fa-file-excel-o"></i> Import</button>
+                            <button onClick="export()" class="btn btn-default btn-success btn-flat"><i class="fa fa-file-excel-o"></i> Export</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped table-condensed table-bordered">
                                 <thead>
@@ -90,6 +98,19 @@
                     }
                 }
             });
+        }
+
+        function export() {
+            $.ajax({
+                method: 'POST',
+                url: '/event/export',
+                success: function(response) {
+
+                },
+                error: function(response) {
+
+                }
+            })
         }
     </script>
 @endsection

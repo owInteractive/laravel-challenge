@@ -36,6 +36,7 @@
                                         </center>
                                     </div>
                                 </div>
+                                @if (date('Y-m-d H:i:s') > $event['finish_date'])
                                 <hr>
                                 <div class="row">
                                     <div class="col-xs-12">
@@ -48,6 +49,7 @@
                                         </center>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="row invite" style="display: none">
                                     <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
                                         <div class="row">
@@ -71,6 +73,7 @@
     </div>
 
     <input type="hidden" id="start_time" value="{{$event['start_date']}}">
+    <input type="hidden" id="event_id" value="{{\Crypt::encryptString($event['id'])}}">
 
     <script>
         var invite_status = 0;
@@ -83,11 +86,13 @@
         
         function confirm(){
             let email = $("#email").val();
+            let id = $("#event_id").val();
 
             $.ajax({
                 method: 'POST',
-                url: '/invite',
+                url: '{{route("invite-new")}}',
                 data: {
+                    event_id: id,
                     status: invite_status,
                     email: email
                 },

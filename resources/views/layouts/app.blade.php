@@ -85,25 +85,28 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="#">All Events</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                My Events <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{route('event-new')}}">
-                                        New
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{route('event-list')}}">
-                                        List
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        @if (!Auth::guest())
+                            <li><a href="/home">Home</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    My Events <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{route('event-new')}}">
+                                            New
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('event-list')}}">
+                                            List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @else
+                            <li><a href="/event_list">Event List</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

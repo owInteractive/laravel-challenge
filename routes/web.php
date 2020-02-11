@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function() {
+    return redirect('/event_list/all');
 });
+
+Route::get('/event_list/{period}', 'EventController@list');
+Route::get('/event_list/show/{id}', 'EventController@show');
 
 Auth::routes();
 
@@ -34,7 +37,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/{id}/edit', 'EventController@edit');
         Route::put('/{id}', 'EventController@update');
         Route::delete('/{id}', 'EventController@destroy');
-        Route::get('/{id}', 'EventController@show');
+        Route::post('/export', 'EventController@export');
     });
-    
+
+    Route::prefix('invite')->group(function() {
+        Route::post('/', 'InviteController@store')->name('invite-new');
+    });
+
+    Route::prefix('home')->group(function() {
+        Route::get('/{period}', 'HomeController@index');
+    });
 });

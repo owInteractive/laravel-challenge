@@ -3,49 +3,12 @@
 @section('content')
 
 <div class="container">
-    @if(isset(\Auth::user()->id))
-        <div class="row">
-                <div class="col-xs-12 col-md-4" style="padding-right:5px;">
-                    <div class="box box-white">
-                        <div class="inner">
-                            <h3>{{$data['panels']['confirmed']}}</h3>
-                            <p>Confirmed</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-check"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-4" style="padding-right:5px;">
-                    <div class="box box-white">
-                        <div class="inner">
-                            <h3>{{$data['panels']['interested']}}</h3>
-                            <p>Interested</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-question"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-md-4" style="padding-right:5px;">
-                    <div class="box box-white">
-                        <div class="inner">
-                            <h3>{{$data['panels']['denied']}}</h3>
-                            <p>Denied</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-times"></i>
-                        </div>
-                    </div>
-                </div>
-        </div>
-    @endif
     <div class="page-title">
         <span class="page-title-text text-primary">{{$data['title']}}</span>
     </div>
     <div class="row">
         @foreach ($data['data'] as $item)
-            <div onClick="window.open('/event/{{\Crypt::encryptString($item['id'])}}/edit', '_blank')" class="col-xs-12 col-md-4" style="padding-right:5px;">
+            <div onClick="show('/event/{{\Crypt::encryptString($item['id'])}}/edit', '_blank')" class="col-xs-12 col-md-4" style="padding-right:5px;">
                 <div class="event-item">
                     <div class="datetime datetime-left">
                         <span class="text-small">{{date('M', strtotime($item['start_date']))}}</span><br>
@@ -81,5 +44,39 @@
         @endif
     </div>
 </div>
+
+<div class="modal fade" id="modal-show">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function show(id) {
+        $.ajax({
+            method: 'GET',
+            url: `/show/${id}`,
+            success: function() {
+
+            },
+            error: function() {
+
+            }
+        })
+        $("#modal-show").modal('toggle');
+    }
+</script>
 @endsection
 

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
+
 
 class EventController extends Controller
 {
@@ -80,16 +82,12 @@ class EventController extends Controller
      */
     public function show($id)
     {
+        dd('aq');
         // Decrypting the id
         $id = Event::decryptId($id);
         $event = Event::find($id);
 
-        // If has no event
-        if(empty($event)) {
-            return redirect(route('event-list'))->withErrors('This event does not exists!');
-        }
-
-        return view('events.show')->with('event', $event);
+        return response()->json(['event' => $event]);
     }
 
     /**
@@ -178,5 +176,96 @@ class EventController extends Controller
         if($event['user_id'] != \Auth::user()->id) return response()->json(['error' => ['This event does not belong to you!']], 400);
 
         return response()->json($event->delete());
+    }
+
+    /**
+     * List all events using the selected period
+     * 
+     * @param GET period
+     * @return \Illuminate\Http\Response
+     */
+    public function list($period = "today") {
+        $title = "";
+        $paginate = false;
+        switch ($period) {
+            case 'today':
+                $title = "Today events";
+                $data = Event::where('public', 1)
+                        ->where('start_date' , '<=', date('Y-m-d'))
+                        ->where('finish_date' , '>=', date('Y-m-d'))
+                        ->get();
+                $feedbacks_db = DB::table('events')
+                        ->join('invites', 'event_id', '=', 'events.id')
+                        ->select(DB::raw('count(status) as amount, status, event_id'))
+                        ->where('start_date' , '<=', date('Y-m-d'))
+                        ->where('finish_date' , '>=', date('Y-m-d'))
+                        ->groupBy('event_id')
+                        ->groupBy('status')
+                        ->get();
+            break;
+            case 'fiveDays':
+                $title = "Events for the next 5 days";
+                $data = Event::where('public', 1)
+                        ->where('start_date' , '>=', date('Y-m-d', strtotime("+5 days")))
+                        ->where('finish_date' , '>=', date('Y-m-d', strtotime("+5 days")))
+                        ->get();
+                $feedbacks_db = DB::table('events')
+                        ->join('invites', 'event_id', '=', 'events.id')
+                        ->select(DB::raw('count(status) as amount, status, event_id'))
+                        ->where('start_date' , '>=', date('Y-m-d', strtotime("+5 days")))
+                        ->where('finish_date' , '>=', date('Y-m-d', strtotime("+5 days")))
+                        ->groupBy('event_id')
+                        ->groupBy('status')
+                        ->get();
+            break;
+            case 'all':
+                $title = "All events";
+                $data = Event::where('public', 1)
+                        ->paginate(10);
+                $feedbacks_db = DB::table('events')
+                        ->join('invites', 'event_id', '=', 'events.id')
+                        ->select(DB::raw('count(status) as amount, status, event_id'))
+                        ->groupBy('event_id')
+                        ->groupBy('status')
+                        ->get();
+                $paginate = true;
+            break;
+            
+            default:
+                # code...
+                break;
+        }
+        
+        $feedbacks = [];
+        
+        $confirmed = 0;
+        $interested = 0;
+        $denied = 0;
+
+        foreach($feedbacks_db as $value) {
+            $feedbacks[$value->event_id][$value->status] = $value->amount;
+
+            if($value->status == 1) $interested++;
+            if($value->status == 2) $confirmed++;
+            if($value->status == 3) $denied++;
+        }
+
+        $panels = [
+            'confirmed' => $confirmed,
+            'interested' => $interested,
+            'denied' => $denied
+        ];
+
+        $data = [
+            'data' => $data,
+            'feedbacks' => $feedbacks,
+            'panels' => $panels,
+            'title' => $title,
+            'paginate' => $paginate
+        ];
+
+        // dd($data);
+
+        return view('events.list')->with('data', $data);
     }
 }

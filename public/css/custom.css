@@ -65,12 +65,12 @@ body {
     position: relative;
     display: block;
     margin-bottom: 20px;
-    box-shadow: 0px 0px 5px rgba(0,0,0,.2);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
 .box:hover {
     transition: .2s;
-    box-shadow: 0px 0px 5px rgba(0,0,0,.4);
+    box-shadow: 0px 1px 10px rgba(0,0,0,.3);
 }
 
 .box:hover .icon {
@@ -95,6 +95,11 @@ body {
 .box-red {
     background-color: #dd4b39 !important;
     color: white;
+}
+
+.box-white {
+    background-color: white !important;
+    color: #5b3a89;
 }
 
 .box .inner {
@@ -289,6 +294,72 @@ body {
 
 .event-description {
     text-align: justify;
+    font-size: 1.5rem;
+}
+
+.event-item {
+    background: white;
+    margin: 15px 0px;
+    padding: 15px;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    height: 17vh;
+    /* margin-right: 15px; */
+}
+
+.event-item:hover {
+    box-shadow: 0px 1px 10px rgba(0,0,0,.3);
+    transition: .2s;
+}
+
+.event-item .datetime{
+    padding-right: 10px;
+    text-align: center;
+    margin-right: 8px;
+}
+
+.event-item .datetime-left {
+    border-right: 1px solid #ccc;
+    float: left;
+}
+
+.event-item .datetime-right {
+    border-right: 1px solid #ccc;
+    float: left;
+}
+
+.event-item .datetime .text-small {
+    font-size: 1.2rem;
+}
+
+.event-item .datetime .text-large {
+    font-size: 3rem;
+}
+
+.event-item .description .title {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.event-item .description .icons {
+    text-align: center;
+    margin-top: 10px;
+    /* display: flex; */
+    /* width: 80%; */
+    margin: 10px auto;
+    /* padding-left: 40px; */
+}
+
+.event-item .description .icon {
+    float: left;
+    /* padding-right: 35px; */
+}
+
+.event-item .description .icon i {
+    font-size: 2rem;
+}
+
+.event-item .description .icon span {
     font-size: 1.5rem;
 }
 
