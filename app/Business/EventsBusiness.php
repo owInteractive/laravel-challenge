@@ -31,15 +31,15 @@ class EventsBusiness
 
     public function getTodayEvents()
     {
-        $startDate = Carbon::today()->setTimeFromTimeString('00:00:00')->toDateTimeString();
-        $endDate = Carbon::today()->setTimeFromTimeString('23:59:59')->toDateTimeString();
+        $startDate = Carbon::now()->setTimeFromTimeString('00:00:00')->toDateTimeString();
+        $endDate = Carbon::now()->setTimeFromTimeString('23:59:59')->toDateTimeString();
         return $this->getEventsFromDate($startDate, $endDate);
     }
 
     public function getFiveDayEvents()
     {
-        $startDate = Carbon::today()->setTimeFromTimeString('00:00:00')->toDateTimeString();
-        $endDate = Carbon::today()->addDay(5)->setTimeFromTimeString('23:59:59')->toDateTimeString();
+        $startDate = Carbon::now()->setTimeFromTimeString('00:00:00')->toDateTimeString();
+        $endDate = Carbon::now()->addDay(5)->setTimeFromTimeString('23:59:59')->toDateTimeString();
         return $this->getEventsFromDate($startDate, $endDate);
     }
 
