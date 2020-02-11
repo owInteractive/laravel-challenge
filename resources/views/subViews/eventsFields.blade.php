@@ -65,6 +65,31 @@
         </div>
     </div>
 
+    <div class="col-sm-10">
+        <div class="form-group">
+            <strong>Participants:</strong>
+            <div>
+                @forelse($users as $user)
+
+                    <li><input type="checkbox"
+                           name="participants_checkbox[]"
+                           class="form-check-input"
+                           value="{{$user->id}}"
+                            {{ (isset($event)
+                                    ? in_array($user->id, $event->participants()->pluck('event_user.user_id')->toArray())
+                                    : old('participants_checkbox'))
+                                        ? ' checked'
+                                        : ''
+                            }}>
+                    {{$user->name}}
+                    </li>
+                @empty
+                    Não tem ngm pra convidar
+                @endforelse
+            </div>
+        </div>
+    </div>
+
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         <button type="submit" class="btn btn-success">Submit</button>
     </div>
