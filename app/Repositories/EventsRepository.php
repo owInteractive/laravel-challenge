@@ -37,4 +37,9 @@ class EventsRepository extends BaseRepository
     {
         return $this->model->find($id)->delete();
     }
+
+    public function update(Events $event, array $data)
+    {
+        return $event->update($data);
+    }
 }
