@@ -46,10 +46,9 @@ class EventsBusiness
 
     public function create(array $data)
     {
-        $data['start_date'] = Carbon::parse($data['start_date'])->toDateTimeString();
-        $data['end_date'] = Carbon::parse($data['end_date'])->toDateTimeString();
+        $data = $this->formatDateToInsert($data);
         $data['user_id'] = Auth::user()->id;
-        $event = $this->eventsRepository->create($data);
+        return $this->eventsRepository->create($data);
     }
 
     public function find($id)
@@ -72,5 +71,23 @@ class EventsBusiness
                 'exception' => $e->getMessage(),
             ];
         }
+    }
+
+    public function update($id, $data)
+    {
+        $event = $this->eventsRepository->find($id);
+        if (!$event) {
+            return 'errow';
+        }
+
+        $data = $this->formatDateToInsert($data);
+        return $this->eventsRepository->update($event, $data);
+    }
+
+    private function formatDateToInsert($data)
+    {
+        $data['start_date'] = Carbon::parse($data['start_date'])->toDateTimeString();
+        $data['end_date'] = Carbon::parse($data['end_date'])->toDateTimeString();
+        return $data;
     }
 }
