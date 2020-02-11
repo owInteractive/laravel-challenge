@@ -46,14 +46,17 @@ class EventsController extends Controller
             ->with('event', $event);
     }
 
-    public function edit(Events $events)
+    public function edit($id)
     {
-        //
+        $event = $this->eventsBusiness->find($id);
+        return view('events.eventsEdit')
+            ->with('event', $event);
     }
 
-    public function update(Request $request, Events $events)
+    public function update(Request $request, $id)
     {
-        //
+        $this->eventsBusiness->update($id, $request->all());
+        return redirect('events');
     }
 
     public function destroy($id)
