@@ -72,7 +72,7 @@
                 @forelse($users as $user)
 
                     <li><input type="checkbox"
-                           name="participants_checkbox[]"
+                           name="participants[]"
                            class="form-check-input"
                            value="{{$user->id}}"
                             {{ (isset($event)

@@ -43,8 +43,8 @@ class EventsBusiness
     {
         $data = $this->formatDateToInsert($data);
         $data['user_id'] = Auth::user()->id;
-        $participantsIds = $data['participants_checkbox'] ?? [];
-        unset($data['participants_checkbox']);
+        $participantsIds = $data['participants'] ?? [];
+        unset($data['participants']);
         $event = $this->eventsRepository->create($data);
         if (!empty($participantsIds)) {
             $this->eventsRepository->syncParticipants($event, $participantsIds);
@@ -81,8 +81,8 @@ class EventsBusiness
             return 'errow';
         }
 
-        $participantsIds = $data['participants_checkbox'] ?? [];
-        unset($data['participants_checkbox']);
+        $participantsIds = $data['participants'] ?? [];
+        unset($data['participants']);
         $data = $this->formatDateToInsert($data);
         $this->eventsRepository->update($event, $data);
         if (!empty($participantsIds)) {
