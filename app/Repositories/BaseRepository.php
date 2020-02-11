@@ -18,4 +18,9 @@ abstract class BaseRepository
         return $this->model->create($data);
     }
 
+    public function get()
+    {
+        return $this->model->get();
+    }
+
 }
