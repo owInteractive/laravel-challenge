@@ -49,7 +49,7 @@ class EventsController extends Controller
     {
         $event = $this->eventsBusiness->find($id);
         return view('events.eventsShow')
-            ->with('creator', $event);
+            ->with('event', $event);
     }
 
     public function edit($id)
