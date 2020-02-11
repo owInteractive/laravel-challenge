@@ -48,10 +48,13 @@ class EventsBusiness
     {
         $data = $this->formatDateToInsert($data);
         $data['user_id'] = Auth::user()->id;
-        $participantsIds = $data['participants_checkbox'];
+        $participantsIds = $data['participants_checkbox'] ?? [];
         unset($data['participants_checkbox']);
         $event = $this->eventsRepository->create($data);
-        return $this->eventsRepository->syncParticipants($event, $participantsIds);
+        if (!empty($participantsIds)) {
+            $this->eventsRepository->syncParticipants($event, $participantsIds);
+        }
+        return true;
     }
 
     public function find($id)
@@ -83,11 +86,14 @@ class EventsBusiness
             return 'errow';
         }
 
-        $participantsIds = $data['participants_checkbox'];
+        $participantsIds = $data['participants_checkbox'] ?? [];
         unset($data['participants_checkbox']);
         $data = $this->formatDateToInsert($data);
         $this->eventsRepository->update($event, $data);
-        return $this->eventsRepository->syncParticipants($event, $participantsIds);
+        if (!empty($participantsIds)) {
+            $this->eventsRepository->syncParticipants($event, $participantsIds);
+        }
+        return true;
     }
 
     private function formatDateToInsert($data)
