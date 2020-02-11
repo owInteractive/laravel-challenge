@@ -4,7 +4,7 @@
     </div>
 @elseif(count($events) > 0)
     <table class="table table-bordered table-hover" style="max-width: 90%">
-        <thead>x
+        <thead>
         <th scope="col">Title</th>
         <th scope="col">Description</th>
         <th scope="col">Start Date</th>
@@ -17,7 +17,8 @@
                 <td>{{$event->description}}</td>
                 <td>{{$event->start_date}}</td>
                 <td>{{$event->end_date}}</td>
-                <td><a href="{{route('events.show', $event->id)}}" class="btn btn-info btn-sm">Visualizar</a>
+                <td><a href="{{route('events.edit', ['event' => $event])}}" class="btn btn-info btn-sm">Edit</a>
+                <td><a href="{{route('events.show', $event->id)}}" class="btn btn-info btn-sm">View</a>
                 </td>
                 <td>
                     <form method="post" action="{{route('events.destroy', $event->id)}}">
