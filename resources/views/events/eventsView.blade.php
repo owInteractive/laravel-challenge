@@ -3,6 +3,7 @@
 @section('content')
     <div style="padding-left:10px;">
         <div class="p-3">
+            @include('subViews.export')
             <ul class="nav nav-tabs" id="eventsTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link" id="today-events-tab" data-toggle="tab" href="#today-events" role="tab"
