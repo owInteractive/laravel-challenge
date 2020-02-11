@@ -11,11 +11,6 @@ class EventsRepository extends BaseRepository
         parent::__construct($events);
     }
 
-    public function get()
-    {
-        return $this->model->get();
-    }
-
     public function getEventsFromDate($startDate, $endDate)
     {
         return $this->model->whereBetween('start_date', [$startDate, $endDate])
@@ -41,5 +36,10 @@ class EventsRepository extends BaseRepository
     public function update(Events $event, array $data)
     {
         return $event->update($data);
+    }
+
+    public function syncParticipants(Events $event, array $participantsIds)
+    {
+        return $event->participants()->sync($participantsIds);
     }
 }
