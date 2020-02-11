@@ -3,21 +3,30 @@
 namespace App\Business;
 
 use App\Repositories\EventsRepository;
+use App\Services\ExportCSVService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class EventsBusiness
 {
-    private $eventsRepository;
+    const CSV_HEADERS = [
+        'title',
+        'description',
+        'start_date',
+        'end_date',
+        'participants',
+    ];
 
-    public function __construct(EventsRepository $eventsRepository)
+    private $eventsRepository;
+    private $exportCSVService;
+
+    public function __construct(
+        EventsRepository $eventsRepository,
+        ExportCSVService $exportCSVService
+    )
     {
         $this->eventsRepository = $eventsRepository;
-    }
-
-    public function getAll()
-    {
-        return $this->eventsRepository->get();
+        $this->exportCSVService = $exportCSVService;
     }
 
     public function getTodayEvents()
@@ -101,5 +110,36 @@ class EventsBusiness
         $data['start_date'] = Carbon::parse($data['start_date'])->toDateTimeString();
         $data['end_date'] = Carbon::parse($data['end_date'])->toDateTimeString();
         return $data;
+    }
+
+    public function exportEvents()
+    {
+        $allEvents = $this->eventsRepository->getEventsFromUser(Auth::user()->id);
+        $rows = $this->buildRows($allEvents);
+        $csv = $this->exportCSVService->exportCsv(self::CSV_HEADERS, $rows);
+
+        return $csv;
+    }
+
+    private function buildRows($events)
+    {
+        $rows = [];
+        foreach ($events as $event) {
+            $row = [
+                'title' => $event->title,
+                'description' => $event->description,
+                'start_date' => $event->start_date,
+                'end_date' => $event->end_date,
+            ];
+            if (count($event->participants) > 0) {
+                $participants = [];
+                foreach ($event->participants as $participant) {
+                    $participants[] = $participant->email;
+                }
+                $row['participants'] = implode('|', $participants);
+            }
+            $rows[] = $row;
+        }
+        return $rows;
     }
 }
