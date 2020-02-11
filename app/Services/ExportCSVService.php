@@ -11,9 +11,7 @@ class ExportCSVService
         $csv = Writer::createFromString();
         $csv->insertOne($headers);
         if (!empty($rows)) {
-            foreach ($rows as $row) {
-                $csv->insertOne($row);
-            }
+            $csv->insertAll($rows);
         }
         return $csv->getContent();
     }
