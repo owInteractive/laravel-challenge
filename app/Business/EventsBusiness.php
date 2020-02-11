@@ -117,7 +117,6 @@ class EventsBusiness
         $allEvents = $this->eventsRepository->getEventsFromUser(Auth::user()->id);
         $rows = $this->buildRows($allEvents);
         $csv = $this->exportCSVService->exportCsv(self::CSV_HEADERS, $rows);
-
         return $csv;
     }
 
