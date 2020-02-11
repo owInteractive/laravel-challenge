@@ -10,4 +10,9 @@ class UserRepository extends BaseRepository
     {
         parent::__construct($user);
     }
+
+    public function getWhereNotUserId($id)
+    {
+        return $this->get()->where('id', '!=', $id);
+    }
 }
