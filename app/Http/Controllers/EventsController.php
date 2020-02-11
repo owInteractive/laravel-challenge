@@ -75,4 +75,12 @@ class EventsController extends Controller
         }
         return redirect('events')->withErrors(['errors', $return['message']]);
     }
+
+    public function export()
+    {
+        $csv = $this->eventsBusiness->exportEvents();
+        return response($csv)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', 'filename="' . time() . '_events.csv"');
+    }
 }
