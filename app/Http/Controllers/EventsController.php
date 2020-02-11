@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Business\EventsBusiness;
+use App\Business\UserBusiness;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
     private $eventsBusiness;
+    private $userBusiness;
 
-    public function __construct(EventsBusiness $eventsBusiness)
+    public function __construct(
+        EventsBusiness $eventsBusiness,
+        UserBusiness $userBusiness
+    )
     {
         $this->eventsBusiness = $eventsBusiness;
+        $this->userBusiness = $userBusiness;
     }
 
     public function index()
@@ -27,7 +33,9 @@ class EventsController extends Controller
 
     public function create()
     {
-        return view('events.eventsForm');
+        $users = $this->userBusiness->getWhereNotCurrentUser();
+        return view('events.eventsForm')
+            ->with('users', $users);
     }
 
     public function store(Request $request)
@@ -41,16 +49,16 @@ class EventsController extends Controller
     {
         $event = $this->eventsBusiness->find($id);
         return view('events.eventsShow')
-            ->with('creator', $event)
-            ->with('participants', $event)
-            ->with('event', $event);
+            ->with('creator', $event);
     }
 
     public function edit($id)
     {
         $event = $this->eventsBusiness->find($id);
+        $users = $this->userBusiness->getWhereNotCurrentUser();
         return view('events.eventsEdit')
-            ->with('event', $event);
+            ->with('event', $event)
+            ->with('users', $users);
     }
 
     public function update(Request $request, $id)
