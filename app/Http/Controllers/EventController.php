@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Ramsey\Uuid\Uuid;
 
 
 class EventController extends Controller
@@ -24,11 +27,10 @@ class EventController extends Controller
         // $img = base64_encode($img);
         
         
-        // $data = [
-        //     'events'    => $events,
-        //     'image'     => $img
-        // ];
-        return view('events.index')->with('events', $events);
+        $data = [
+            'events'    => $events
+        ];
+        return view('events.index')->with('data', $data);
     }
 
     /**
@@ -267,5 +269,36 @@ class EventController extends Controller
         // dd($data);
 
         return view('events.list')->with('data', $data);
+    }
+
+    /**
+     * Export events to xlsx with random name
+     * @return \Illuminate\Http\Response
+     */
+    public function export() {
+        $name = (string) Uuid::uuid4();
+        return Excel::download(new \App\Exports\EventsExport, "{$name}.xlsx");
+    }
+
+    /**
+     * Import xlsx
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request) {
+        $this->validate($request, [
+            'select_file'  => 'required|mimes:xls,xlsx'
+        ]);
+
+        if($request->hasFile('select_file')) {
+            $file = $request->file('select_file');
+            Excel::import(new \App\Imports\EventsImport ,request()->file('select_file'));
+
+            $events = Event::where('user_id', \Auth::user()->id)->paginate(3);
+            $data = ['events' => $events];
+
+            return redirect('/events?import=true')->with('data', $data);
+        }
+        
     }
 }

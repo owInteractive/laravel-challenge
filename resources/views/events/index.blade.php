@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        @if(isset($_GET['import']))
+            <div class="callout">
+                <h4>Success</h4>
+                <p>Your file has been successfuly submited</p>
+            </div>
+        @endif
         @if($errors->any())
             <div class="callout">
                 <h4>Oops</h4>
@@ -22,8 +28,12 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="btn-group pull-right">
-                            <button class="btn btn-default btn-success btn-flat" style="margin-right: 15px"><i class="fa fa-file-excel-o"></i> Import</button>
-                            <button onClick="export()" class="btn btn-default btn-success btn-flat"><i class="fa fa-file-excel-o"></i> Export</button>
+                            <form id="import" method="post" enctype="multipart/form-data" action="{{ url('/event/import') }}">
+                                {{ csrf_field() }}
+                                <input style="visibility: hidden; width:0; height: 0" type="file" id="file" name="select_file" />
+                                <button id="btnImport" onClick="$('#file-input').trigger('click');" class="btn btn-default btn-success btn-flat" style="margin-right: 15px"><i class="fa fa-file-excel-o"></i> Import</button>
+                                <button id="btnExport" class="btn btn-default btn-success btn-flat"><i class="fa fa-file-excel-o"></i> Export</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -41,7 +51,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($events as $event)
+                                    @foreach ($data['events'] as $event)
                                         <tr id="row{{$event['id']}}">
                                             <td>{{$event['id']}}</td>
                                             <td>{{$event['title']}}</td>
@@ -59,7 +69,7 @@
                         </div>  
                         <div class="row">
                             <div class="col-xs-12">
-                                {{$events->render()}}
+                                {{$data['events']->render()}}
                             </div>
                         </div>
                     </div>
@@ -100,17 +110,19 @@
             });
         }
 
-        function export() {
-            $.ajax({
-                method: 'POST',
-                url: '/event/export',
-                success: function(response) {
+        $("#btnExport").on("click", function(e) {
+            e.preventDefault();
+            window.open("/event/export", "_self");
+        });
 
-                },
-                error: function(response) {
+        $("#btnImport").on("click", function(e) {
+            e.preventDefault();
+            $("#file").trigger('click');
+        })
 
-                }
-            })
-        }
+        $('#file').change(function() {
+            $("#btnImport").html("<i class='fa fa-spinner fa-pulse'></i> Importing...").prop("disabled", true);
+            $('#import').submit();
+        });
     </script>
 @endsection
