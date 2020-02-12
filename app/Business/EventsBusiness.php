@@ -91,7 +91,10 @@ class EventsBusiness
         if (!empty($participantsIds)) {
             $this->eventsRepository->syncParticipants($event, $participantsIds);
         }
-        return true;
+        return [
+            'success' => true,
+            'message' => "Event with id: {$id} updated!",
+        ];
     }
 
     private function formatDateToInsert($data)
