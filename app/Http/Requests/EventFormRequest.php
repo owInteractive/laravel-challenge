@@ -2,16 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-
-class EventFormRequest extends FormRequest
+class EventFormRequest extends BaseRequest
 {
-    public function authorize()
-    {
-        return Auth::check();
-    }
-
     public function rules()
     {
         return [
