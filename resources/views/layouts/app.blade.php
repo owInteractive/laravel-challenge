@@ -55,6 +55,14 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
+                                    <a href="{{route('profile.index')}}">Edit Profile</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('events.index')}}">Events</a>
+                                    <a href="{{url('/events/create')}}">Events Create</a>
+                                </li>
+
+                                <li>
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -65,11 +73,6 @@
                                           style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
-                                </li>
-
-                                <li>
-                                    <a href="{{route('events.index')}}">Events</a>
-                                    <a href="{{url('/events/create')}}">Events Create</a>
                                 </li>
                             </ul>
                         </li>
