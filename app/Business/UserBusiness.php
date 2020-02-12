@@ -33,7 +33,7 @@ class UserBusiness
 
     public function update(array $data)
     {
-        $user = $this->userRepository->getUserByEmail($data['email']);
+        $user = $this->userRepository->getUserByEmail(Auth::user()->email);
         $password = $data['new_password'] ?? null;
         if ($password) {
             $data['new_password'] = bcrypt($data['new_password']);
