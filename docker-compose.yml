@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  php70:
+    image: php70
+    container_name: php70
+    restart: unless-stopped
+    volumes:
+     - "~/Documentos/Projetos/laravel-challenge:/var/www"
+    command: "/usr/sbin/php-fpm7.0 -F -y /etc/php-fpm.conf"
+    ports:
+     - "0.0.0.0:8001:9000"    
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:80:80"
+    volumes:
+    - "~/Documentos/Projetos/laravel-challenge:/var/www"
+    - "~/Documentos/Projetos/laravel-challenge/docker/nginx.conf:/etc/nginx/conf.d/default.conf"
+    depends_on:
+     - "php70"
+  mysql56:
+    container_name: mysql56
+    image: mysql:5.6
+    restart: unless-stopped
+    environment:
+    - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+    - "~/Documentos/Projetos/laravel-challenge/data/mysql:/var/lib/mysql"
+    ports:
+    - "127.0.0.1:3306:3306"
