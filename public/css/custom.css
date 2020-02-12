@@ -28,6 +28,10 @@ body {
     border: 1px solid red;
 }
 
+.input-success {
+    border: 1px solid green;
+}
+
 .container .page-title {
     width: 100%; 
     height: 10vh;

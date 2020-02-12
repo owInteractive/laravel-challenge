@@ -5,39 +5,39 @@
 <div class="container">
     @if(isset(\Auth::user()->id))
         <div class="row">
-                <div class="col-xs-12 col-md-4" style="padding-right:5px;">
-                    <div class="box box-white">
-                        <div class="inner">
-                            <h3>{{$data['panels']['confirmed']}}</h3>
-                            <p>Confirmed</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-check"></i>
-                        </div>
+            <div class="col-xs-12 col-md-4" style="padding-right:5px;">
+                <div class="box box-white">
+                    <div class="inner">
+                        <h3>{{$data['panels']['confirmed']}}</h3>
+                        <p>Confirmed</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-check"></i>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-4" style="padding-right:5px;">
-                    <div class="box box-white">
-                        <div class="inner">
-                            <h3>{{$data['panels']['interested']}}</h3>
-                            <p>Interested</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-question"></i>
-                        </div>
+            </div>
+            <div class="col-xs-12 col-md-4" style="padding-right:5px;">
+                <div class="box box-white">
+                    <div class="inner">
+                        <h3>{{$data['panels']['interested']}}</h3>
+                        <p>Interested</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-question"></i>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-4" style="padding-right:5px;">
-                    <div class="box box-white">
-                        <div class="inner">
-                            <h3>{{$data['panels']['denied']}}</h3>
-                            <p>Denied</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-times"></i>
-                        </div>
+            </div>
+            <div class="col-xs-12 col-md-4" style="padding-right:5px;">
+                <div class="box box-white">
+                    <div class="inner">
+                        <h3>{{$data['panels']['denied']}}</h3>
+                        <p>Denied</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-times"></i>
                     </div>
                 </div>
+            </div>
         </div>
     @endif
     <div class="page-title">
