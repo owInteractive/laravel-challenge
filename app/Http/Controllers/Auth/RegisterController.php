@@ -12,7 +12,7 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
     private $userBusiness;
 
     public function __construct(UserBusiness $userBusiness)
