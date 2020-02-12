@@ -78,7 +78,10 @@ class EventsBusiness
     {
         $event = $this->eventsRepository->find($id);
         if (!$event) {
-            return 'errow';
+            return [
+                'success' => false,
+                'message' => "Event with id: {$id} not found!",
+            ];
         }
 
         $participantsIds = $data['participants'] ?? [];

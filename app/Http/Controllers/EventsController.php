@@ -78,8 +78,11 @@ class EventsController extends Controller
 
     public function update(EventFormRequest $request, $id)
     {
-        $this->eventsBusiness->update($id, $request->all());
-        return redirect('events');
+        $return = $this->eventsBusiness->update($id, $request->all());
+        if ($return['success']) {
+            return redirect('events');
+        }
+        return redirect('events')->withErrors(['errors', $return['message']]);
     }
 
     public function destroy($id)
