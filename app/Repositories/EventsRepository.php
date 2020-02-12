@@ -33,8 +33,6 @@ class EventsRepository extends BaseRepository
         return $this->model->find($id)->delete();
     }
 
-
-
     public function syncParticipants(Events $event, array $participantsIds)
     {
         return $event->participants()->sync($participantsIds);
