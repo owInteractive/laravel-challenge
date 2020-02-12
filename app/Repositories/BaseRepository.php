@@ -23,4 +23,9 @@ abstract class BaseRepository
         return $this->model->get();
     }
 
+    public function update(Model $model, array $data)
+    {
+        return $model->update($data);
+    }
+
 }
