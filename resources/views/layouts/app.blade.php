@@ -30,7 +30,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    OW Interactive
                 </a>
             </div>
 
@@ -58,8 +58,8 @@
                                     <a href="{{route('profile.index')}}">Edit Profile</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('events.index')}}">Events</a>
-                                    <a href="{{url('/events/create')}}">Events Create</a>
+                                    <a href="{{route('events.index')}}">List Events</a>
+                                    <a href="{{url('/events/create')}}">Create Event</a>
                                 </li>
 
                                 <li>
