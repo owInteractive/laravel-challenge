@@ -60,6 +60,11 @@ class EventsBusiness
     public function delete($id)
     {
         try {
+            $validate = $this->validate($id, 'delete');
+            if (!$validate['success']) {
+                return $validate;
+            }
+
             $this->eventsRepository->delete($id);
             return [
                 'success' => true,
@@ -74,7 +79,7 @@ class EventsBusiness
         }
     }
 
-    public function update($id, $data)
+    private function validate($id, $actionMessage)
     {
         $event = $this->eventsRepository->find($id);
         if (!$event) {
@@ -84,12 +89,32 @@ class EventsBusiness
             ];
         }
 
+        if ($event->user_id !== Auth::user()->id) {
+            return [
+                'success' => false,
+                'message' => "You cant {$actionMessage} this event because you are not the owner.",
+            ];
+        }
+
+        return [
+            'success' => true,
+            'event' => $event,
+        ];
+    }
+
+    public function update($id, $data)
+    {
+        $validate = $this->validate($id, 'update');
+        if (!$validate['success']) {
+            return $validate;
+        }
+
         $participantsIds = $data['participants'] ?? [];
         unset($data['participants']);
         $data = $this->formatDateToInsert($data);
-        $this->eventsRepository->update($event, $data);
+        $this->eventsRepository->update($validate['event'], $data);
         if (!empty($participantsIds)) {
-            $this->eventsRepository->syncParticipants($event, $participantsIds);
+            $this->eventsRepository->syncParticipants($validate['event'], $participantsIds);
         }
         return [
             'success' => true,
