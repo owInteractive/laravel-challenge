@@ -21,9 +21,8 @@ class EventsBusinessTest extends TestCase
     public function testNewEventsBusiness()
     {
         $eventsRepositorySpy = Mockery::spy(EventsRepository::class);
-        $exportCsvServiceSpy = Mockery::spy(ExportCSVService::class);
 
-        $eventsBusiness = new EventsBusiness($eventsRepositorySpy, $exportCsvServiceSpy);
+        $eventsBusiness = new EventsBusiness($eventsRepositorySpy);
         $this->assertInstanceOf(EventsBusiness::class, $eventsBusiness);
     }
 
@@ -33,8 +32,6 @@ class EventsBusinessTest extends TestCase
      */
     public function testGetTodayEvents()
     {
-        $exportCsvServiceSpy = Mockery::spy(ExportCSVService::class);
-
         $date = Carbon::create(2020, 02, 11, 01);
         Carbon::setTestNow($date);
 
@@ -53,7 +50,7 @@ class EventsBusinessTest extends TestCase
                 return $event;
             });
 
-        $eventsBusiness = new EventsBusiness($eventsRepositoryMock, $exportCsvServiceSpy);
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
         $return = $eventsBusiness->getTodayEvents();
 
         $this->assertInstanceOf(Events::class, $return);
@@ -71,8 +68,6 @@ class EventsBusinessTest extends TestCase
      */
     public function testGetFiveDayEvents()
     {
-        $exportCsvServiceSpy = Mockery::spy(ExportCSVService::class);
-
         $date = Carbon::create(2020, 02, 11, 01);
         Carbon::setTestNow($date);
 
@@ -102,7 +97,7 @@ class EventsBusinessTest extends TestCase
             ->with('2020-02-11 00:00:00', '2020-02-16 23:59:59')
             ->andReturn($collection);
 
-        $eventsBusiness = new EventsBusiness($eventsRepositoryMock, $exportCsvServiceSpy);
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
         $return = $eventsBusiness->getFiveDayEvents();
 
         $this->assertInstanceOf(Collection::class, $return);
@@ -120,7 +115,6 @@ class EventsBusinessTest extends TestCase
      */
     public function testGetAllPaginated()
     {
-        $exportCsvServiceSpy = Mockery::spy(ExportCSVService::class);
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
 
         $event = new Events();
@@ -158,7 +152,7 @@ class EventsBusinessTest extends TestCase
             ->withNoArgs()
             ->andReturn($lenghtAwarePaginatorMock);
 
-        $eventsBusiness = new EventsBusiness($eventsRepositoryMock, $exportCsvServiceSpy);
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
 
         $return = $eventsBusiness->getAllPaginated();
         $this->assertEquals(1, $return->currentPage);
@@ -174,7 +168,6 @@ class EventsBusinessTest extends TestCase
      */
     public function testCreateEmptyParticipants()
     {
-        $exportCsvServiceSpy = Mockery::spy(ExportCSVService::class);
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
 
         Auth::shouldReceive('user')
@@ -183,19 +176,19 @@ class EventsBusinessTest extends TestCase
             ->andReturn((object)['id' => 1]);
 
         $requestData = [
-            "_token" => "3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH",
-            "title" => "Title",
-            "description" => "Description",
-            "start_date" => "18-02-2020 17:07:43",
-            "end_date" => "25-02-2020 17:07:45",
+            '_token' => '3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH',
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '18-02-2020 17:07:43',
+            'end_date' => '25-02-2020 17:07:45',
         ];
 
         $data = [
-            "_token" => "3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH",
-            "title" => "Title",
-            "description" => "Description",
-            "start_date" => "2020-02-18 17:07:43",
-            "end_date" => "2020-02-25 17:07:45",
+            '_token' => '3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH',
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '2020-02-18 17:07:43',
+            'end_date' => '2020-02-25 17:07:45',
             'user_id' => 1,
         ];
 
@@ -213,7 +206,7 @@ class EventsBusinessTest extends TestCase
             ->with($data)
             ->andReturn($event);
 
-        $eventsBusiness = new EventsBusiness($eventsRepositoryMock, $exportCsvServiceSpy);
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
         $return = $eventsBusiness->create($requestData);
 
         $this->assertTrue($return);
@@ -225,7 +218,6 @@ class EventsBusinessTest extends TestCase
      */
     public function testCreateWithParticipants()
     {
-        $exportCsvServiceSpy = Mockery::spy(ExportCSVService::class);
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
 
         Auth::shouldReceive('user')
@@ -234,20 +226,20 @@ class EventsBusinessTest extends TestCase
             ->andReturn((object)['id' => 1]);
 
         $requestData = [
-            "_token" => "3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH",
-            "title" => "Title",
-            "description" => "Description",
-            "start_date" => "18-02-2020 17:07:43",
-            "end_date" => "25-02-2020 17:07:45",
-            "participants_checkbox" => ["2", "3"],
+            '_token' => '3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH',
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '18-02-2020 17:07:43',
+            'end_date' => '25-02-2020 17:07:45',
+            'participants' => ['2', '3'],
         ];
 
         $data = [
-            "_token" => "3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH",
-            "title" => "Title",
-            "description" => "Description",
-            "start_date" => "2020-02-18 17:07:43",
-            "end_date" => "2020-02-25 17:07:45",
+            '_token' => '3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH',
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '2020-02-18 17:07:43',
+            'end_date' => '2020-02-25 17:07:45',
             'user_id' => 1,
         ];
 
@@ -270,7 +262,7 @@ class EventsBusinessTest extends TestCase
             ->with($event, ["2", "3"])
             ->andReturnSelf();
 
-        $eventsBusiness = new EventsBusiness($eventsRepositoryMock, $exportCsvServiceSpy);
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
         $return = $eventsBusiness->create($requestData);
 
         $this->assertTrue($return);
@@ -281,7 +273,6 @@ class EventsBusinessTest extends TestCase
      */
     public function testFind()
     {
-        $exportCsvServiceSpy = Mockery::spy(ExportCSVService::class);
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
 
         $event = new Events();
@@ -297,12 +288,179 @@ class EventsBusinessTest extends TestCase
             ->with(1)
             ->andReturn($event);
 
-        $eventsBusiness = new EventsBusiness($eventsRepositoryMock, $exportCsvServiceSpy);
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
         $return = $eventsBusiness->find(1);
 
         $this->assertInstanceOf(Events::class, $return);
         $this->assertEquals($event, $return);
     }
 
+    /**
+     * @covers \App\Business\EventsBusiness::delete
+     */
+    public function testDeleteSuccess()
+    {
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('delete')
+            ->once()
+            ->with(1)
+            ->andReturnSelf();
 
+        $expected = [
+            'success' => true,
+            'message' => 'Event 1 deleted!',
+        ];
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->delete(1);
+        $this->assertEquals($expected, $return);
+    }
+
+    /**
+     * @covers \App\Business\EventsBusiness::delete
+     */
+    public function testDeleteException()
+    {
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('delete')
+            ->once()
+            ->with(1)
+            ->andThrow(\Exception::class, 'Error while deleting!');
+
+        $expected = [
+            'success' => false,
+            'message' => 'Error on deleting Event with id: 1',
+            'exception' => 'Error while deleting!',
+        ];
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->delete(1);
+        $this->assertEquals($expected, $return);
+    }
+
+    /**
+     * @covers \App\Business\EventsBusiness::update
+     */
+    public function testUpdateEventNotFound()
+    {
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturnNull();
+
+        $expected = [
+            'success' => false,
+            'message' => 'Event with id: 1 not found!',
+        ];
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->update(1, []);
+        $this->assertEquals($expected, $return);
+    }
+
+
+    /**
+     * @covers \App\Business\EventsBusiness::update
+     */
+    public function testUpdateWithEvent()
+    {
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $requestData = [
+            '_token' => '3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH',
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '18-02-2020 17:07:43',
+            'end_date' => '25-02-2020 17:07:45',
+            'participants' => ['2', '3'],
+        ];
+
+        $data = [
+            '_token' => '3qr9JTBHyDZcjYGzbnO3vaT4x5BsDqPYteKOVIwH',
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '2020-02-18 17:07:43',
+            'end_date' => '2020-02-25 17:07:45',
+        ];
+
+        $event = new Events();
+        $event->id = 1;
+        $event->title = 'Title Test';
+        $event->description = 'Description Test';
+        $event->start_date = '2020-02-11 12:53:10';
+        $event->end_date = '2020-02-11 13:53:10';
+        $event->user_id = 1;
+
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturn($event);
+
+        $eventsRepositoryMock->shouldReceive('update')
+            ->once()
+            ->with($event, $data)
+            ->andReturnSelf();
+
+        $eventsRepositoryMock->shouldReceive('syncParticipants')
+            ->once()
+            ->with($event, ["2", "3"])
+            ->andReturnSelf();
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->update(1, $requestData);
+        $this->assertTrue($return);
+    }
+
+    /**
+     * @covers \App\Business\EventsBusiness::createEventsFromCSV
+     * @covers \App\Business\EventsBusiness::create
+     */
+    public function testCreateEventsFromCSV()
+    {
+        $events = [
+            [
+                'title' => 'Title',
+                'description' => 'Description',
+                'start_date' => '2020-02-18 17:07:43',
+                'end_date' => '2020-02-25 17:07:45',
+                'participants' => ['2', '3']
+            ]
+        ];
+
+        Auth::shouldReceive('user')
+            ->once()
+            ->withNoArgs()
+            ->andReturn((object)['id' => 1]);
+
+        $data = [
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '2020-02-18 17:07:43',
+            'end_date' => '2020-02-25 17:07:45',
+            'user_id' => 1,
+        ];
+
+        $event = new Events();
+        $event->id = 1;
+        $event->title = 'Title';
+        $event->description = 'Description';
+        $event->start_date = '2020-02-18 17:07:43';
+        $event->end_date = '2020-02-25 17:07:45';
+        $event->user_id = 1;
+
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('create')
+            ->once()
+            ->with($data)
+            ->andReturn($event);
+
+        $eventsRepositoryMock->shouldReceive('syncParticipants')
+            ->once()
+            ->with($event, ["2", "3"])
+            ->andReturnSelf();
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->createEventsFromCSV($events);
+        $this->assertTrue($return);
+    }
 }
