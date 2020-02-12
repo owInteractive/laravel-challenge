@@ -8,6 +8,7 @@ use App\Business\EventsImportBusiness;
 use App\Business\UserBusiness;
 use App\Http\Requests\EventFormRequest;
 use App\Http\Requests\EventImportFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class EventsController extends Controller
 {
@@ -67,6 +68,10 @@ class EventsController extends Controller
     public function edit($id)
     {
         $event = $this->eventsBusiness->find($id);
+        if ($event->user_id !== Auth::user()->id) {
+            return redirect('events')->withErrors(['You cant edit this event because you are not the owner.']);
+        }
+
         if ($event) {
             $users = $this->userBusiness->getWhereNotCurrentUser();
             return view('events.eventsEdit')
@@ -82,7 +87,7 @@ class EventsController extends Controller
         if ($return['success']) {
             return redirect('events');
         }
-        return redirect('events')->withErrors(['errors', $return['message']]);
+        return redirect('events')->withErrors([$return['message']]);
     }
 
     public function destroy($id)
@@ -91,7 +96,7 @@ class EventsController extends Controller
         if ($return['success']) {
             return redirect('events');
         }
-        return redirect('events')->withErrors(['errors', $return['message']]);
+        return redirect('events')->withErrors([$return['message']]);
     }
 
     public function export()
