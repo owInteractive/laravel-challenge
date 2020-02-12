@@ -13,11 +13,9 @@
           enctype="multipart/form-data"
     >
         {{ csrf_field() }}
-        <label for="inputFile">
-            <i></i><br>
-            <span>Import Events</span>
+        <label class="btn btn-primary btn-sm" >
+            Import
+            <input id="btnImport" type="file" name="events" style="display: none"/>
         </label>
-        <input id="btnImport" type="file" name="events"/>
-{{--        <button class="btn btn-primary btn-sm" id="btnImport">Import</button>--}}
     </form>
 </div>

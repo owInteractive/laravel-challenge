@@ -3,8 +3,10 @@
 @section('content')
     <div style="padding-left:10px;">
         <div class="p-3">
-            @include('subViews.import')
-            @include('subViews.export')
+            <div style="display: flex; padding: 5px;">
+                @include('subViews.import')
+                @include('subViews.export')
+            </div>
             <ul class="nav nav-tabs" id="eventsTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link" id="today-events-tab" data-toggle="tab" href="#today-events" role="tab"
