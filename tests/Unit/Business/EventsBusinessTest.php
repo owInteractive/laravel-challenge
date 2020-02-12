@@ -296,9 +296,43 @@ class EventsBusinessTest extends TestCase
     /**
      * @covers \App\Business\EventsBusiness::delete
      */
-    public function testDeleteSuccess()
+    public function testDeleteValidateFail()
     {
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturnNull();
+
+        $expected = [
+            'success' => false,
+            'message' => 'Event with id: 1 not found!',
+        ];
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->delete(1);
+        $this->assertEquals($expected, $return);
+    }
+
+    /**
+     * @covers \App\Business\EventsBusiness::delete
+     */
+    public function testDeleteValidateSuccess()
+    {
+        Auth::shouldReceive('user')
+            ->once()
+            ->withNoArgs()
+            ->andReturn((object)['id' => 1]);
+
+        $event = new Events();
+        $event->user_id = 1;
+
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturn($event);
+
         $eventsRepositoryMock->shouldReceive('delete')
             ->once()
             ->with(1)
@@ -319,7 +353,20 @@ class EventsBusinessTest extends TestCase
      */
     public function testDeleteException()
     {
+        Auth::shouldReceive('user')
+            ->once()
+            ->withNoArgs()
+            ->andReturn((object)['id' => 1]);
+
+        $event = new Events();
+        $event->user_id = 1;
+
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturn($event);
+        
         $eventsRepositoryMock->shouldReceive('delete')
             ->once()
             ->with(1)
@@ -339,7 +386,7 @@ class EventsBusinessTest extends TestCase
     /**
      * @covers \App\Business\EventsBusiness::update
      */
-    public function testUpdateEventNotFound()
+    public function testUpdateValidateFail()
     {
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
         $eventsRepositoryMock->shouldReceive('find')
@@ -361,7 +408,7 @@ class EventsBusinessTest extends TestCase
     /**
      * @covers \App\Business\EventsBusiness::update
      */
-    public function testUpdateWithEvent()
+    public function testUpdateValidateSuccess()
     {
         $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
         $requestData = [
@@ -388,6 +435,11 @@ class EventsBusinessTest extends TestCase
         $event->start_date = '2020-02-11 12:53:10';
         $event->end_date = '2020-02-11 13:53:10';
         $event->user_id = 1;
+
+        Auth::shouldReceive('user')
+            ->once()
+            ->withNoArgs()
+            ->andReturn((object)['id' => 1]);
 
         $eventsRepositoryMock->shouldReceive('find')
             ->once()
@@ -466,4 +518,84 @@ class EventsBusinessTest extends TestCase
         $return = $eventsBusiness->createEventsFromCSV($events);
         $this->assertTrue($return);
     }
+
+    /**
+     * @covers \App\Business\EventsBusiness::validate
+     */
+    public function testValidateWithoutEvent()
+    {
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturnNull();
+
+        $expected = [
+            'success' => false,
+            'message' => 'Event with id: 1 not found!',
+        ];
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->validate(1, '');
+        $this->assertEquals($expected, $return);
+    }
+
+    /**
+     * @covers \App\Business\EventsBusiness::validate
+     */
+    public function testValidateDifferentUser()
+    {
+        Auth::shouldReceive('user')
+            ->once()
+            ->withNoArgs()
+            ->andReturn((object)['id' => 1]);
+
+        $event = new Events();
+        $event->user_id = 2;
+
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturn($event);
+
+        $expected = [
+            'success' => false,
+            'message' => 'You cant edit this event because you are not the owner.',
+        ];
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->validate(1, 'edit');
+        $this->assertEquals($expected, $return);
+    }
+
+    /**
+     * @covers \App\Business\EventsBusiness::validate
+     */
+    public function testValidateSuccess()
+    {
+        Auth::shouldReceive('user')
+            ->once()
+            ->withNoArgs()
+            ->andReturn((object)['id' => 1]);
+
+        $event = new Events();
+        $event->user_id = 1;
+
+        $eventsRepositoryMock = Mockery::mock(EventsRepository::class);
+        $eventsRepositoryMock->shouldReceive('find')
+            ->once()
+            ->with(1)
+            ->andReturn($event);
+
+        $expected = [
+            'success' => true,
+            'event' => $event,
+        ];
+
+        $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
+        $return = $eventsBusiness->validate(1, 'edit');
+        $this->assertEquals($expected, $return);
+    }
+
 }

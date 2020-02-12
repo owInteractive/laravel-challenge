@@ -79,7 +79,7 @@ class EventsBusiness
         }
     }
 
-    private function validate($id, $actionMessage)
+    public function validate($id, $actionMessage)
     {
         $event = $this->eventsRepository->find($id);
         if (!$event) {
