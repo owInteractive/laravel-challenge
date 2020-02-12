@@ -12,17 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('events');
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['web', 'calendar-app-middleware']], function () {
     Route::resource('/events', 'EventsController');
     Route::post('/events/export', 'EventsController@export')->name('events.export');
     Route::post('/events/import', 'EventsController@import')->name('events.import');
+    Route::get('/profile/index', 'ProfileController@index')->name('profile.index');
+    Route::put('/profile/update', 'ProfileController@update')->name('profile.update');
+    Route::patch('/profile/changePassword', 'ProfileController@changePassword')->name('profile.changePassword');
 });
 
 
