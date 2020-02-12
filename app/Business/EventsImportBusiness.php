@@ -3,23 +3,19 @@
 namespace App\Business;
 
 use App\Constants\EventsConstants;
-use App\Repositories\EventsRepository;
 use App\Repositories\UserRepository;
 use App\Services\ImportCSVService;
 
 class EventsImportBusiness
 {
-    private $eventsRepository;
     private $importCSVService;
     private $userRepository;
 
     public function __construct(
-        EventsRepository $eventsRepository,
         ImportCSVService $importCSVService,
         UserRepository $userRepository
     )
     {
-        $this->eventsRepository = $eventsRepository;
         $this->importCSVService = $importCSVService;
         $this->userRepository = $userRepository;
     }
