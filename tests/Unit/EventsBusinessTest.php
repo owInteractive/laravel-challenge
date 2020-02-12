@@ -4,9 +4,7 @@ namespace Tests\Unit;
 
 use App\Business\EventsBusiness;
 use App\Models\Events;
-use App\Models\User;
 use App\Repositories\EventsRepository;
-use App\Services\ExportCSVService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -406,9 +404,14 @@ class EventsBusinessTest extends TestCase
             ->with($event, ["2", "3"])
             ->andReturnSelf();
 
+        $expected = [
+            'success' => true,
+            'message' => 'Event with id: 1 updated!',
+        ];
+
         $eventsBusiness = new EventsBusiness($eventsRepositoryMock);
         $return = $eventsBusiness->update(1, $requestData);
-        $this->assertTrue($return);
+        $this->assertEquals($expected, $return);
     }
 
     /**
