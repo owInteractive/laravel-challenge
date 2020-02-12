@@ -13,7 +13,7 @@ class ImportCSVService
 
         $fileHeader = $reader->getHeader();
         if ($fileHeader !== $header) {
-            return "arquivo invalido";
+            throw new \Exception('File headers are wrong!');
         }
 
         $records = $reader->getRecords();
@@ -34,7 +34,7 @@ class ImportCSVService
 
         foreach ($requiredValues as $requiredValue) {
             if (empty($record[$requiredValue])) {
-                throw new \Exception("ameba");
+                throw new \Exception('There are some required values missing!');
             }
         }
 
