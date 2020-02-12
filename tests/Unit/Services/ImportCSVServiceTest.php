@@ -37,6 +37,7 @@ class ImportCSVServiceTest extends TestCase
 
     /**
      * @covers \App\Services\ImportCSVService::extractRows
+     * @covers \App\Services\ImportCSVService::isValidRecord
      */
     public function testExtractRowsEmptyRequiredValues()
     {
@@ -61,6 +62,7 @@ class ImportCSVServiceTest extends TestCase
 
     /**
      * @covers \App\Services\ImportCSVService::extractRows
+     * @covers \App\Services\ImportCSVService::isValidRecord
      */
     public function testExtractRowsEmptyRequiredValue()
     {
@@ -85,6 +87,7 @@ class ImportCSVServiceTest extends TestCase
 
     /**
      * @covers \App\Services\ImportCSVService::extractRows
+     * @covers \App\Services\ImportCSVService::isValidRecord
      */
     public function testExtractRowsAllRequiredValuesMatch()
     {
