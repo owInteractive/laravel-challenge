@@ -22,8 +22,7 @@ class UserBusiness
             'password' => bcrypt($data['password']),
         ];
 
-        $user = $this->userRepository->create($userData);
-        return $user;
+        return $this->userRepository->create($userData);
     }
 
     public function getWhereNotCurrentUser()
@@ -32,4 +31,14 @@ class UserBusiness
         return $this->userRepository->getWhereNotUserId($userId);
     }
 
+    public function update(array $data)
+    {
+        $user = $this->userRepository->getUserByEmail($data['email']);
+        $password = $data['new_password'] ?? null;
+        if ($password) {
+            $data['new_password'] = bcrypt($data['new_password']);
+        }
+        $this->userRepository->update($user, $data);
+        return true;
+    }
 }
