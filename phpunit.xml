@@ -24,6 +24,7 @@
                 <directory suffix=".php">./app/Providers</directory>
                 <directory suffix=".php">./app/Exceptions</directory>
                 <directory suffix=".php">./app/Library</directory>
+                <directory suffix=".php">./app/Constants</directory>
             </exclude>
         </whitelist>
     </filter>
