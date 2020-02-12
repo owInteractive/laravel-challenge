@@ -36,6 +36,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+
     <script>
         toastr.options = {
 			"closeButton": true,
@@ -87,6 +89,7 @@
                     <ul class="nav navbar-nav">
                         @if (!Auth::guest())
                             <li><a href="/home">Home</a></li>
+                            <li><a href="/event_list/all">Event List</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     My Events <span class="caret"></span>
@@ -105,7 +108,7 @@
                                 </ul>
                             </li>
                         @else
-                            <li><a href="/event_list">Event List</a></li>
+                            <li><a href="/event_list/all">Event List</a></li>
                         @endif
                     </ul>
 

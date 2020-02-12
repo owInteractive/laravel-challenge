@@ -17,7 +17,7 @@ Route::get('/', function() {
 
 Route::get('/event_list/{period}', 'EventController@list');
 Route::get('/event_list/show/{id}', 'EventController@show');
-
+Route::post('/event_list/invite/send', 'InviteController@store')->name('invite-new');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::prefix('invite')->group(function() {
-        Route::post('/', 'InviteController@store')->name('invite-new');
+        Route::post('/send', 'InviteController@store')->name('invite-new');
     });
 
     Route::prefix('home')->group(function() {

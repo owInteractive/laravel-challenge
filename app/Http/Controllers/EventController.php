@@ -84,12 +84,17 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        dd('aq');
-        // Decrypting the id
         $id = Event::decryptId($id);
         $event = Event::find($id);
 
-        return response()->json(['event' => $event]);
+        $feedbacks_db = DB::table('events')
+                        ->join('invites', 'event_id', '=', 'events.id')
+                        ->select(DB::raw('count(status) as amount, status, event_id'))
+                        ->where('event_id', $id)
+                        ->groupBy('status')
+                        ->get();
+
+        return response()->json(['event' => $event, 'feedbacks' => $feedbacks_db]);
     }
 
     /**

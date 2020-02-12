@@ -37,6 +37,7 @@ class InviteController extends Controller
      */
     public function store(Request $request)
     {
+        // dd('chegou');
         $this->validate($request, [
             'event_id'  => 'required',
             'status'    => 'required',

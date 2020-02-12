@@ -15,6 +15,15 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-xs-12">
+                        <div class="input-group">
+                            <input disabled type="search" class="form-control" id="event_id" value="http://127.0.0.1:8000/event_list/all?event={{\Crypt::encryptString($event['id'])}}">
+                            <span class="input-group-addon" style="background: #5b3a89; color: white">Copy to invite</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
                         <label for="title">Title</label>
                         <input type="text" id="title" class="form-control input-lg" placeholder="Write the event title" value="{{$event['title']}}">
                     </div>
@@ -120,6 +129,14 @@
                 }
             });
 
+        }
+
+        function copyId(){
+            document.querySelector('#event_id').select();
+            document.execCommand('copy');
+            $("#event_id").addClass("input-success");
+
+            // setTimeout($("#event_id").removeClass("input-success"),2000);
         }
     </script>
 @endsection
