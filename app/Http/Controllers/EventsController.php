@@ -67,18 +67,15 @@ class EventsController extends Controller
 
     public function edit($id)
     {
-        $event = $this->eventsBusiness->find($id);
-        if ($event->user_id !== Auth::user()->id) {
-            return redirect('events')->withErrors(['You cant edit this event because you are not the owner.']);
+        $validate = $this->eventsBusiness->validate($id, 'edit');
+        if (!$validate['success']) {
+            return redirect('events')->withErrors([$validate['message']]);
         }
 
-        if ($event) {
-            $users = $this->userBusiness->getWhereNotCurrentUser();
-            return view('events.eventsEdit')
-                ->with('event', $event)
-                ->with('users', $users);
-        }
-        return redirect('events')->withErrors(['Couldn\'t find the Event!']);
+        $users = $this->userBusiness->getWhereNotCurrentUser();
+        return view('events.eventsEdit')
+            ->with('event', $validate['event'])
+            ->with('users', $users);
     }
 
     public function update(EventFormRequest $request, $id)
