@@ -8,7 +8,6 @@ use App\Business\EventsImportBusiness;
 use App\Business\UserBusiness;
 use App\Http\Requests\EventFormRequest;
 use App\Http\Requests\EventImportFormRequest;
-use Illuminate\Http\Request;
 
 class EventsController extends Controller
 {
