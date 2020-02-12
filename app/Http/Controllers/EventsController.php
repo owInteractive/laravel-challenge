@@ -6,6 +6,8 @@ use App\Business\EventsBusiness;
 use App\Business\EventsExportBusiness;
 use App\Business\EventsImportBusiness;
 use App\Business\UserBusiness;
+use App\Http\Requests\EventFormRequest;
+use App\Http\Requests\EventImportFormRequest;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
@@ -46,7 +48,7 @@ class EventsController extends Controller
             ->with('users', $users);
     }
 
-    public function store(Request $request)
+    public function store(EventFormRequest $request)
     {
         $data = $request->all();
         $this->eventsBusiness->create($data);
@@ -56,20 +58,26 @@ class EventsController extends Controller
     public function show($id)
     {
         $event = $this->eventsBusiness->find($id);
-        return view('events.eventsShow')
-            ->with('event', $event);
+        if ($event) {
+            return view('events.eventsShow')
+                ->with('event', $event);
+        }
+        return redirect('events')->withErrors(['Couldn\'t find the Event!']);
     }
 
     public function edit($id)
     {
         $event = $this->eventsBusiness->find($id);
-        $users = $this->userBusiness->getWhereNotCurrentUser();
-        return view('events.eventsEdit')
-            ->with('event', $event)
-            ->with('users', $users);
+        if ($event) {
+            $users = $this->userBusiness->getWhereNotCurrentUser();
+            return view('events.eventsEdit')
+                ->with('event', $event)
+                ->with('users', $users);
+        }
+        return redirect('events')->withErrors(['Couldn\'t find the Event!']);
     }
 
-    public function update(Request $request, $id)
+    public function update(EventFormRequest $request, $id)
     {
         $this->eventsBusiness->update($id, $request->all());
         return redirect('events');
@@ -86,18 +94,32 @@ class EventsController extends Controller
 
     public function export()
     {
-        $csv = $this->eventsExportBusiness->exportEvents();
-        return response($csv)
-            ->header('Content-Type', 'text/csv')
-            ->header('Content-Disposition', 'filename="' . time() . '_events.csv"');
+        try {
+            $csv = $this->eventsExportBusiness->exportEvents();
+            return response($csv)
+                ->header('Content-Type', 'text/csv')
+                ->header('Content-Disposition', 'filename="' . time() . '_events.csv"');
+        } catch (\Exception $ex) {
+            return redirect('events')->withErrors([
+                'Problem while exporting CSV',
+                $ex->getMessage()
+            ]);
+        }
     }
 
-    public function import(Request $request)
+    public function import(EventImportFormRequest $request)
     {
-        $uploadedFile = $request->file('events');
-        $fileData = file_get_contents($uploadedFile->getRealPath());
-        $events = $this->eventsImportBusiness->extractEvents($fileData);
-        $this->eventsBusiness->createEventsFromCSV($events);
-        return redirect('events');
+        try {
+            $uploadedFile = $request->file('events');
+            $fileData = file_get_contents($uploadedFile->getRealPath());
+            $events = $this->eventsImportBusiness->extractEvents($fileData);
+            $this->eventsBusiness->createEventsFromCSV($events);
+            return redirect('events');
+        } catch (\Exception $ex) {
+            return redirect('events')->withErrors([
+                'Problem while importing CSV',
+                $ex->getMessage()
+            ]);
+        }
     }
 }
