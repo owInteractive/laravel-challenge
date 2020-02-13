@@ -37,13 +37,13 @@ As any new laravel install there is a couple steps to perform in order to get it
 Locally: 
 ```
 php artisan serve
-You can then browse to [http://localhost:8000](http://localhost:8000) in your web browser.
+You can then browse to http://localhost:8000 in your web browser.
 ```
 
 Docker:
 ```
 If the containers startup correctly, you dont need to do anything!
-You can then browse to [http://localhost:80](http://localhost:80) in your web browser.
+You can then browse to http://localhost in your web browser.
 ```
 
 ### Run the tests
