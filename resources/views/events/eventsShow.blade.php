@@ -4,7 +4,7 @@
     <h1>Details</h1>
 
     <ul>
-        <li>Creator: {{$event->user->name}}</li>
+        <li>Owner: {{$event->user->name}}</li>
         <li>Title: {{$event->title}}</li>
         <li>Description: {{$event->description}}</li>
         <li>Start Date: {{$event->start_date}}</li>
@@ -14,7 +14,7 @@
             @forelse($event->participants as $participant)
                 {{$participant->name}}
             @empty
-                You don't have any friends :(
+               No participants yet!
             @endforelse
         </li>
     </ul>

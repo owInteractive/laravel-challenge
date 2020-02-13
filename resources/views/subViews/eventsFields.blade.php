@@ -77,14 +77,14 @@
                            value="{{$user->id}}"
                             {{ (isset($event)
                                     ? in_array($user->id, $event->participants()->pluck('event_user.user_id')->toArray())
-                                    : old('participants_checkbox'))
+                                    : old('participants'))
                                         ? ' checked'
                                         : ''
                             }}>
                     {{$user->name}}
                     </li>
                 @empty
-                    Não tem ngm pra convidar
+                    No participants to invite yet!
                 @endforelse
             </div>
         </div>
