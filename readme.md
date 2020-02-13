@@ -23,14 +23,14 @@ docker build -t php70 .
 cd ..
 edit docker-compose.yml with the paths
 docker-compose up -d
-docker exec -it bash php70
+docker exec -it php70 bash
 composer install
 npm install
 ```
 
 ### Preparing the application
 
-As any new [Laravel][lararel] install there is a couple steps to perform in order to get it going. If you are nunfamiliar follow [these instrunctions](https://laravel.com/docs/5.4/#web-server-configuration)
+As any new laravel install there is a couple steps to perform in order to get it going. If you are nunfamiliar follow [these instrunctions](https://laravel.com/docs/5.4/#web-server-configuration)
 
 ### Run the Application
 
@@ -45,8 +45,13 @@ Docker:
 If the containers startup correctly, you dont need to do anything!
 You can then browse to [http://localhost:80](http://localhost:80) in your web browser.
 ```
+
+### Run the tests
+```
+docker exec -it php70 bash
+vendor/bin/phpunit tests/Unit/
+```
+Access the coverage file in /coverage/index.html
 ## Authors
 
 Vinicius Fontão
-
-[Laravel]: http://www.laravel.com/docs/5.4
