@@ -33,6 +33,7 @@ class EventsExportBusiness
         $rows = [];
         foreach ($events as $event) {
             $row = [
+                'owner' => $event->user->email,
                 'title' => $event->title,
                 'description' => $event->description,
                 'start_date' => $event->start_date,

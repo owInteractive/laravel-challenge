@@ -44,6 +44,12 @@ class EventsImportBusiness
                     $event[$key] = $participantsIds;
                     continue;
                 }
+                if ($key === 'owner') {
+                    $user = $this->userRepository->getUserByEmail($value);
+                    if (!$user) {
+                        throw new \Exception("There is a user that doesn\'t exists in the database - {$value}");
+                    }
+                }
                 $event[$key] = $value;
             }
             $events[] = $event;
