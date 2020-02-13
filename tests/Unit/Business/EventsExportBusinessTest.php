@@ -38,11 +38,6 @@ class EventsExportBusinessTest extends TestCase
             ->withNoArgs()
             ->andReturn((object)['id' => 1]);
 
-        $user = new User();
-        $user->id = 2;
-        $user->name = 'User test';
-        $user->email = 'email@test.com';
-
         $event = new Events();
         $event->id = 1;
         $event->title = 'Title';
@@ -50,8 +45,20 @@ class EventsExportBusinessTest extends TestCase
         $event->start_date = '2020-02-18 17:07:43';
         $event->end_date = '2020-02-25 17:07:45';
         $event->user_id = 1;
+
+        $user = new User();
+        $user->id = 1;
+        $user->name = 'User test1';
+        $user->email = 'email@test2.com';
+
+        $event->setAttribute('user', $user);
+
+        $userParticipant = new User();
+        $userParticipant->id = 2;
+        $userParticipant->name = 'User test2';
+        $userParticipant->email = 'email@test.com';
         $collection = new Collection();
-        $collection->add($user);
+        $collection->add($userParticipant);
         $event->setAttribute('participants', $collection);
 
         $collection = new Collection();
@@ -64,6 +71,7 @@ class EventsExportBusinessTest extends TestCase
             ->andReturn($collection);
 
         $rows[] = [
+            'owner' => 'email@test2.com',
             'title' => 'Title',
             'description' => 'Description',
             'start_date' => '2020-02-18 17:07:43',

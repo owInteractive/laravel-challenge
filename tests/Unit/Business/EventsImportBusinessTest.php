@@ -7,6 +7,7 @@ use App\Constants\EventsConstants;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\ImportCSVService;
+use Exception;
 use Mockery;
 use Tests\TestCase;
 
@@ -33,6 +34,7 @@ class EventsImportBusinessTest extends TestCase
     {
         $data = "title,description,start_date,end_date,participants\nTest,Description,\"2020-02-11 20:32:05\",\"2020-02-11 20:32:06\",email@test.com\n";
         $rows[] = [
+            'owner' => 'email@test.com',
             'title' => 'Title',
             'description' => 'Description',
             'start_date' => '2020-02-11 20:32:05',
@@ -54,8 +56,13 @@ class EventsImportBusinessTest extends TestCase
                 $user->id = 2;
                 return $user;
             });
+        $userRepositoryMock->shouldReceive('getUserByEmail')
+            ->once()
+            ->with('email@test.com')
+            ->andReturn(new User());
 
         $expected[] = [
+            'owner' => 'email@test.com',
             'title' => 'Title',
             'description' => 'Description',
             'start_date' => '2020-02-11 20:32:05',
@@ -68,6 +75,37 @@ class EventsImportBusinessTest extends TestCase
         $eventsImportBusiness = new EventsImportBusiness($importCSVServiceMock, $userRepositoryMock);
         $return = $eventsImportBusiness->extractEvents($data);
         $this->assertEquals($expected, $return);
+    }
+
+    /**
+     * @covers \App\Business\EventsImportBusiness::extractEvents
+     */
+    public function testExtractEventsWithoutUserInDatabase()
+    {
+        $data = "title,description,start_date,end_date,participants\nTest,Description,\"2020-02-11 20:32:05\",\"2020-02-11 20:32:06\",email@test.com\n";
+        $rows[] = [
+            'owner' => 'email@test.com',
+            'title' => 'Title',
+            'description' => 'Description',
+            'start_date' => '2020-02-11 20:32:05',
+            'end_date' => '2020-02-11 20:32:06',
+            'participants' => 'teste@teste.com',
+        ];
+        $importCSVServiceMock = Mockery::mock(ImportCSVService::class);
+        $importCSVServiceMock->shouldReceive('extractRows')
+            ->once()
+            ->with(EventsConstants::CSV_HEADERS, $data, EventsConstants::CSV_REQUIRED_VALUES)
+            ->andReturn($rows);
+
+        $userRepositoryMock = Mockery::mock(UserRepository::class);
+        $userRepositoryMock->shouldReceive('getUserByEmail')
+            ->once()
+            ->with('email@test.com')
+            ->andReturnNull();
+
+        $this->expectException(Exception::class);
+        $eventsImportBusiness = new EventsImportBusiness($importCSVServiceMock, $userRepositoryMock);
+        $eventsImportBusiness->extractEvents($data);
     }
 
 }
