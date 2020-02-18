@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: +@@-RU-Wqh5EuLBU
+      MYSQL_DATABASE: owchallenge
+      MYSQL_USER: owchallenge
+      MYSQL_PASSWORD: owchallenge
+    ports:
+      - '3310:3306'
