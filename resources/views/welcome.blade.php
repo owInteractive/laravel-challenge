@@ -11,10 +11,14 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background-color: #2c2f33;
+                color: #FFFFFF;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
@@ -50,7 +54,7 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #FFFFFF;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -71,23 +75,13 @@
                     @if (Auth::check())
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
+                        <a href="{{ url('/register') }}">Cadastrar</a>
                     @endif
                 </div>
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    @include('auth.login')
                 </div>
             </div>
         </div>
