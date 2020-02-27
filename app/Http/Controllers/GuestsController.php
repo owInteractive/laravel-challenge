@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Guests;
+use App\Models\Guests;
 use Illuminate\Http\Request;
 
 class GuestsController extends Controller
