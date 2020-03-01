@@ -15,9 +15,14 @@ class EventsController extends Controller
 
     public function index() {
 
-        
+        $events = Events::where('user_id', 1)->get();
 
-        return view('events');
+        return view('events', compact($events));
 
+    }
+
+    public function create() {
+
+        return view ('events');
     }
 }
