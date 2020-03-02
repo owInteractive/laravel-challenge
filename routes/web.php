@@ -11,6 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'EventController@index');
+
+Route::get('/user', function () {
+    return response()->json([]);
+});
+
+Route::get('/login', function () {
+    return response()->json([]);
+});
+
+Route::get('/profile', function () {
+    return response()->json([]);
+});
+
+Route::get('/logout', function () {
+    return response()->json([]);
 });
