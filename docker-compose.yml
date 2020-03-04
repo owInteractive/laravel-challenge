@@ -1,16 +1,5 @@
 version: '2'
 services:
-  mysql:
-    container_name: ow_mysql
-    image: mysql:5.7
-    environment:
-      MYSQL_USER: "ow_interactive"
-      MYSQL_PASSWORD: "123654"
-      MYSQL_ROOT_PASSWORD: "123654"
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./.db/mysql:/var/lib/mysql
   nginx:
     container_name: ow_nginx
     restart: always
@@ -37,9 +26,8 @@ services:
     links:
       - redis
       - mailhog
-      - mysql
     env_file: 
-      - ./.env_stage
+      - ./.env_dev
   redis:
     container_name: ow_redis
     image: redis

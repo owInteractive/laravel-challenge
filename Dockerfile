@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
   libpq-dev \
   libzip-dev
 
-RUN docker-php-ext-install mbstring zip xml pdo pdo_mysql
+RUN docker-php-ext-install mbstring zip xml pdo
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
