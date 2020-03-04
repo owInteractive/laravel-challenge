@@ -1,10 +1,12 @@
 #!/bin/sh
 
-cp /var/www/html/.env_dev /var/www/html/.env
+echo 'removendo composer.lock'
+rm -Rf composer.lock
 
-composer install --no-interaction --no-suggest -o
+echo 'removendo vendor'
+rm -Rf vendor
 
-php artisan key:generate
+composer install --no-interaction --no-suggest
 
 # cache clear
 php artisan view:clear
@@ -17,11 +19,17 @@ chmod 777 -R /var/www/html/storage/framework/views
 
 # sqlite
 touch /var/www/html/database/database.sqlite
+
 # permission -rw
-chmod 600 /var/www/html/database/database.sqlite
+chmod 777 /var/www/html/database/database.sqlite
+
+chown 1000:1000 /var/www/html/database && chmod 777 -R /var/www/html/database
 
 # migrations
 php artisan migrate --force
+
+# jwt
+# php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\JWTAuthServiceProvider"
 
 # start php
 php-fpm
