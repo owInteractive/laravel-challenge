@@ -1,0 +1,58 @@
+version: '2'
+services:
+  mysql:
+    container_name: ow_mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: "ow_interactive"
+      MYSQL_PASSWORD: "123654"
+      MYSQL_ROOT_PASSWORD: "123654"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.db/mysql:/var/lib/mysql
+  nginx:
+    container_name: ow_nginx
+    restart: always
+    image: nginx
+    volumes:
+      - ./:/var/www/html
+      - ./storage/logs:/var/log/nginx
+      - ./app.conf:/etc/nginx/conf.d/app.conf
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - php
+  php:
+    container_name: ow_php
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "9000"  
+    volumes:
+      - ./:/var/www/html
+    links:
+      - redis
+      - mailhog
+      - mysql
+    env_file: 
+      - ./.env_stage
+  redis:
+    container_name: ow_redis
+    image: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.db/redis:/redis/db
+    command: redis-server
+  mailhog:
+    container_name: ow_mailhog
+    image: mailhog/mailhog
+    ports: 
+      - 1025:1025
+      - 8025:8025
