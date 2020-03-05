@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -57,6 +58,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Data de última modificação formato (humano)
+     *
      * @return string
      */
     public function getLastModifiedAttribute(): string
@@ -67,8 +70,16 @@ class User extends Authenticatable
     }
 
     /**
-     * Send the password reset notification.
-     *
+     * Eventos iniciados pelo usuario.
+     * 
+     * @return HasMany
+     */
+    public function events() : HasMany 
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    /**
      * @param  string  $token
      * @return void
      */

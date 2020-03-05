@@ -21,8 +21,16 @@ $route
     ->middleware('auth:api')
     ->prefix('/')
     ->group(function () use ($route) {
-
+        # user
         $route->get('user', 'Api\\UserController@me');
         $route->put('user', 'Api\\UserController@update');
 
+        # events
+        $route
+            ->group(['prefix' => 'events'], function () use ($route) {
+                $route->get('/', 'Api\\EventsController@index');
+                $route->post('/', 'Api\\EventsController@store');
+                $route->put('{event}', 'Api\\EventsController@update');
+                $route->delete('{event}', 'Api\\EventsController@destroy');
+            });
     });
