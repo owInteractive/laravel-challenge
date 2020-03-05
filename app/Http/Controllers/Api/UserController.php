@@ -1,23 +1,38 @@
 <?php
 
-namespace App\Http\Controllers\Base;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Base\RegisterRequest;
+use App\Http\Requests\Api\User\UpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Throwable;
 
-class RegisterController extends Controller
+class UserController extends Controller
 {
     /**
-     * @param RegisterRequest $request
-     * @return mixed
+     * Obter dados do perfil do usuario.
+     *
+     * @return void
      */
-    public function __invoke(RegisterRequest $request)
+    public function me(Request $request)
+    {
+        return $request->user();
+    }
+
+    /**
+     * Atualizar dados do usuario.
+     *
+     * @param UpdateRequest $request
+     * @return void
+     */
+    public function update(UpdateRequest $request)
     {
         $db = app('db');
-        $user = app(User::class);
+
+        /** @var User $user */
+        $user = $request->user();
+
         $response = null;
 
         try {
@@ -25,12 +40,12 @@ class RegisterController extends Controller
             $db->beginTransaction();
 
             $user->fill($request->all());
-            $user->save();
+            $user->saveOrFail();
 
             # autorizar
             $db->commit();
 
-            $response = response()->json($user, 201);
+            $response = response($user);
         } catch (Throwable $e) {
             # reverter
             $db->rollback();
