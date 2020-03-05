@@ -24,7 +24,7 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required|digits:6',
+            'password' => 'required|confirmed|digits:6',
         ];
     }
 }
