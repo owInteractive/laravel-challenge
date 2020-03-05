@@ -19,3 +19,5 @@ $route->get('/', function () {return app()->version();});
 
 $route->post('/login', 'Base\\LoginController');
 $route->post('/register', 'Base\\RegisterController');
+
+$route->get('password/change', 'Base\\PasswordResetController@change')->name('password.reset');

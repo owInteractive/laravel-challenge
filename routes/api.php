@@ -14,6 +14,9 @@ use Illuminate\Routing\Router;
 
 $route = app(Router::class);
 
+$route->post('password/send', 'Base\\PasswordResetController@send');
+$route->post('password/change', 'Base\\PasswordResetController@change');
+
 $route
     ->middleware('auth:api')
     ->prefix('/')
