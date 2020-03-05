@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User as Model;
+use App\Support\GenerateUniqueToken;
 
 class UserObserver
 {
@@ -10,8 +11,21 @@ class UserObserver
      * @param Model $model
      * @return void
      */
-    public function created(Model $model): void
+    public function creating(Model $model): void
     {
-        $model->api_token = str_random(60);
+        $model->api_token = GenerateUniqueToken::run();
+        $model->password = bcrypt($model->password);
+    }
+
+    /**
+     * @param Model $model
+     * @return void
+     */
+    public function updating(Model $model): void
+    {
+        if ($model->isDirty('password')) {
+            # caso a senha seja alterada.
+            $model->password = bcrypt($model->password);
+        }
     }
 }
