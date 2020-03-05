@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Events\StoreRequest;
 use App\Http\Requests\Api\Events\UpdateRequest;
 use App\Models\Event;
+use Exception;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -79,6 +80,10 @@ class EventsController extends Controller
             # iniciar
             $db->beginTransaction();
 
+            if ($event->status === 'close' && !$request->has('status')) {
+                throw new Exception('determine o status aberto ou pendente para um evento encerrado.');
+            }
+
             $event->fill($request->all());
             $event->saveOrFail();
 
@@ -97,7 +102,7 @@ class EventsController extends Controller
     }
 
     /**
-     * Atualizar evento.
+     * Remover evento.
      *
      * @param Request $request
      * @return void
