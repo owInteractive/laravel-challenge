@@ -23,11 +23,10 @@ services:
       - "9000"  
     volumes:
       - ./:/var/www/html
+      - ./.env_dev:/var/www/html/.env
     links:
       - redis
       - mailhog
-    env_file: 
-      - ./.env_dev
   redis:
     container_name: ow_redis
     image: redis
