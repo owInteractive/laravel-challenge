@@ -1,32 +1,5 @@
 version: '2'
 services:
-  nginx:
-    container_name: ow_nginx
-    restart: always
-    image: nginx
-    volumes:
-      - ./:/var/www/html
-      - ./storage/logs:/var/log/nginx
-      - ./app.conf:/etc/nginx/conf.d/app.conf
-    ports:
-      - "80:80"
-      - "443:443"
-    links:
-      - php
-  php:
-    container_name: ow_php
-    restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile
-    expose:
-      - "9000"  
-    volumes:
-      - ./:/var/www/html
-      - ./.env_dev:/var/www/html/.env
-    links:
-      - redis
-      - mailhog
   redis:
     container_name: ow_redis
     image: redis
