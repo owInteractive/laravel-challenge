@@ -29,6 +29,7 @@ $route
         $route
             ->group(['prefix' => 'events'], function () use ($route) {
                 $route->get('/', 'Api\\EventsController@index');
+                $route->get('export', 'Api\\EventsController@export');
                 $route->post('/', 'Api\\EventsController@store');
                 $route->put('{event}', 'Api\\EventsController@update');
                 $route->delete('{event}', 'Api\\EventsController@destroy');

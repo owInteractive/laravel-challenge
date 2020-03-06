@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Support\Filter;
 use Exception;
 use Illuminate\Http\Request;
+use Laracsv\Export;
 use Throwable;
 
 class EventsController extends Controller
@@ -34,6 +35,22 @@ class EventsController extends Controller
         $model->where('user_id', $this->user->id);
 
         return $filter->response();
+    }
+
+    /**
+     * Exportar eventos
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function export(Request $request, Event $model)
+    {
+        $events = $model->whereIn('id', $request->input('events'))->get();
+
+        $csv = app(Export::class);
+        $csv->build($events, ['title' => 'Evento', 'description' => 'Descrição', 'start_at' => 'Inicio', 'close_at' => 'Fim']);
+
+        return $csv->download();
     }
 
     /**
