@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Events\StoreRequest;
 use App\Http\Requests\Api\Events\UpdateRequest;
 use App\Models\Event;
+use App\Support\Filter;
 use Exception;
 use Illuminate\Http\Request;
 use Throwable;
@@ -25,9 +26,14 @@ class EventsController extends Controller
      *
      * @return void
      */
-    public function index()
+    public function index(Filter $filter, Event $model)
     {
-        return app(Event::class)->all();
+        $filter->setModel($model);
+
+        # aplicar usuario no filtro
+        $model->where('user_id', $this->user->id);
+
+        return $filter->response();
     }
 
     /**

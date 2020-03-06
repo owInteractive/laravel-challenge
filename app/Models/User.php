@@ -71,10 +71,10 @@ class User extends Authenticatable
 
     /**
      * Eventos iniciados pelo usuario.
-     * 
+     *
      * @return HasMany
      */
-    public function events() : HasMany 
+    public function events(): HasMany
     {
         return $this->hasMany(Event::class);
     }
