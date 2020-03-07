@@ -29,8 +29,8 @@ class UpdateRequest extends FormRequest
                 'nullable',
                 Rule::unique('events')->ignore($this->route('event')->id),
             ],
-            'start_at' => 'nullable|date_format:Y-m-d H:i:s|check_date:lt,end_at',
-            'end_at' => 'nullable|date_format:Y-m-d H:i:s|check_date:gt,start_at',
+            'start_at' => 'nullable|date_format:Y-m-d\TH:i:s|check_date:lt,end_at',
+            'end_at' => 'nullable|date_format:Y-m-d\TH:i:s|check_date:gt,start_at',
             'status' => 'nullable|in:pending,open,close',
         ];
     }

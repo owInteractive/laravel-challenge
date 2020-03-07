@@ -43,7 +43,7 @@ class UpdateStatusEventCommand extends Command
 
         $date = app(Carbon::class);
 
-        app('log')->info(sprintf("filtrar eventos para o dia: %s", $date->format('Y-m-d H')));
+        app('log')->info(sprintf("filtrar eventos para o dia: %s", $date->format('Y-m-d H:i')));
 
         /** @var Event $events */
         $events = app(Event::class)
@@ -58,21 +58,24 @@ class UpdateStatusEventCommand extends Command
         foreach ($events as $event) {
             app('log')->info("verificando evento -> $event->id inicio.");
 
+            $start_at = Carbon::createFromFormat('Y-m-d\TH:i:s', $event->start_at);
+            $end_at = Carbon::createFromFormat('Y-m-d\TH:i:s', $event->end_at);
+
             # verificar se momento atual é maior ou igual ao do envento
-            if ($date->between($event->start_at, $event->end_at) && $event->status === 'pending') {
+            if ($date->between($start_at, $end_at) && $event->status === 'pending') {
                 app('log')->info("abrir evento -> $event->id.");
                 # alterar status
                 $event->status = 'open';
                 $event->save();
             }
             # caso o momento seja maior ou igual a data de encerramento
-            if ($date->gte($event->end_at) && $event->status === 'open') {
+            if ($date->gte($end_at) && $event->status === 'open') {
                 app('log')->info("fechar evento -> $event->id.");
                 $event->status = 'close';
                 $event->save();
             }
 
-            $diff = $date->diffInMinutes($event->end_at);
+            $diff = $date->diffInMinutes($end_at);
 
             # notificar via email que o evento vai encerrar
             if ($diff === 5) {

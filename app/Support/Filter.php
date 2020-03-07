@@ -68,7 +68,7 @@ final class Filter
 
         $query = null;
 
-        if ($filter && in_array($filter, $this->filters)) {
+        if ($filter && $filter !== 'all' && in_array($filter, $this->filters)) {
             # escopo
             $method = lcfirst($filter);
 

@@ -25,8 +25,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'title' => 'required|unique:events',
-            'start_at' => 'required|date_format:Y-m-d H:i:s|check_date:lt,end_at',
-            'end_at' => 'required|date_format:Y-m-d H:i:s|check_date:gt,start_at',
+            'start_at' => 'required|date_format:Y-m-d\TH:i:s|check_date:lt,end_at',
+            'end_at' => 'required|date_format:Y-m-d\TH:i:s|check_date:gt,start_at',
         ];
     }
 }
