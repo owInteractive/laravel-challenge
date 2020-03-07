@@ -34,47 +34,47 @@ class Event extends Model
     ];
 
     /**
+     * @param string $value
+     * @return void
+     */
+    public function setStartAtAttribute($value): void
+    {
+        $this->attributes['start_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $value);
+    }
+
+    /**
      * Personalizar data de inicio do evento
      *
      * @param string $value
-     * @return void
+     * @return string
      */
     public function getStartAtAttribute($value): string
     {
         $date = Carbon::createFromTimestamp(strtotime($value));
 
-        return $date->toDateTimeLocalString();
+        return $date->format("Y-m-d\TH:i");
     }
 
     /**
-     * @param [type] $value
-     * @return void
-     */
-    public function setStartAtAttribute($value): void
-    {
-        $this->attributes['start_at'] = Carbon::createFromFormat('Y-m-d\TH:i:s', $value);
-    }
-
-    /**
-     * @param [type] $value
+     * @param string $value
      * @return void
      */
     public function setEndAtAttribute($value): void
     {
-        $this->attributes['end_at'] = Carbon::createFromFormat('Y-m-d\TH:i:s', $value);
+        $this->attributes['end_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $value);
     }
 
     /**
      * Personalizar data de inicio do evento
      *
      * @param string $value
-     * @return void
+     * @return string
      */
     public function getEndAtAttribute($value): string
     {
         $date = Carbon::createFromTimestamp(strtotime($value));
 
-        return $date->toDateTimeLocalString();
+        return $date->format("Y-m-d\TH:i");
     }
 
     /**

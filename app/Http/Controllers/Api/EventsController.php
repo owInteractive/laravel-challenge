@@ -45,7 +45,13 @@ class EventsController extends Controller
      */
     public function export(Request $request, Event $model)
     {
-        $events = $model->whereIn('id', $request->input('events'))->get();
+        $ids = explode(',', $request->input('events'));
+
+        if (count($ids)) {
+            $model->whereIn('id', $ids);
+        }
+
+        $events = $model->get();
 
         $csv = app(Export::class);
         $csv->build($events, ['title' => 'Evento', 'description' => 'Descrição', 'start_at' => 'Inicio', 'close_at' => 'Fim']);
