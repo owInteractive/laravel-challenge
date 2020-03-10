@@ -46,7 +46,7 @@ class ResetPasswordNotification extends Notification
     {
         return (new MailMessage)->markdown('mail.password.reset', [
             'token' => $this->token,
-            'url' => asset("password/change/{$this->token}"),
+            'url' => getenv("SITE_URL") . "/password/reset/{$this->token}",
         ]);
     }
 

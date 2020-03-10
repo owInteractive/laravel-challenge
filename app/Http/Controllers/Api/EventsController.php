@@ -29,10 +29,10 @@ class EventsController extends Controller
      */
     public function index(Filter $filter, Event $model)
     {
-        $filter->setModel($model);
-
         # aplicar usuario no filtro
-        $model->where('user_id', $this->user->id);
+        $model = $model->where('user_id', $this->user->id);
+
+        $filter->setModel($model);
 
         return $filter->response();
     }

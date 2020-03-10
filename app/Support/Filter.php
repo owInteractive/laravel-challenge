@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use ReflectionClass;
@@ -42,10 +43,10 @@ final class Filter
     }
 
     /**
-     * @param Model $model
+     * @param Model|Builder $model
      * @return void
      */
-    public function setModel(Model $model): void
+    public function setModel($model): void
     {
         $this->model = $model;
     }
