@@ -29,9 +29,6 @@ class EventsController extends Controller
      */
     public function index(Filter $filter, Event $model)
     {
-        # aplicar usuario no filtro
-        // $model->where('user_id', $this->user->id);
-
         $filter
             ->setUser($this->user)
             ->setModel($model);
@@ -79,6 +76,13 @@ class EventsController extends Controller
             $event = app(Event::class);
             $event->fill($request->all());
             $event->user()->associate($this->user);
+
+            if ($request->has('users')) {
+                // convidar usuarios.
+                $event->users()->sync($request->input('users'));
+                $event->load('users');
+            }
+
             $event->saveOrFail();
 
             # autorizar
@@ -116,6 +120,13 @@ class EventsController extends Controller
             }
 
             $event->fill($request->all());
+
+            if ($request->has('users')) {
+                // convidar usuarios.
+                $event->users()->sync($request->input('users'));
+                $event->load('users');
+            }
+
             $event->saveOrFail();
 
             # autorizar

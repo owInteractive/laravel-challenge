@@ -99,6 +99,9 @@ final class Filter
             $query->where('user_id', $this->user->id);
         }
 
+        # carregar convidados
+        $query = $query->with('users');
+
         return $query->paginate($paginate);
     }
 

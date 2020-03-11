@@ -28,6 +28,9 @@ $route
         $route->get('user', 'Api\\UserController@me');
         $route->put('user', 'Api\\UserController@update');
 
+        # users
+        $route->get('users', 'Api\\UsersControllers@index');
+
         # events
         $route
             ->group(['prefix' => 'events'], function () use ($route) {
