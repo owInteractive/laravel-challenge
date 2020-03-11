@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -35,6 +36,11 @@ final class Filter
     protected $model;
 
     /**
+     * @var User
+     */
+    protected $user;
+
+    /**
      * @param Request $request
      */
     public function __construct(Request $request)
@@ -49,6 +55,17 @@ final class Filter
     public function setModel($model): void
     {
         $this->model = $model;
+    }
+
+    /**
+     * @param User $user
+     * @return Filter
+     */
+    public function setUser(User $user): Filter
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -72,11 +89,14 @@ final class Filter
         if ($filter && $filter !== 'all' && in_array($filter, $this->filters)) {
             # escopo
             $method = lcfirst($filter);
-
             # aplicar escopo
             $query = $this->model->{$method}();
         } else {
             $query = $this->model;
+        }
+
+        if ($this->user) {
+            $query->where('user_id', $this->user->id);
         }
 
         return $query->paginate($paginate);
