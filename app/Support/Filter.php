@@ -84,24 +84,28 @@ final class Filter
         # paginação
         $paginate = $this->request->input('paginate', 10);
 
-        $query = null;
+        $query = $this->model;
 
         if ($filter && $filter !== 'all' && in_array($filter, $this->filters)) {
             # escopo
             $method = lcfirst($filter);
             # aplicar escopo
             $query = $this->model->{$method}();
-        } else {
-            $query = $this->model;
         }
 
         if ($this->user) {
-            $query->where('user_id', $this->user->id);
+            $query = $query->where(function ($q) {
+                return $q->whereRaw('( user_id = ? OR id in (select event_id from event_user where user_id = ?))', [
+                    $this->user->id,
+                    $this->user->id,
+                ]);
+            });
         }
 
         # carregar convidados
-        $query = $query->with('users');
+        $query = $query->with(['users']);
 
+        // dd($query->toSql());
         return $query->paginate($paginate);
     }
 

@@ -77,13 +77,13 @@ class EventsController extends Controller
             $event->fill($request->all());
             $event->user()->associate($this->user);
 
+            $event->saveOrFail();
+
             if ($request->has('users')) {
                 // convidar usuarios.
                 $event->users()->sync($request->input('users'));
                 $event->load('users');
             }
-
-            $event->saveOrFail();
 
             # autorizar
             $db->commit();
