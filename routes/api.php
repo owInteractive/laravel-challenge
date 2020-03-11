@@ -21,6 +21,11 @@ $route->post('password/change', 'Base\\PasswordResetController@change');
 $route->get('export', 'Api\\EventsController@export')->middleware(CheckTokenMiddleware::class);
 
 $route
+    ->group(['prefix' => 'utils'], function () use ($route) {
+        $route->get('verify_token', 'Api\\UtilControllers@verify_token');
+    });
+
+$route
     ->middleware('auth:api')
     ->prefix('/')
     ->group(function () use ($route) {
