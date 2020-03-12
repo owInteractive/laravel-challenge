@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/convite', function () {
+    return ("Tarefa: Validar hash e disponibilizar o formulário para aceite do convite da agenda");
+
+});

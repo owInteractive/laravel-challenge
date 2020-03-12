@@ -13,16 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
+////Rotas publicas
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 
-Route::group(['middleware' => 'auth:api'], function ($request) {
-    Route::post('logout', 'AuthController@logout');
-    Route::get('logout/{token}', 'AuthController@logout');
 
+////Rotas privadas
+Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::post('logout', 'AuthController@logout');
+    Route::put('update-user/{id}', 'AuthController@updateUser');
+    Route::resource('event','EventController');
+    Route::post('event-send-mail','SendEmailInvitation@index');
+    Route::post('upload','UploadImportEventCsvController@upload');
 });
+
+
