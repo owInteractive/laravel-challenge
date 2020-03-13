@@ -68,7 +68,7 @@ class EventsController extends Controller
             'title' => 'Evento',
             'description' => 'Descrição',
             'start_at' => 'Inicio',
-            'close_at' => 'Fim'
+            'close_at' => 'Fim',
         ];
 
         /** @var Export $csv */
@@ -103,9 +103,9 @@ class EventsController extends Controller
                 $event->users()->sync($request->input('users'));
 
                 # carregar usuarios vinculados ao evento
-                $event->load(['users' => function($query) {
+                $event->load(['users' => function ($query) {
                     $query
-                        ->select('event_user.user_id', 'users.id', 'users.updated_at')
+                        ->select('event_user.user_id', 'users.id', 'users.name', 'users.updated_at')
                         ->orderBy('name', 'asc');
                 }]);
             }
@@ -115,7 +115,7 @@ class EventsController extends Controller
 
             # enviar convites
             $event->users
-                ->each(function(User $user) use ($event) {
+                ->each(function (User $user) use ($event) {
                     $user->notify(new InviteUserNotification($event, $user));
                 });
 
@@ -169,9 +169,9 @@ class EventsController extends Controller
                 $event->users()->sync($invites);
 
                 # carregar usuarios vinculados ao evento
-                $event->load(['users' => function($query) {
+                $event->load(['users' => function ($query) {
                     $query
-                        ->select('users.id', 'event_user.confirmed')
+                        ->select('users.id', 'event_user.confirmed', 'users.name')
                         ->orderBy('name', 'asc');
                 }]);
             }
@@ -184,8 +184,8 @@ class EventsController extends Controller
 
             # notificar usuarios
             $event->users
-                ->filter(function($user) { return !$user->confirmed; })
-                ->each(function(User $user) use ($event){
+                ->filter(function ($user) {return !$user->confirmed;})
+                ->each(function (User $user) use ($event) {
                     $user->notify(new InviteUserNotification($event, $user));
                 });
 
