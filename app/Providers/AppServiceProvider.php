@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Event;
 use App\Models\User;
+use App\Observers\EventObserver;
 use App\Observers\UserObserver;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -17,23 +19,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        # observers
         User::observe(UserObserver::class);
+        Event::observe(EventObserver::class);
 
-        //
+        # local
         Carbon::setLocale('pt-br');
-
-        Validator::extend('check_date', function ($attribute, $value, $parameters, $validator) {
-            list($operator, $column) = $parameters;
-
-            $date_compare = $validator->getData()[$column];
-
-            if ($operator === 'gt') {
-                return $value > $date_compare;
-            }
-
-            return $value < $date_compare;
-        });
     }
 
     /**

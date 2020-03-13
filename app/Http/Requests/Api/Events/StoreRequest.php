@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api\Events;
 
+use App\Rules\CheckDate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -24,9 +26,21 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|unique:events',
-            'start_at' => 'required|date_format:Y-m-d\TH:i|check_date:lt,end_at',
-            'end_at' => 'required|date_format:Y-m-d\TH:i|check_date:gt,start_at',
+            'title' => [
+                'required',
+                Rule::unique('events')->ignore($this->user()->id, 'user_id'),
+            ],
+            'users.*' => 'nullable|exists:users,id',
+            'start_at' => [
+                'required',
+                'date_format:Y-m-d\TH:i',
+                new CheckDate('lt', $this->input('end_at'))
+            ],
+            'end_at' => [
+                'required',
+                'date_format:Y-m-d\TH:i',
+                new CheckDate('gt', $this->input('start_at'))
+            ]
         ];
     }
 }

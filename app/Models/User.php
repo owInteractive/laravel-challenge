@@ -9,6 +9,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Class User
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $api_token
+ * @package App\Models
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -65,7 +75,7 @@ class User extends Authenticatable
      */
     public function getLastModifiedAttribute(): string
     {
-        $updated = $this->attributes['updated_at'];
+        $updated = $this->attributes['updated_at'] ?? now();
 
         return Carbon::createFromTimeString($updated)->diffForHumans();
     }

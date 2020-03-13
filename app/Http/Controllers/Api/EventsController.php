@@ -6,14 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Events\StoreRequest;
 use App\Http\Requests\Api\Events\UpdateRequest;
 use App\Models\Event;
-use App\Support\Filter;
+use App\Models\User;
+use App\Notifications\Events\InviteUserNotification;
+use App\Support\Users\Filter as UserFilter;
 use Exception;
 use Illuminate\Http\Request;
 use Laracsv\Export;
+use League\Csv\CannotInsertRecord;
+use ReflectionException;
 use Throwable;
 
 class EventsController extends Controller
 {
+    /**
+     * @var User
+     */
+    private $user;
+
     /**
      * @param Request $request
      */
@@ -23,11 +32,12 @@ class EventsController extends Controller
     }
 
     /**
-     * Listar eventos.
-     *
-     * @return void
+     * @param UserFilter $filter
+     * @param Event $model
+     * @return mixed
+     * @throws ReflectionException
      */
-    public function index(Filter $filter, Event $model)
+    public function index(UserFilter $filter, Event $model)
     {
         $filter
             ->setUser($this->user)
@@ -37,23 +47,33 @@ class EventsController extends Controller
     }
 
     /**
-     * Exportar eventos
+     * Exportar eventos via csv.
      *
      * @param Request $request
-     * @return void
+     * @param Event $model
+     * @throws CannotInsertRecord
+     * @return mixed
      */
     public function export(Request $request, Event $model)
     {
         $ids = explode(',', $request->input('events'));
 
-        if (count($ids)) {
-            $model->whereIn('id', $ids);
-        }
+        # filtrar selecionados.
+        count($ids) > 0 && $model->whereIn('id', $ids);
 
+        # obter lista
         $events = $model->get();
 
+        $options = [
+            'title' => 'Evento',
+            'description' => 'Descrição',
+            'start_at' => 'Inicio',
+            'close_at' => 'Fim'
+        ];
+
+        /** @var Export $csv */
         $csv = app(Export::class);
-        $csv->build($events, ['title' => 'Evento', 'description' => 'Descrição', 'start_at' => 'Inicio', 'close_at' => 'Fim']);
+        $csv->build($events, $options);
 
         return $csv->download();
     }
@@ -62,7 +82,7 @@ class EventsController extends Controller
      * Cadastrar evento.
      *
      * @param StoreRequest $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreRequest $request)
     {
@@ -76,20 +96,29 @@ class EventsController extends Controller
             $event = app(Event::class);
             $event->fill($request->all());
             $event->user()->associate($this->user);
-
             $event->saveOrFail();
 
             if ($request->has('users')) {
-                // convidar usuarios.
+                # convidar usuarios.
                 $event->users()->sync($request->input('users'));
-                $event->load('users');
+
+                # carregar usuarios vinculados ao evento
+                $event->load(['users' => function($query) {
+                    $query
+                        ->select('event_user.user_id', 'users.id', 'users.updated_at')
+                        ->orderBy('name', 'asc');
+                }]);
             }
 
             # autorizar
             $db->commit();
 
+            # enviar convites
+            $event->users->each->notify( new InviteUserNotification($event));
+
             $response = response()->json($event, 201);
         } catch (Throwable $e) {
+            dump($e);
             # reverter
             $db->rollback();
 
@@ -104,7 +133,7 @@ class EventsController extends Controller
      *
      * @param UpdateRequest $request
      * @param Event $event
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateRequest $request, Event $event)
     {
@@ -122,15 +151,38 @@ class EventsController extends Controller
             $event->fill($request->all());
 
             if ($request->has('users')) {
+                $invites = [];
+
                 // convidar usuarios.
-                $event->users()->sync($request->input('users'));
-                $event->load('users');
+                foreach ($request->input('users') as $user) {
+                    if (is_array($user)) {
+                        $invites[] = $user['id'];
+                        continue;
+                    }
+
+                    $invites[] = $user;
+                }
+                # re-sincronizar
+                $event->users()->sync($invites);
+
+                # carregar usuarios vinculados ao evento
+                $event->load(['users' => function($query) {
+                    $query
+                        ->select('users.id', 'event_user.confirmed')
+                        ->orderBy('name', 'asc');
+                }]);
             }
 
+            # atualizar
             $event->saveOrFail();
 
             # autorizar
             $db->commit();
+
+            # notificar usuarios
+            $event->users
+                ->filter(function($user) { return !$user->confirmed; })
+                ->each->notify(new InviteUserNotification($event));
 
             $response = response()->json($event);
         } catch (Throwable $e) {
@@ -147,7 +199,8 @@ class EventsController extends Controller
      * Remover evento.
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Request $request, Event $event)
     {

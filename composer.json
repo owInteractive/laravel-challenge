@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"php": ">=5.6.4",
+		"php": ">=7.0",
 		"fruitcake/laravel-cors": "v0.11.0",
 		"guzzlehttp/guzzle": "^6.5",
 		"laravel/framework": "5.5.*",
@@ -37,7 +37,8 @@
 		"post-autoload-dump": [
 			"Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
 			"@php artisan package:discover"
-		]
+		],
+		"post-install-cmd": [ "php -r \"file_exists('.env') || copy('.env.example', '.env');\"" ]
 	},
 	"config": {
 		"preferred-install": "dist",

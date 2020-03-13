@@ -7,7 +7,19 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $description
+ * @property string $status
+ * @property Carbon|string $start_at
+ * @property Carbon|string $end_at
+ * @property User $user
+ * @property Collection $users
+ * @method whereIn(string $string, array $ids)
+ */
 class Event extends Model
 {
     /**

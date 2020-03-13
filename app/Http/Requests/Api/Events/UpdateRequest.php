@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Events;
 
+use App\Rules\CheckDate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,8 +30,17 @@ class UpdateRequest extends FormRequest
                 'nullable',
                 Rule::unique('events')->ignore($this->route('event')->id),
             ],
-            'start_at' => 'nullable|date_format:Y-m-d\TH:i|check_date:lt,end_at',
-            'end_at' => 'nullable|date_format:Y-m-d\TH:i|check_date:gt,start_at',
+            'users.*' => 'nullable|exists:users,id',
+            'start_at' => [
+                'nullable',
+                'date_format:Y-m-d\TH:i',
+                new CheckDate('lt', $this->input('end_at'))
+            ],
+            'end_at' => [
+                'nullable',
+                'date_format:Y-m-d\TH:i',
+                new CheckDate('gt', $this->input('start_at'))
+            ],
             'status' => 'nullable|in:pending,open,close',
         ];
     }

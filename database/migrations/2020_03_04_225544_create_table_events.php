@@ -20,8 +20,8 @@ class CreateTableEvents extends Migration
             $table->string('title', 100)->index();
             $table->text('description')->nullable();
             $table->enum('status', ['pending', 'open', 'closed'])->default('pending');
-            $table->timestamp('start_at');
-            $table->timestamp('end_at');
+            $table->timestamp('start_at')->nullable();
+            $table->timestamp('end_at')->nullable();
             $table->timestamps();
         });
     }
