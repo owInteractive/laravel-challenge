@@ -18,11 +18,13 @@ $route = app(Router::class);
 $route->post('password/send', 'Base\\PasswordResetController@send');
 $route->post('password/change', 'Base\\PasswordResetController@change');
 
-$route->get('export', 'Api\\EventsController@export')->middleware(CheckTokenMiddleware::class);
-
 $route
     ->group(['prefix' => 'utils'], function () use ($route) {
-        $route->get('verify_token', 'Api\\UtilControllers@verify_token');
+        $route->get('verify_token', 'Api\\UtilsController@verify_token');
+        $route->get('export', 'Api\\EventsController@export')->middleware(CheckTokenMiddleware::class);
+        $route->get('confirmation/{token}/{event}', 'Api\\UtilsController@confirmed')
+            ->middleware(CheckTokenMiddleware::class)
+            ->name('event.confirmed');
     });
 
 $route

@@ -16,10 +16,19 @@ class CheckTokenMiddleware
      */
     public function handle($request, Closure $next)
     {
-        abort_if(!$request->has('token'), 400, 'informe o token de acesso.');
+        $access_token = $request->input('token');
+
+        if(!$access_token) {
+            # extrair token da url
+            preg_match('/confirmation\/([^?]+)\/\d/', $request->path(), $extract);
+            # definir token
+            $access_token = end($extract);
+        }
+
+        abort_if(!$access_token, 400, 'informe o token de acesso.');
 
         # verificar se existe usuario
-        $check = app(User::class)->where('api_token', $request->input('token'))->exists();
+        $check = app(User::class)->where('api_token', $access_token)->exists();
 
         abort_if(!$check, 401, 'não autorizado.');
 

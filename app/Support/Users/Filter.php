@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Support;
+namespace App\Support\Users;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 
 final class Filter
@@ -72,6 +73,7 @@ final class Filter
      * Aplicar filtro.
      *
      * @return mixed
+     * @throws ReflectionException
      */
     public function response()
     {
@@ -113,6 +115,7 @@ final class Filter
      * Carregar escopos disponiveis na model.
      *
      * @return void
+     * @throws ReflectionException
      */
     private function loadFilters()
     {
