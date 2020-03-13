@@ -76,15 +76,4 @@ Para facilitar a revisão, foi criado um docker-compose contendo os *containers*
 
 Foi construido utilizando as tecnologias: vue, nuxt.
 
-[repositorio]: https://github.com/preetender/ow-interactive-app
-
-## Mais informações
-
-[composer]: https://getcomposer.org
-[npm]: https://www.npmjs.com/
-[nuxt]: https://nuxtjs.org/
-[git]: http://git-scm.com/
-[fork]: http://lmgtfy.com/?q=how+to+fork+a+repo+in+github
-[php]: http://php.net
-[laravel-challenge]: https://github.com/owinteractive/laravel-challenge
-[Laravel]: http://www.laravel.com/docs/5.5
+[repositorio](https://github.com/preetender/ow-interactive-app)
