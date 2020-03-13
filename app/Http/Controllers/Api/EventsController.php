@@ -114,7 +114,10 @@ class EventsController extends Controller
             $db->commit();
 
             # enviar convites
-            $event->users->each->notify( new InviteUserNotification($event));
+            $event->users
+                ->each(function(User $user) use ($event) {
+                    $user->notify(new InviteUserNotification($event, $user));
+                });
 
             $response = response()->json($event, 201);
         } catch (Throwable $e) {
@@ -182,7 +185,9 @@ class EventsController extends Controller
             # notificar usuarios
             $event->users
                 ->filter(function($user) { return !$user->confirmed; })
-                ->each->notify(new InviteUserNotification($event));
+                ->each(function(User $user) use ($event){
+                    $user->notify(new InviteUserNotification($event, $user));
+                });
 
             $response = response()->json($event);
         } catch (Throwable $e) {

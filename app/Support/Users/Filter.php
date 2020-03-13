@@ -97,9 +97,10 @@ final class Filter
 
         if ($this->user) {
             $query = $query->where(function ($q) {
-                return $q->whereRaw('( user_id = ? OR id in (select event_id from event_user where user_id = ?))', [
+                return $q->whereRaw('( user_id = ? OR id in (select event_id from event_user where user_id = ? and confirmed = ?))', [
                     $this->user->id,
                     $this->user->id,
+                    1
                 ]);
             });
         }

@@ -21,13 +21,20 @@ class InviteUserNotification extends Notification implements ShouldQueue
     private $event;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
      * InviteUserNotification constructor.
      *
      * @param Event $event
+     * @param User $user
      */
-    public function __construct(Event $event)
+    public function __construct(Event $event, User $user)
     {
         $this->event = $event;
+        $this->user = $user;
     }
 
     /**
@@ -52,7 +59,7 @@ class InviteUserNotification extends Notification implements ShouldQueue
         $this->event->load('user');
 
         $url = route('event.confirmed', [
-            'token' => $this->event->user->api_token,
+            'token' => $this->user->api_token,
             'event' => $this->event->id
         ]);
 
