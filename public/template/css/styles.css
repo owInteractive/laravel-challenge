@@ -1,0 +1,27 @@
+ol.breadcrumb-item {
+    padding-inline-start: 0;
+}
+
+.table-hover tbody tr:hover {
+    color: #8c8c8c;
+}
+
+.form-control {
+    color: #8c8c8c;
+}
+
+.form-control:focus {
+    color: #8c8c8c;
+}
+
+.theme-dark .sidebar .menu .list .ml-menu li.active a {
+    color: #FF9948;
+}
+
+.theme-orange .sidebar .menu .list a:hover {
+    color: #FF9948 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
