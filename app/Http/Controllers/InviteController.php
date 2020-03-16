@@ -2,84 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\Invite;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class InviteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __invoke(Request $request, Event $event)
     {
-        //
-    }
+        if($event->user_id == Auth::user()->id) {
+            $validator = Validator::make($request->all(), [
+                'event' => 'required|exists:events,id',
+                'name' => 'required',
+                'email' => 'required|email',
+                'description' => 'required'
+            ]);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+            if ($validator->fails()) {
+                return redirect('events')
+                    ->withErrors($validator)
+                    ->withInput();
+            } else {
+                Invite::create([
+                    'event_id' => $request->event,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'message' => $request->message,
+                ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+                // TODO: Send e-mail
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Invite $invite)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Invite $invite)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Invite $invite)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Invite  $invite
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Invite $invite)
-    {
-        //
+                Session::flash('message', 'Invitation sent successfully!');
+                return Redirect::to('events');
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <form action="{{ route('logout') }}" method="POST">
                     {{ csrf_field() }}
-                    <button type="submit" class="btn btn-primary" href="login.html">Logout</button>
+                    <button type="submit" class="btn btn-primary">Logout</button>
                 </form>
             </div>
         </div>
