@@ -6,11 +6,14 @@
 
 1. Fork the [laravel-challenge][laravel-challenge] repository on GitHub
 2. Run `composer install`
-3. Run `npm install` (or `yarn install`)
-3. Perform the configuration for a [fresh install of Laravel](https://laravel.com/docs/5.4/#installation)
-1. Run `php artisan serve`
-4. Browse to [http://localhost:8000](http://localhost:8000)
+3. Run `composer update`
+4. Run `npm install` (or `yarn install`)
+5. Perform the configuration for a [fresh install of Laravel](https://laravel.com/docs/5.4/#installation)
+6. Run `php artisan serve`
+7. Browse to [http://localhost:8000](http://localhost:8000)
 
+8. To run the app, do you need create a MySql database and edit `.env` file with the conections information.
+9. After that, run this command: `php artisan migrate`
 ## Introduction
 
 This is a [php][PHP] project is a fresh install of the [Laravel][laravel] framework for full stack web developer candidates. At this point, the Challenge app doesn't do much and it is up to you to change that.

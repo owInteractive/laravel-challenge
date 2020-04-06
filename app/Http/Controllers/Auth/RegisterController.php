@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -27,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -49,7 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:35|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -62,10 +64,33 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function index(){
+        $title = 'Register';
+        return view('register', compact('title'));
+    }
+
+    public function register(Request $request){
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:35|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = $this->create($request->all());
+
+        //if login attempt get success...
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Authentication passed...
+            return redirect()->intended('events');
+        }
+        return redirect()->intended('register');
     }
 }
