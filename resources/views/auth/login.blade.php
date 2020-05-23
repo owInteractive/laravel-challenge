@@ -12,7 +12,7 @@
                     <label for="email">E-mail:</label>
                     <input type="text" name="email" id="email" class="form-control" placeholder=""
                            aria-describedby="helpId" required>
-                    @if ($errors->has('password'))
+                    @if ($errors->has('email'))
                         <span class="form-text">
                             <strong>{{ $errors->first('email') }}</strong>
                         </span>
@@ -24,7 +24,7 @@
                            aria-describedby="helpId" required>
                     @if ($errors->has('password'))
                         <span class="form-text">
-                            <strong>{{ $errors->first('email') }}</strong>
+                            <strong>{{ $errors->first('password') }}</strong>
                         </span>
                     @endif
                 </div>
