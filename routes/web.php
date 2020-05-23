@@ -12,5 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(\Illuminate\Support\Facades\Auth::check())
+        return redirect('/events');
+    return view('index');
+});
+
+Auth::routes();
+
+Route::middleware([
+    'auth'
+])->group(function () {
+    Route::resource('/events', 'EventController');
 });
