@@ -11,7 +11,7 @@
                 <div class="form-group {{ $errors->has('email') ? ' has-warning' : '' }}">
                     <label for="email">E-mail:</label>
                     <input type="text" name="email" id="email" class="form-control" placeholder=""
-                           aria-describedby="helpId">
+                           aria-describedby="helpId" required>
                     @if ($errors->has('password'))
                         <span class="form-text">
                             <strong>{{ $errors->first('email') }}</strong>
@@ -21,7 +21,7 @@
                 <div class="form-group {{ $errors->has('password') ? ' has-warning' : '' }}">
                     <label for="password">Password:</label>
                     <input type="password" name="password" id="password" class="form-control" placeholder=""
-                           aria-describedby="helpId">
+                           aria-describedby="helpId" required>
                     @if ($errors->has('password'))
                         <span class="form-text">
                             <strong>{{ $errors->first('email') }}</strong>
