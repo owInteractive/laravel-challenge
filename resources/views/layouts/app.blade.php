@@ -11,6 +11,7 @@
         <script src="{{ asset("js/app.js") }}"></script>
     </head>
     <body class="overflow-hidden">
+        @include('partials.alert')
         @if(\Illuminate\Support\Facades\Auth::check())
             @include("layouts.logged_in")
         @else
