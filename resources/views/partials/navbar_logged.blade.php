@@ -1,4 +1,4 @@
-<div class="row min-vw-100">
+<div class="row min-vw-100" style="max-height: 9vh">
         <div class="col-2 navbar navbar-expand-lg navbar-light bg-grey">
             <a class="navbar-nav mx-auto" href="#">Welcome, {{ Auth::user()->name }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -8,7 +8,7 @@
         </div>
         <div class="col-10 navbar navbar-expand-lg navbar-light bg-light-custom">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto p-2">
+                <ul class="navbar-nav ml-auto px-3">
                     <li class="nav-item active">
                         <form method="POST" action="{{ url("/logout") }}">
                             {{ csrf_field() }}

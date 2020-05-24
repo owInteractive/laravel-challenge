@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
         <script src="{{ asset("js/app.js") }}"></script>
     </head>
-    <body class="overflow-hidden">
+    <body style="overflow-y: hidden;overflow-x: hidden;">
         @include('partials.alert')
         @if(\Illuminate\Support\Facades\Auth::check())
             @include("layouts.logged_in")
