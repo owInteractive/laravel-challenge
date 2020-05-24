@@ -8,6 +8,7 @@
         <title>{{ env("APP_NAME") }}</title>
         <link rel="stylesheet" href="{{ asset("css/custom.css") }}" />
         <link rel="stylesheet" href="{{ asset("css/app.css") }}" />
+        <script src="{{ asset("js/app.js") }}"></script>
     </head>
     <body class="overflow-hidden">
         @if(\Illuminate\Support\Facades\Auth::check())
@@ -15,6 +16,5 @@
         @else
             @include("layouts.not_logged_in")
         @endif
-        <script src="{{ asset("js/app.js") }}"></script>
     </body>
 </html>

@@ -14,5 +14,6 @@ let mix = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .styles([
-       'resources/assets/css/app.css'
+       'resources/assets/css/app.css',
+       'node_modules/jquery-datetimepicker/jquery.datetimepicker.css'
    ], 'public/css/custom.css');
