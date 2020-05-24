@@ -1,5 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">{{ env("APP_NAME") }}</a>
+    @if(!Auth::check())
+        <a class="navbar-brand" href="#">{{ env("APP_NAME") }}</a>
+    @else
+        <a class="navbar-nav b4-" href="#">Welcome, {{ Auth::user()->name }}</a>
+    @endif
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
