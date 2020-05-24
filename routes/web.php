@@ -22,5 +22,10 @@ Auth::routes();
 Route::middleware([
     'auth'
 ])->group(function () {
+    //Profile Routes
+    Route::get('/profile', 'UserController@profile');
+    Route::put('/profile/update', 'UserController@updateDetails');
+    Route::put('/profile/update_password', 'UserController@updatePassword');
+
     Route::resource('/events', 'EventController');
 });
