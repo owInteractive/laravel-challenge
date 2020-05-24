@@ -2,9 +2,9 @@
 #### Todo List
 1. Basics
     - [ ] Authentication
-        - [ ] Register
-        - [ ] Login
-        - [ ] Logoff
+        - [x] Register __OK!__
+        - [x] Login __OK!__
+        - [x] Logoff __OK!__
         - [ ] Update User Details
         - [ ] Change Password
     - [ ] Event
@@ -28,6 +28,8 @@
         - User need an Account
 4. Miscellaneous
     - [ ] Event List in the next 'x' days
+    - [ ] Create _partials/alerts.blade_
+        - File to use as any alert to errors or success
 #### Encountered Issues
 1. ``SQLSTATE[42000]``
     - When executed:
