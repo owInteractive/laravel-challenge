@@ -6,7 +6,7 @@
             @include('partials.sidebar')
         </div>
         {{-- Column designed to Navbar and Views --}}
-        <div class="col-10" style="overflow-y: scroll !important; max-height: 91vh; z-index: 99999">
+        <div class="col-10" style="overflow-y: scroll !important; max-height: 91vh;">
             <div class="card min-vh-30 border-0 shadow mr-3">
                 @hasSection('card-header')
                     <div class="card-body border-bottom">

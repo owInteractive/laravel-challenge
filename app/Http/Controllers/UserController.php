@@ -17,9 +17,10 @@ class UserController extends Controller
 
     public function updateDetails(Request $request)
     {
+        $unique = ($request['email'] == Auth::user()->email)? '' : '|unique:users';
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255' . $unique,
         ]);
 
         $user = Auth::user();
@@ -28,8 +29,8 @@ class UserController extends Controller
         $user->email = $request->email;
 
         if ($user->save())
-            return redirect('profile')->with('success', 'user.update.success');
-        return redirect('profile')->with('error', 'user.update.error');
+            return redirect('profile')->with('success', 'profile.profile_update.success');
+        return redirect('profile')->with('error', 'profile.profile_update.success');
     }
 
     public function updatePassword(Request $request)
