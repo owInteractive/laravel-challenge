@@ -1,14 +1,14 @@
 # OW Laravel Challenge
 #### Todo List
 1. Basics
-    - [ ] Authentication
+    - [x] Authentication
         - [x] Register __OK!__
         - [x] Login __OK!__
         - [x] Logoff __OK!__
-        - [ ] Update User Details
-        - [ ] Change Password
+        - [x] Update User Details
+        - [x] Change Password
     - [ ] Event
-        - [ ] Create
+        - [x] Create
             - Title
             - Description
             - Start/End datetime
@@ -28,8 +28,25 @@
         - User need an Account
 4. Miscellaneous
     - [ ] Event List in the next 'x' days
-    - [ ] Create _partials/alerts.blade_
+    - [x] Create _partials/alerts.blade_
         - File to use as any alert to errors or success
+    - [ ] UX
+        - [ ] Add [jQuery validator](https://jqueryvalidation.org/) to all forms
+            - [ ] Auth
+                - [ ] Login
+                - [ ] Register
+                - [ ] Update Profile
+                - [ ] Update Password
+            - [ ] Events
+                - [ ] Created
+                - [ ] Update
+                - [ ] Cancel
+            - [ ] Invitation
+                - [ ] Create
+                - [ ] Expire
+        - [ ] [DataTable](https://datatables.net/)
+            - [ ] Events
+            - [ ] Invitation
 #### Encountered Issues
 1. ``SQLSTATE[42000]``
     - When executed:
