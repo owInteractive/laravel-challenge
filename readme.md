@@ -21,7 +21,7 @@
 2. Files
     - [x] Export Events in CSV
         - id,title,description,start_date,end_date
-    - [ ] Import Events with CSV
+    - [x] Import Events with CSV
 3. Invite Friends
     - [ ] Link Generator
         - URL Link like Discord Invite
