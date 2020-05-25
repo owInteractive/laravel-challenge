@@ -28,4 +28,6 @@ Route::middleware([
     Route::put('/profile/update_password', 'UserController@updatePassword');
 
     Route::resource('/events', 'EventController');
+
+    Route::get('/export', 'Invokables\\ExportEvents');
 });

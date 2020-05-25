@@ -19,8 +19,8 @@
             - [ ] Fix DataTable - Should refresh when hiding rows
         - [ ] Update
 2. Files
-    - [ ] Export Events in CSV
-        - |title|description|start_datetime|end_datetime|
+    - [x] Export Events in CSV
+        - id,title,description,start_date,end_date
     - [ ] Import Events with CSV
 3. Invite Friends
     - [ ] Link Generator
