@@ -29,5 +29,10 @@ Route::middleware([
 
     Route::resource('/events', 'EventController');
 
+    Route::get('/exporter', function () {
+        return view('events.import-export');
+    });
+
     Route::get('/export', 'Invokables\\ExportEvents');
+    Route::post('/import', 'Invokables\\ImportEvents');
 });
