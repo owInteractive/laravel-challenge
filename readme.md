@@ -13,9 +13,10 @@
             - Description
             - Start/End datetime
         - [ ] Read
-            - [ ] Today Events
-            - [ ] Events Next 5 days
-            - [ ] All events(paginates)
+            - [X] Today Events
+            - [X] Events Next 5 days
+            - [x] All events(paginates)
+            - [ ] Fix DataTable - Should refresh when hiding rows
         - [ ] Update
 2. Files
     - [ ] Export Events in CSV
