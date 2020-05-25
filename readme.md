@@ -71,3 +71,11 @@
                   ]
               ];
           ```
+2. DataTable
+    - I'm using DataTable to help listing/searching for events/invitations
+    - While trying to "hide/show" certain rows, for example
+        - When selected "Events in the next 5 days", it should hide the other events
+    - I thought and developed in a solution, using the jQuery functions ".hide()" and ".show()"
+        - But it created a great problem, it doesn't "re-draw" and "re-paginate" the Table.
+    - Possible Solution:
+        - Create an API Route to return the Events data in json format.
