@@ -10,7 +10,13 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
+
+    //Library to help in DateTime inputs
     require('jquery-datetimepicker');
+
+    //Library to Help listing events
+    require('datatables.net-bs4')();
+
     require('bootstrap');
 
 } catch (e) {}

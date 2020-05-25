@@ -27,10 +27,28 @@ class EventController extends Controller
         $ids = array_map( function( $a ) { return $a['event_id']; }, $user_events->toArray());
 
         //Selecting all events details related to this user
-        $events = Event::all()->whereIn('id', $ids);
+        $events = Event::all()->whereIn('id', $ids)->toArray();
+
+        foreach($events as $key=>$value)
+        {
+            $start_date = date_format(date_create_from_format('Y-m-d H:i:s', $value['start_date']), "Y-m-d");
+            $today = date('Y-m-d');
+            $next_5days = date('Y-m-d', strtotime($today . ' + 2 days'));
+            if($start_date == $today)
+                $events[$key]['data_active'] = 1;
+            elseif ($start_date <= $next_5days)
+                $events[$key]['data_active'] = 2;
+            else
+                $events[$key]['data_active'] = 0;
+        }
+
+//        echo "<pre>";
+//        echo print_r($events);
+//        echo "</pre>";
 
         return view('events.index', compact('events'));
     }
+
 
     /**
      * Show the form for creating a new resource.
