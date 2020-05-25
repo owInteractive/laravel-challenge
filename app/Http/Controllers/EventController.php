@@ -15,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all()->where('id_owner', Auth::id());
+        $events = Event::all()->where('user_id', Auth::id());
         return view('events.index', compact('events'));
     }
 
@@ -44,7 +44,7 @@ class EventController extends Controller
             'end_date' => 'required'
         ]);
         $request->merge([
-            'id_owner' => Auth::id()
+            'user_id' => Auth::id()
         ]);
         if(Event::create($request->all()))
             return redirect('events')->with('success', 'event.success');

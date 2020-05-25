@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    protected $table = 'event';
+    protected $table = 'events';
     protected $fillable = [
-        'id_owner',
+        'user_id',
         'title', 'description',
         'start_date', 'end_date'
     ];
