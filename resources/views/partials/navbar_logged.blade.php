@@ -1,4 +1,4 @@
-<div class="row min-vw-100" style="max-height: 9vh">
+<div class="row min-vw-100 mx-0" style="max-height: 9vh">
         <div class="col-2 navbar navbar-expand-lg navbar-light bg-grey">
             <a class="navbar-nav mx-auto" href="#">Welcome, {{ Auth::user()->name }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

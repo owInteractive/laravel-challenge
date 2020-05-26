@@ -1,8 +1,8 @@
 <div class="bg-light-custom">
     @include('partials.navbar_logged')
-    <div class="row" >
+    <div class="row mx-0" >
         {{-- Column designed to SideBar --}}
-        <div class="col-2 bg-grey min-vh-100 overflow-auto">
+        <div class="col-2 bg-grey min-vh-100 overflow-auto mx-0">
             @include('partials.sidebar')
         </div>
         {{-- Column designed to Navbar and Views --}}
