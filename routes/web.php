@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+
 Route::middleware([
     'auth'
 ])->group(function () {
@@ -35,4 +37,7 @@ Route::middleware([
 
     Route::get('/export', 'Invokables\\ExportEvents');
     Route::post('/import', 'Invokables\\ImportEvents');
+
+    Route::post('/invite/create/{id}', 'Tools\\InvitationController@create');
+    Route::post('/invites', 'Tools\\InvitationController@index');
 });
