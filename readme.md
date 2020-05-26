@@ -7,7 +7,7 @@
         - [x] Logoff __OK!__
         - [x] Update User Details
         - [x] Change Password
-    - [ ] Event
+    - [x] Event
         - [x] Create
             - Title
             - Description
@@ -16,7 +16,7 @@
             - [X] Today Events
             - [X] Events Next 5 days
             - [x] All events(paginates)
-        - [ ] Update
+        - [x] Update
 2. [x] Files
     - [x] Export Events in CSV
         - id,title,description,start_date,end_date
