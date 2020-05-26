@@ -25,6 +25,6 @@
         <i class="fas fa-cloud-upload-alt mr-1"></i>Import/Export Events
     </a>
     <a href="{{ url('/invites') }}" class="list-group-item classe bg-transparent position-static">
-        <i class="fas fa-cloud-upload-alt mr-1"></i>Import/Export Events
+        <i class="fas fa-list mr-1"></i>Invites
     </a>
 </div>
