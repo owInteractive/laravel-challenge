@@ -26,7 +26,7 @@ class InvitationController extends Controller
     {
         $hash = $this->hash($id);
         $invite = Invite::create([
-            'user_id' => 1,
+            'user_id' => Auth::id(),
             'event_id' => $id,
             'hash' => $hash
         ]);

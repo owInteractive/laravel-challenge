@@ -46,7 +46,7 @@
                 - [ ] Expire
         - [x] [DataTable](https://datatables.net/)
             - [x] Events
-            - [ ] Invitation
+            - [x] Invitation
 #### Encountered Issues
 1. ``SQLSTATE[42000]``
     - When executed:
