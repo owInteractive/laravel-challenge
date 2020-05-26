@@ -17,14 +17,14 @@
             - [X] Events Next 5 days
             - [x] All events(paginates)
         - [ ] Update
-2. Files
+2. [x] Files
     - [x] Export Events in CSV
         - id,title,description,start_date,end_date
     - [x] Import Events with CSV
-3. Invite Friends
+3. [x] Invite Friends
     - [x] Link Generator
         - URL Link like Discord Invite
-    - [ ] Enter Event
+    - [x] Enter Event
         - User need an Account
 4. Miscellaneous
     - [ ] Event List in the next 'x' days
