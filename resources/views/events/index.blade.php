@@ -35,7 +35,6 @@
                         <button class="btn btn-warning mx-1" value="{{ $event['id'] }}" id="createInvite" disabled><i class="fas fa-envelope-open"></i></button>
                     @endif
                 </td>
-{{--                <td></td>--}}
             </tr>
         @endforeach
         </tbody>
@@ -43,15 +42,13 @@
     <script>
         $(document).ready(function () {
             $('table[id="eventList"]').DataTable({
-                lengthMenu: [10, 25, 50 ],
+                lengthMenu: [5, 10, 25, 50 ],
                 columnDefs: [
                     { "orderable": false, "targets": 0 }
                 ]
-            });
-            $('button[id="createInvite"]').click(function () {
-                alert("Action");
+            }).on('click', '#createInvite', function () {
                 $.ajax({
-                    url: 'invite/create/' + $(this).val(),
+                    url: 'invite/create/' + $('button[id="createInvite"]').val(),
                     method: "POST",
                     data: { },
                     contentType: 'application/json',
@@ -66,6 +63,9 @@
                     console.log(response);
                 });
             });
+            // $('button[id="createInvite"]').click(function () {
+            //
+            // });
         });
     </script>
 @endsection
