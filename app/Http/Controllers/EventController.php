@@ -21,10 +21,13 @@ class EventController extends Controller
     public function index()
     {
         //Selecting all events related to this user
-        $user_events = UserEvents::all()->where('user_id', Auth::id())->toArray();
+        $user_events = DB::table('user_events')->where('user_id', Auth::id())->get();
+        //from stdClass to Array
+        $user_events = json_decode(json_encode($user_events), true);
         //Creating an array with the Event's ids related to this user
 //        dd($user_events);
         $ids = array_map( function( $a ) { return $a['event_id']; }, $user_events);
+//        dd($ids);
         $is_owner = array_map( function( $a ) { return $a['is_owner']; }, $user_events);
 //        echo "<pre>";
 //        echo print_r($ids);
@@ -33,6 +36,7 @@ class EventController extends Controller
         //Selecting all events details related to this user
         $events = Event::all()->whereIn('id', $ids)->toArray();
 //        dd($is_owner);
+//        dd($events);
 
         foreach($events as $key=>$value)
         {
