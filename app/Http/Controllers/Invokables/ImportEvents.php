@@ -47,6 +47,8 @@ class ImportEvents extends Controller
         array_shift($csv);
 
         $this->insertEvents($csv);
+
+        return redirect('/exporter')->with('success', 'Events were imported, repeated ones were ignored!');
     }
 
     public function insertEvents($arr = array())
@@ -69,15 +71,12 @@ class ImportEvents extends Controller
                     'end_date' => $value['end_date'],
                 ])->toArray();
 
-                echo "<pre>";
-                print_r($event);
-                echo "</pre>";
-
                 UserEvents::create([
                     'event_id' => $value['id'],
                     'user_id' => Auth::id(),
                     'is_owner' => 0
                 ]);
+
             }
         }
     }
