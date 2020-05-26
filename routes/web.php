@@ -39,5 +39,5 @@ Route::middleware([
     Route::post('/import', 'Invokables\\ImportEvents');
 
     Route::post('/invite/create/{id}', 'Tools\\InvitationController@create');
-    Route::post('/invites', 'Tools\\InvitationController@index');
+    Route::get('/invites', 'Tools\\InvitationController@index');
 });
