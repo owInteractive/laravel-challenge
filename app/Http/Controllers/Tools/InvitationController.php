@@ -12,8 +12,8 @@ class InvitationController extends Controller
 {
     public function index()
     {
-        $invites = Invite::all()->where();
-        return view('invite.index');
+        $invites = Invite::all()->where('user_id', Auth::id());
+        return view('invite.index', compact('invites'));
     }
     public function hash($id)
     {
