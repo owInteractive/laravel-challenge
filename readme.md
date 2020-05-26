@@ -12,20 +12,19 @@
             - Title
             - Description
             - Start/End datetime
-        - [ ] Read
+        - [x] Read
             - [X] Today Events
             - [X] Events Next 5 days
             - [x] All events(paginates)
-            - [ ] Fix DataTable - Should refresh when hiding rows
         - [ ] Update
 2. Files
     - [x] Export Events in CSV
         - id,title,description,start_date,end_date
     - [x] Import Events with CSV
 3. Invite Friends
-    - [ ] Link Generator
+    - [x] Link Generator
         - URL Link like Discord Invite
-    - [ ] User Access
+    - [ ] Enter Event
         - User need an Account
 4. Miscellaneous
     - [ ] Event List in the next 'x' days
@@ -45,8 +44,8 @@
             - [ ] Invitation
                 - [ ] Create
                 - [ ] Expire
-        - [ ] [DataTable](https://datatables.net/)
-            - [ ] Events
+        - [x] [DataTable](https://datatables.net/)
+            - [x] Events
             - [ ] Invitation
 #### Encountered Issues
 1. ``SQLSTATE[42000]``
