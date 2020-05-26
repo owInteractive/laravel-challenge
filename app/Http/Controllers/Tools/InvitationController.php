@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Tools;
 
 use App\Models\Event;
 use App\Models\Invite;
+use App\Models\UserEvents;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InvitationController extends Controller
 {
@@ -45,7 +47,22 @@ class InvitationController extends Controller
     public function participate($hash)
     {
         $event = $this->getEventDetails($hash);
-        dd($event);
+        if(DB::table('user_events')->where([
+            ['user_id', '=', Auth::id()],
+            ['event_id', '=', $event['id']]
+        ])->get()->count() == 0)
+        {
+            $user_events = UserEvents::create([
+                'user_id' => Auth::id(),
+                'event_id' => $event['id'],
+                'is_owner' => false
+            ]);
+            return response()->json([
+                'data' => $user_events
+            ], 200);
+        }
+        return response()->json([
+            'message' => "You're already participating in this event!"
+        ]);
     }
-
 }

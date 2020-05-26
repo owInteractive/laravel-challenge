@@ -35,12 +35,13 @@
     <script>
         $(document).ready(function () {
             $('table[id="eventList"]').DataTable({
-                lengthMenu: [ 5, 10, 25, 50 ],
+                lengthMenu: [10, 25, 50 ],
                 columnDefs: [
                     { "orderable": false, "targets": 0 }
                 ]
             });
             $('button[id="createInvite"]').click(function () {
+                alert("Action");
                 $.ajax({
                     url: 'invite/create/' + $(this).val(),
                     method: "POST",

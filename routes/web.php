@@ -40,4 +40,5 @@ Route::middleware([
 
     Route::post('/invite/create/{id}', 'Tools\\InvitationController@create');
     Route::get('/invites', 'Tools\\InvitationController@index');
+    Route::get('/invite/{hash}', 'Tools\\InvitationController@participate');
 });

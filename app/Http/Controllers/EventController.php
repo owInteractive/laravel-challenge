@@ -21,13 +21,16 @@ class EventController extends Controller
     public function index()
     {
         //Selecting all events related to this user
-        $user_events = UserEvents::all()->where('user_id', Auth::id());
-
+        $user_events = UserEvents::all()->where('user_id', Auth::id())->toArray();
         //Creating an array with the Event's ids related to this user
-        $ids = array_map( function( $a ) { return $a['event_id']; }, $user_events->toArray());
+        $ids = array_map( function( $a ) { return $a['event_id']; }, $user_events);
+//        echo "<pre>";
+//        echo print_r($ids);
+//        echo "</pre>";
 
         //Selecting all events details related to this user
         $events = Event::all()->whereIn('id', $ids)->toArray();
+//        dd($events);
 
         foreach($events as $key=>$value)
         {
