@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -106,12 +107,20 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param int $id
      * @param Event $event
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
-    public function show(Event $event)
+    public function show($id)
     {
-        //
+        $event = DB::table('events')->where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()]
+        ])->get()->first();
+
+//        dd($event);
+
+        return view('events.show', compact('event'));
     }
 
     /**
@@ -130,11 +139,14 @@ class EventController extends Controller
      *
      * @param Request $request
      * @param Event $event
-     * @return \Illuminate\Http\Response
+     * @return mixed , JSON
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $update = $event->update($request->all());
+        return response()->json([
+            "data" => $update
+        ], 200);
     }
 
     /**
