@@ -4,3 +4,17 @@
 .bg-light-custom {
     background-color: #F4F3EF !important;
 }
+.sidebar-item {
+    width: 120%;
+    margin-left: -1.3em;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+.sidebar-item:hover {
+    font-weight: bold;
+    color: rgb(191, 191, 255);
+    text-decoration: none;
+
+    overflow: hidden;
+    white-space: nowrap;
+}

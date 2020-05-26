@@ -8,7 +8,7 @@
     <form method="POST" action="{{ url('events') }}" id="eventCreate">
         {{ csrf_field() }}
         <div class="form-group {{ $errors->has('title') ? ' has-warning' : '' }}">
-            <label for="title">{{ __("event.form.title") }}:</label>
+            <label for="title">{{ __("event.form.title") }}</label>
             <input type="text" name="title" id="title" class="form-control" placeholder=""
                    aria-describedby="helpId" required>
             @if ($errors->has('title'))
@@ -18,7 +18,7 @@
             @endif
         </div>
         <div class="form-group {{ $errors->has('description') ? ' has-warning' : '' }}">
-            <label for="description">{{ __("event.form.description") }}:</label>
+            <label for="description">{{ __("event.form.description") }}</label>
             <input type="text" name="description" id="description" class="form-control" placeholder=""
                    aria-describedby="helpId" required>
             @if ($errors->has('description'))
@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group {{ $errors->has('start_date') ? ' has-warning' : '' }}">
-                    <label for="start_date">{{ __("event.form.start_date") }}:</label>
+                    <label for="start_date">{{ __("event.form.start_date") }}</label>
                     <input type="text" name="start_date" id="start_date" class="form-control" placeholder=""
                            aria-describedby="helpId" required>
                     @if ($errors->has('start_date'))
@@ -42,7 +42,7 @@
             </div>
             <div class="col">
                 <div class="form-group {{ $errors->has('end_date') ? ' has-warning' : '' }}">
-                    <label for="end_date">{{ __("event.form.end_date") }}:</label>
+                    <label for="end_date">{{ __("event.form.end_date") }}</label>
                     <input type="text" name="end_date" id="end_date" class="form-control" placeholder=""
                            aria-describedby="helpId" required>
                     @if ($errors->has('end_date'))

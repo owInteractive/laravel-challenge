@@ -1,6 +1,7 @@
 <div class="row min-vw-100 mx-0" style="max-height: 9vh">
         <div class="col-2 navbar navbar-expand-lg navbar-light bg-grey">
-            <a class="navbar-nav mx-auto" href="#">Welcome, {{ Auth::user()->name }}</a>
+            <a class="navbar-nav sidebar-item mx-auto" href="{{ url('profile') }}">
+                <i class="fas fa-user mr-1 mt-1"></i> {{ Auth::user()->name }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

@@ -6,8 +6,12 @@ return [
     ],
     'form' => [
         'title' => 'Title:',
-        'description' => 'Description',
+        'description' => 'Description:',
         'start_date' => 'Beginning Date:',
-        'end_date' => 'Ending Date:'
+        'end_date' => 'Ending Date:',
+        'file' => 'CSV File'
+    ],
+    'list' => [
+        'title' => 'Event Listing'
     ]
 ];

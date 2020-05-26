@@ -30,23 +30,9 @@
     - [ ] Event List in the next 'x' days
     - [x] Create _partials/alerts.blade_
         - File to use as any alert to errors or success
-    - [ ] UX
-        - [ ] Add [jQuery validator](https://jqueryvalidation.org/) to all forms
-            - [ ] Auth
-                - [ ] Login
-                - [ ] Register
-                - [ ] Update Profile
-                - [ ] Update Password
-            - [ ] Events
-                - [ ] Created
-                - [ ] Update
-                - [ ] Cancel
-            - [ ] Invitation
-                - [ ] Create
-                - [ ] Expire
-        - [x] [DataTable](https://datatables.net/)
-            - [x] Events
-            - [x] Invitation
+    - [x] [DataTable](https://datatables.net/)
+        - [x] Events
+        - [x] Invitation
 #### Encountered Issues
 1. ``SQLSTATE[42000]``
     - When executed:

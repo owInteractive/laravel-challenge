@@ -4,7 +4,7 @@
         {{ method_field('PUT') }}
         {{ csrf_field() }}
         <div class="form-group {{ $errors->has('title') ? ' has-warning' : '' }}">
-            <label for="title">{{ __("event.form.title") }}:</label>
+            <label for="title">{{ __("event.form.title") }}</label>
             <input type="text" name="title" id="title" class="form-control" placeholder=""
                    value="{{ $event->title }}" aria-describedby="helpId" required>
             @if ($errors->has('title'))
