@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\User;
 use App\Models\UserEvents;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -24,14 +23,16 @@ class EventController extends Controller
         //Selecting all events related to this user
         $user_events = UserEvents::all()->where('user_id', Auth::id())->toArray();
         //Creating an array with the Event's ids related to this user
+//        dd($user_events);
         $ids = array_map( function( $a ) { return $a['event_id']; }, $user_events);
+        $is_owner = array_map( function( $a ) { return $a['is_owner']; }, $user_events);
 //        echo "<pre>";
 //        echo print_r($ids);
 //        echo "</pre>";
 
         //Selecting all events details related to this user
         $events = Event::all()->whereIn('id', $ids)->toArray();
-//        dd($events);
+//        dd($is_owner);
 
         foreach($events as $key=>$value)
         {
@@ -44,8 +45,10 @@ class EventController extends Controller
                 $events[$key]['data_active'] = 2;
             else
                 $events[$key]['data_active'] = 0;
+            $events[$key]['is_owner'] = $is_owner[$key];
         }
 
+//        dd($events);
 //        echo "<pre>";
 //        echo print_r($events);
 //        echo "</pre>";

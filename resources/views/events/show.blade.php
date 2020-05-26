@@ -56,9 +56,10 @@
         <i class="fas fa-user-plus mr-1"></i>{{ __("event.create.register") }}
     </button>
     <script>
-
-        $.datetimepicker.setLocale('en');
-        $('input[id="start_date"]').datetimepicker();
-        $('input[id="end_date"]').datetimepicker();
+        $(document).ready(function () {
+            $.datetimepicker.setLocale('en');
+            $('input[id="start_date"]').datetimepicker();
+            $('input[id="end_date"]').datetimepicker();
+        });
     </script>
 @endsection

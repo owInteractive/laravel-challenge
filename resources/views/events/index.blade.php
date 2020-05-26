@@ -27,7 +27,15 @@
                 <td>{{ \App\Models\User::find($event['user_id'])->name }}</td>
                 <td>{{ $event['description'] }}</td>
                 <td><div id="endDate">{{ date_format(date_create_from_format('Y-m-d H:i:s', $event['end_date']), "H:i d/m/Y") }}</div></td>
-                <td><button class="btn btn-warning mx-1" value="{{ $event['id'] }}" id="createInvite"><i class="fas fa-envelope-open"></i></button></td>
+                <td>
+                    @if($event['is_owner'])
+                        <button class="btn btn-warning mx-1" value="{{ $event['id'] }}" id="createInvite"><i class="fas fa-envelope-open"></i></button>
+                        <a href="{{ url('events/') . $event['id'] }}" class="btn btn-info"><i class="fas fa-wrench"></i></a>
+                    @else
+                        <button class="btn btn-warning mx-1" value="{{ $event['id'] }}" id="createInvite" disabled><i class="fas fa-envelope-open"></i></button>
+                    @endif
+                </td>
+{{--                <td></td>--}}
             </tr>
         @endforeach
         </tbody>
