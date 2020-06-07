@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/myevents', 'EventsController@myevents')->name('myevents');
+Route::get('/today', 'EventsController@today')->name('today');
+Route::get('/next', 'EventsController@next')->name('next');
+
+Route::get('export', 'EventsController@export')->name('export');
+Route::get('importExportView', 'EventsController@importExportView');
+Route::post('import', 'EventsController@import')->name('import');
+
+route::resource('Events','EventsController');
+
