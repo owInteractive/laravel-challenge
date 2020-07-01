@@ -19,13 +19,14 @@ class EventosExport implements FromCollection, WithHeadings
         return [
             'Evento',
             'Descripcion',
+            'Correo de contacto',
             'Fecha Inicio',
             'Fecha Fin',
         ];
     }
     public function collection()
     {
-        $eventos = DB::table('eventos')->select('title','description','dataI','dataF')->get();
+        $eventos = DB::table('eventos')->select('title','description','email','dataI','dataF')->get();
         return $eventos;
     }
 
