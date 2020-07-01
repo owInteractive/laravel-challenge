@@ -19,6 +19,15 @@ name="description">{{ old('description', $editar->description) }}</textarea>
 </div>
 
 <div class="form-group">
+<label for="email"> Correo de contacto </label>
+<input class="form-control bg-light shadow-sm" 
+id="email"
+type="email" 
+name="email"
+value="{{ old('email', $editar->email) }}">
+</div>
+
+<div class="form-group">
 <label for="dataI"> Fecha de inicio</label>
 <input class="form-control bg-light shadow-sm" 
 id="dataI"

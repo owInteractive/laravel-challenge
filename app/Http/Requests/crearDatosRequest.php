@@ -26,6 +26,7 @@ class crearDatosRequest extends FormRequest
         return [
             'title'=> 'required',
             'description' => 'required',
+            'email' => 'required',            
             'dataI' => 'required',
             'dataF' => 'required',
         ];

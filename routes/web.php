@@ -15,20 +15,15 @@ Route::patch('/Portafolio/{editar}','EventController@update')->name('Datos.updat
 
 Route::post('/','EventController@store')->name('Datos.store');
 Route::get('/Portafolio/{editar}','EventController@show')->name('Datos.show');
-Route::delete('/Portafolio/{id}','EventController@destroy')->name('Datos.eliminar');
+Route::delete('/Portafolio/{editar}','EventController@destroy')->name('Datos.eliminar');
 
 Route::get('/exportar', 'EventController@export')->name('exportar');;
 //Route::get('/importar', 'EventController@import');
 Route::post('/importar', 'EventController@import')->name('importar');
 
 
-
-
-
 Route::view('/Contacto', 'Contacto')->name('Contacto');
 Route::post('Contacto', 'EnventoController@store')->name('messages.store');
-
-
 
 
 Auth::routes();

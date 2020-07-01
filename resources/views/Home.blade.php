@@ -16,7 +16,8 @@
                 <img class="img-fluid mb-4" src="/img/evento.svg">
                 @auth
                 <label>{{ auth()->user()->name }}<h5>Usuario</h5></label><br>
-                <label>{{ auth()->user()->email }}<h5>Email</h5></label>  
+                <label>{{ auth()->user()->email }}<h5>Email</h5></label>
+                  
                 </form>                              
        
             </div>

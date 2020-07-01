@@ -18,8 +18,9 @@ class EventoImport implements ToModel
         return new eventos([
             'title'=>$row[0],
             'description'=>$row[1],
-            'dataI'=>$row[2],
-            'dataF'=>$row[3],
+            'email'=>$row[2],
+            'dataI'=>$row[3],
+            'dataF'=>$row[4],
         ]);
     }
 }

@@ -11,6 +11,8 @@
             <div>
             <label> Descripcion del evento <p class="text-secondary">{{ $editar->description }}</p></label></div>
             <div>
+            <label> Correo de contacto <p class="text-secondary">{{ $editar->email }}</p></label></div>
+            <div>
             <label> Fecha de Inicio <p class="text-secondary">{{ $editar->dataI }}</p></label></div>
             <div>
             <label> Fecha de Fin <p class="text-secondary">{{ $editar->dataF }}</p></label></div>

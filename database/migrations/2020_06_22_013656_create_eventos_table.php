@@ -17,8 +17,10 @@ class CreateEventosTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('description');
-            $table->datetime('dataI');
-            $table->datetime('dataF');
+            $table->string('email')->unique();; // Relación 
+            $table->foreign('email')->references('email')->on('users'); // clave foranea
+            $table->date('dataI');
+            $table->date('dataF');
             $table->timestamps();
         });
     }
