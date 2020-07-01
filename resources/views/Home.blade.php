@@ -26,10 +26,11 @@
         @else
         
            
-                <div class="col-12 sm-10 col-lg-6 mx-auto">
+                <div class="col-12 sm-10  mx-auto">
                 <form class="bg-white py-3 px-3 shadow rounded">
-                <label>Este aplicativo te ayudara a tener un orden en tus actividades
-                a largo o corto plazo.</label>
+                <label>Con esta aplicación podrás organizar tus eventos de forma conjunta con tu equipo de trabajo, todos los integrantes registrados podrán observar 
+                las programaciones creadas por sus colegas de trabajo con el fin de estar sincronizados, podrán modificar, crear, eliminar y 
+                descargar la información si lo requiere.</label>
                 <hr>
                 
 
