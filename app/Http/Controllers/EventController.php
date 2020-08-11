@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use Illuminate\Http\Request;
 
+
 class EventController extends Controller
 {
     /**
@@ -14,7 +15,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event::orderBy('updated_at','DESC')->paginate(10); //it will show 10 records by page
+
+        return view('pages/events/event', ['events' => $events]);
     }
 
     /**
