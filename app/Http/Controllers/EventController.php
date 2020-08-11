@@ -89,7 +89,7 @@ class EventController extends Controller
             return view('pages.events.edit', ['event' => $event]);
         }
 
-        return redirect('/events')->with('error', 'This event does not own you.');
+        return redirect('/events')->with('error', 'You can not UPDATE this event because it does not own you.');
         
     }
 
