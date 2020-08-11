@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\User;
+
 class Event extends Model
 {
     /**
@@ -14,4 +16,16 @@ class Event extends Model
     protected $fillable = [
         'title', 'description', 'start_at', 'end_at', 'user_id',
     ];
+
+    /**
+     * Relationships
+     */
+
+    /**
+     * Get the user that owns the event.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
