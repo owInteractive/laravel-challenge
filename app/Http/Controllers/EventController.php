@@ -60,7 +60,7 @@ class EventController extends Controller
 
         $event->save();
 
-        return redirect('/events')->with('success', 'Event saved!');
+        return redirect('/events')->with('success', 'Event created!');
 
     }
 
