@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use App\Rules\EndTime;
 
 class EventController extends Controller
 {
@@ -27,7 +28,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.events.create');
     }
 
     /**
@@ -38,7 +39,29 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:50',
+            'description' => 'required|max:200',
+            'start_date' => 'required|date|after_or_equal:today',
+            'start_time' => 'required|date_format:H:i',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_time' => ['required', 'date_format:H:i', new EndTime($request->start_date,$request->end_date,$request->start_time)],
+        ]);
+
+        $event = new Event;
+
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->start_date = $request->start_date;
+        $event->start_time = $request->start_time;
+        $event->end_date = $request->end_date;
+        $event->end_time = $request->end_time;
+        $event->user_id = Auth::user()->id;
+
+        $event->save();
+
+        return redirect('/events')->with('success', 'Event saved!');
+
     }
 
     /**

@@ -5,8 +5,8 @@
 <div class="container">
 
 	<h2><strong>Event List</strong></h2>
-	<!-- <a href="{{ route('events.create')}}" class="btn btn-primary">Add new event</a> -->
-	<!-- <br><br> -->
+	<a href="{{ route('events.create')}}" class="btn btn-primary">Add new event</a>
+	<br><br>
 	<table class="table">
 		<thead>
 			<tr>
@@ -23,8 +23,8 @@
 			<tr>
 				<td>{{$event->title}}</td>
                 <td>{{$event->description}}</td>
-				<td>{{date('d-m-Y', strtotime($event->start_date))}} {{date('H:m', strtotime($event->start_time))}}</td>
-				<td>{{date('d-m-Y', strtotime($event->end_date))}} {{date('H:m', strtotime($event->end_time))}}</td>
+				<td>{{date('d-m-Y', strtotime($event->start_date))}} {{date('H:i', strtotime($event->start_time))}}</td>
+				<td>{{date('d-m-Y', strtotime($event->end_date))}} {{date('H:i', strtotime($event->end_time))}}</td>
 				<td>{{$event->user->name}}</td>
 				<!-- <td>
 					 <a href="{{ route('events.edit',$event->id)}}" class="btn btn-primary">Edit</a>
