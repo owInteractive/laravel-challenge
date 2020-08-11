@@ -131,8 +131,15 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
-        //
+        $event = Event::findOrFail($id);
+        
+        if($event->user_id == Auth::user()->id){
+            $event->delete();
+            return redirect('/events')->with('success', 'Event deleted!');
+        }
+
+        return redirect('/events')->with('error', 'You can not DELETE this event because it does not own you.');
     }
 }

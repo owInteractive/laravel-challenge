@@ -37,13 +37,13 @@ td {
 				<td>
 					 <a href="{{ route('events.edit',$event->id)}}" class="btn btn-primary">Edit</a>
 				</td>	
-				<!-- <td>
+				<td>
                     <form action="{{ route('events.destroy', $event->id)}}" method="post">
                       @csrf
                       @method('DELETE')
                       <button class="btn btn-danger" type="submit">Delete</button>
                     </form>
-				</td> -->
+				</td>
 			</tr>
 
 			@endforeach
