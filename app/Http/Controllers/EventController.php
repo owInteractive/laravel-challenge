@@ -17,7 +17,7 @@ class EventController extends Controller
     {
         $events = Event::orderBy('updated_at','DESC')->paginate(10); //it will show 10 records by page
 
-        return view('pages/events/event', ['events' => $events]);
+        return view('pages.events.index', ['events' => $events]);
     }
 
     /**

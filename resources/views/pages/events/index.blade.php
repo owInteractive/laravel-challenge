@@ -5,7 +5,8 @@
 <div class="container">
 
 	<h2><strong>Event List</strong></h2>
-	<!-- <a href="{{ route('events.create')}}" class="btn btn-primary">Add new event</a> -->
+	<a href="{{ route('events.create')}}" class="btn btn-primary">Add new event</a>
+	<br><br>
 	<table class="table">
 		<thead>
 			<tr>
