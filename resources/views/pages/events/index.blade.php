@@ -34,9 +34,9 @@ td {
 				<td>{{date('d-m-Y', strtotime($event->start_date))}} {{date('H:i', strtotime($event->start_time))}}</td>
 				<td>{{date('d-m-Y', strtotime($event->end_date))}} {{date('H:i', strtotime($event->end_time))}}</td>
 				<td>{{$event->user->name}}</td>
-				<!-- <td>
+				<td>
 					 <a href="{{ route('events.edit',$event->id)}}" class="btn btn-primary">Edit</a>
-				</td>	 -->
+				</td>	
 				<!-- <td>
                     <form action="{{ route('events.destroy', $event->id)}}" method="post">
                       @csrf

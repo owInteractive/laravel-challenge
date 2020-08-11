@@ -81,9 +81,16 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function edit(Event $event)
+    public function edit($id)
     {
-        //
+        $event = Event::findOrFail($id);
+
+        if($event->user_id == Auth::user()->id){
+            return view('pages.events.edit', ['event' => $event]);
+        }
+
+        return redirect('/events')->with('error', 'This event does not own you.');
+        
     }
 
     /**
@@ -93,9 +100,29 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:50',
+            'description' => 'required|max:200',
+            'start_date' => 'required|date|after_or_equal:today',
+            'start_time' => 'required|date_format:H:i',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_time' => ['required', 'date_format:H:i', new EndTime($request->start_date,$request->end_date,$request->start_time)],
+        ]);
+
+        $event = Event::findOrFail($id);
+
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->start_date = $request->start_date;
+        $event->start_time = $request->start_time;
+        $event->end_date = $request->end_date;
+        $event->end_time = $request->end_time;
+
+        $event->save();
+
+        return redirect('/events')->with('success', 'Event updated!');
     }
 
     /**
