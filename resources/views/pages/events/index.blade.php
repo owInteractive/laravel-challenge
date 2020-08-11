@@ -2,6 +2,12 @@
 
 @section('content')
 
+<style>
+td {
+	word-wrap: break-word;
+}
+</style>
+
 <div class="container">
 
 	<h2><strong>Event List</strong></h2>
@@ -15,7 +21,7 @@
 				<th >Start at</th>
 				<th >End at</th>
 				<th >User</th>
-				<!-- <th colspan = 2>Actions</th> -->
+				<th colspan = 2>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,8 +34,8 @@
 				<td>{{$event->user->name}}</td>
 				<!-- <td>
 					 <a href="{{ route('events.edit',$event->id)}}" class="btn btn-primary">Edit</a>
-				</td>	
-				<td>
+				</td>	 -->
+				<!-- <td>
                     <form action="{{ route('events.destroy', $event->id)}}" method="post">
                       @csrf
                       @method('DELETE')
