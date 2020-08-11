@@ -31,8 +31,9 @@
 							<label for="description" class="col-md-2 col-form-label text-md-right">{{ __('Description') }}</label>
 
 							<div class="col-md-10">
-								<input id="description" type="text" class="form-control @error('description') is-invalid @enderror"
-									name="description" value="{{ old('description') }}" required maxLength="200" autocomplete="description" autofocus>
+								<textarea id="description" type="text" class="form-control @error('description') is-invalid @enderror"
+									name="description" required maxLength="200" autocomplete="description" autofocus>{{ old('description') }}
+								</textarea>
 
 								@error('description')
 									<span class="invalid-feedback" role="alert">
@@ -118,92 +119,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<!-- <h2>Add Event</h2>
-
-	<form method="POST" action="{{ route('events.store') }}">
-
-		<div class="form-group">
-			<label for="title">Title:</label>
-			<input name="title" class="form-control" max="50"></input>
-		</div>
-
-        <div class="form-group">
-			<label 	  for="description">Description:</label>
-			<textarea name="description" class="form-control" max=200></textarea>
-		</div>
-
-		<div class="form-row">
-            <div class="col">
-                <label for="start_date">Start Date:</label>
-                <input name="start_date" class="form-control" type="date"></input>
-            </div>
-            <div class="col">
-                <label for="start_time">Start Time:</label>
-                <input name="start_time" class="form-control" type="time"></input>
-            </div>
-		</div>
-		<div class="form-row">
-            <div class="col">
-                <label for="end_date">End Date:</label>
-                <input name="end_date" class="form-control" type="date"></input>
-            </div>
-            <div class="col">
-                <label for="end_time">End Time:</label>
-                <input name="end_time" class="form-control" type="time"></input>
-            </div>
-		</div>
-		
-		<br>
-		<div class="form-group">
-			<button type="submit" class="btn btn-primary">Add Event</button>
-		</div>
-		{{ csrf_field() }}
-	</form> -->
-
-
 </div>
 
 @endsection
