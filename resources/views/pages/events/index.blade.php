@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@extends('layouts.alert_message') 
+
 @section('content')
 
 <style>
