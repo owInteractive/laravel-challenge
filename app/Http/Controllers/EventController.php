@@ -237,8 +237,12 @@ class EventController extends Controller
     public function invite($id)
     {
         $event = Event::with('emails')->findOrFail($id);
-
-        return view('pages.events.invite', ['event' => $event]);
+        if($event->user_id == Auth::user()->id){
+            return view('pages.events.invite', ['event' => $event]);
+           
+        }
+        return redirect('/events/search')->with('error', 'You can not INVITE FRIENDS because this event does not own you.');
+        
     }
 
     public function getSearchTypes(){
