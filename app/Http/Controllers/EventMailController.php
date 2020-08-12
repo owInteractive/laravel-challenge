@@ -95,8 +95,13 @@ class EventMailController extends Controller
      * @param  \App\EventMail  $eventMail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EventMail $eventMail)
+    public function destroy($id)
     {
-        //
+        $eventMail = EventMail::findOrFail($id);
+        $event_id = $eventMail->event_id;
+        $eventMail->delete();
+
+        return redirect('/events/invite/' . $event_id)->with('success', 'Friend deleted!');
+
     }
 }

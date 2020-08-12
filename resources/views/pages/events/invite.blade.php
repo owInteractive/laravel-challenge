@@ -52,20 +52,20 @@ td {
         <thead>
             <tr>
                 <th >Friends invited</td>
-                <!-- <th >Action</th> -->
+                <th >Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach($event->emails as $email)
             <tr>
                 <td>{{$email->email}}</td>
-                <!-- <td>
-                    <form action="{{ route('events.destroy', $event->id)}}" method="post">
+                <td>
+                    <form action="{{ route('emails.destroy', $email->id)}}" method="post">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger" type="submit">Delete</button>
                     </form>
-                </td> -->
+                </td>
             </tr>
 
             @endforeach
