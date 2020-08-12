@@ -225,8 +225,20 @@ class EventController extends Controller
     public function fileExport() 
     {
         return Excel::download(new EventsExport, 'events_' . date("Y-m-d H:i").'.csv');
-    }    
+    }
+    
+    
+    /**
+     * Display a listing of email of friends invitings
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function invite($id)
+    {
+        $event = Event::with('emails')->findOrFail($id);
 
+        return view('pages.events.invite', ['event' => $event]);
+    }
 
     public function getSearchTypes(){
         return [

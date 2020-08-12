@@ -31,7 +31,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('file-import', 'EventController@fileImport')->name('file-import');
     Route::get('file-export', 'EventController@fileExport')->name('file-export');
 
+    //invite
+    Route::get('events/invite/{id}', 'EventController@invite')->name('events.invite');;
+    
+    //Events
     Route::resource('events', 'EventController');
+
+    //Mails
+    Route::resource('emails', 'EventMailController');
+
 
 });
 

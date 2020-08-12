@@ -110,11 +110,11 @@
                                 <input id="invite" type="text" class="form-control" 
 									name="title" value="{{$event->emails_count}} friends have been invited." readonly>
                             </div>
-							<!-- <div class="col-md-3">
-									<a href="{{ route('events.search')}}" class="btn btn-primary btn-block">
+							<div class="col-md-3">
+									<a href="{{ route('events.invite',$event->id) }}" class="btn btn-primary btn-block">
 										{{ __('Invite +') }}
 									</a>
-							</div> -->
+							</div>
                         </div>
 
                         <div class="form-group row mt-0">
