@@ -23,7 +23,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function () {
     //Events
+    Route::post('events/search', 'EventController@search')->name('events.search');
+    Route::get('events/search', 'EventController@search')->name('events.search');
     Route::resource('events', 'EventController');
+    
 });
 
 

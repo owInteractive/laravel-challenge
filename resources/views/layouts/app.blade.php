@@ -31,8 +31,8 @@
                     <a class="navbar-brand" href="{{ url('/home') }}">
                         {{ __('Home') }}
                     </a>
-                    @if (Route::has('events.index'))
-                        <a class="navbar-brand" href="{{ route('events.index') }}">
+                    @if (Route::has('events.search'))
+                        <a class="navbar-brand" href="{{ route('events.search') }}">
                             {{ __('Events') }}
                         </a>
                     @endif

@@ -12,9 +12,35 @@ td {
 
 <div class="container">
 
-	<h2><strong>Event List</strong></h2>
-	<a href="{{ route('events.create')}}" class="btn btn-primary">Add new event</a>
-	<br><br>
+	<div class="card">
+        <div class="card-header">{{ __('Event List') }}</div>
+
+        <div class="card-body">
+			
+			<form id="search-form" action="{{ route('events.search')}}" method="post">
+			@csrf
+				<div class="form-row">
+					<div class="form-group col-md-10">
+						<a href="{{ route('events.create')}}" class="btn btn-primary">Add new event</a>
+					</div>
+					
+						<div class="form-group col-md-2">
+							<select class="form-control" id="searchType" name="searchType" onchange="document.getElementById('search-form').submit();">
+								@foreach($searchTypes as $type)
+									@if($type->id == $searchType )
+										<option value="{{$type->id}}" selected>{{$type->description}}</option>
+									@else
+										<option value="{{$type->id}}">{{$type->description}}</option>
+									@endif
+								@endforeach	
+							</select>
+						</div>
+					
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<table class="table">
 		<thead>
 			<tr>

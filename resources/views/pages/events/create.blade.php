@@ -104,7 +104,7 @@
 
                         <div class="form-group row mt-0">
 							<div class="col-md-5 offset-md-1">
-									<a href="{{ route('events.index')}}" class="btn btn-danger btn-block">
+									<a href="{{ route('events.search')}}" class="btn btn-danger btn-block">
 										{{ __('Cancel') }}
 									</a>
 								</div>

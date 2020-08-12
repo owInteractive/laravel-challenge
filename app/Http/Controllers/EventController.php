@@ -60,7 +60,7 @@ class EventController extends Controller
 
         $event->save();
 
-        return redirect('/events')->with('success', 'Event created!');
+        return redirect('/events/search')->with('success', 'Event created!');
 
     }
 
@@ -89,7 +89,7 @@ class EventController extends Controller
             return view('pages.events.edit', ['event' => $event]);
         }
 
-        return redirect('/events')->with('error', 'You can not UPDATE this event because it does not own you.');
+        return redirect('/events/search')->with('error', 'You can not UPDATE this event because it does not own you.');
         
     }
 
@@ -122,7 +122,7 @@ class EventController extends Controller
 
         $event->save();
 
-        return redirect('/events')->with('success', 'Event updated!');
+        return redirect('/events/search')->with('success', 'Event updated!');
     }
 
     /**
@@ -137,9 +137,69 @@ class EventController extends Controller
         
         if($event->user_id == Auth::user()->id){
             $event->delete();
-            return redirect('/events')->with('success', 'Event deleted!');
+            return redirect('/events/search')->with('success', 'Event deleted!');
         }
 
-        return redirect('/events')->with('error', 'You can not DELETE this event because it does not own you.');
+        return redirect('/events/search')->with('error', 'You can not DELETE this event because it does not own you.');
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $events = [];
+        $searchTypes = $this->getSearchTypes();
+        $searchType = $request->searchType ?? 1;
+
+        $query = Event::query();
+
+        switch ($searchType) {
+            case '1':
+                $query->orderBy('updated_at','DESC');
+                break;
+            case '2':
+                // $query->where('start_date',date("Y-m-d"))
+                //         ->orWhere(function($query) {
+                //             $query->where('start_date','<',date("Y-m-d"))
+                //                   ->where('end_date', '>=',date("Y-m-d"));
+                //         });
+                $query->where('start_date',date("Y-m-d"));
+                break;
+            case '3':
+                $more5days = date('Y-m-d', strtotime(date("Y-m-d"). ' + 5 days'));
+                // $query->where('start_date','>=', date("Y-m-d"))
+                //         ->where('end_date', '<=',$more5days)
+                //         ->orWhere(function($query) use($more5days){
+                //             $query->where('start_date','<',date("Y-m-d"))
+                //                     ->where('end_date', '>=',date("Y-m-d"))
+                //                     ->where('end_date', '<=',$more5days);
+                //         });
+                $query->where('start_date','>=', date("Y-m-d"))
+                      ->where('end_date', '<=',$more5days);
+                break;
+
+            
+            default:
+                # code...
+                break;
+        }
+
+        $results = $query->paginate(10);
+
+        return view('pages.events.index', ['events' => $results, 'searchType' => $request->searchType, 'searchTypes' => $searchTypes]);
+    }
+
+
+    public function getSearchTypes(){
+        return [
+            (object) array('id' => '1','description' => 'All events'),
+            (object) array('id' => '2','description' => 'Today events'),
+            (object) array('id' => '3','description' => 'Next 5 days events')
+        ];
+
     }
 }
