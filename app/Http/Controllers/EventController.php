@@ -192,6 +192,7 @@ class EventController extends Controller
                 break;
         }
 
+        $query->withCount('emails');
         $results = $query->paginate(10);
 
         return view('pages.events.index', ['events' => $results, 'searchType' => $request->searchType, 'searchTypes' => $searchTypes]);

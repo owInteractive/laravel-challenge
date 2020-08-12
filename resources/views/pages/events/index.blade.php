@@ -57,6 +57,7 @@ td {
 				<th >Start at</th>
 				<th >End at</th>
 				<th >User</th>
+				<th >Guests</th>
 				<th colspan = 2>Actions</th>
 			</tr>
 		</thead>
@@ -68,6 +69,9 @@ td {
 				<td>{{date('d-m-Y', strtotime($event->start_date))}} {{date('H:i', strtotime($event->start_time))}}</td>
 				<td>{{date('d-m-Y', strtotime($event->end_date))}} {{date('H:i', strtotime($event->end_time))}}</td>
 				<td>{{$event->user->name}}</td>
+				<td>
+					 <a href="{{ route('events.invite',$event->id)}}" class="btn btn-success">{{$event->emails_count}} +</a>
+				</td>
 				<td>
 					 <a href="{{ route('events.edit',$event->id)}}" class="btn btn-primary">Edit</a>
 				</td>	
