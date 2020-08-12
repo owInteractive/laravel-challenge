@@ -103,12 +103,26 @@
 								</div>
                         </div>
 
+						<div class="form-group row">
+                            <label for="invite" class="col-md-2 col-form-label text-md-right">{{ __('Invitations') }}</label>
+
+                            <div class="col-md-7">
+                                <input id="invite" type="text" class="form-control" 
+									name="title" value="{{$event->emails_count}} friends have been invited." readonly>
+                            </div>
+							<!-- <div class="col-md-3">
+									<a href="{{ route('events.search')}}" class="btn btn-primary btn-block">
+										{{ __('Invite +') }}
+									</a>
+							</div> -->
+                        </div>
+
                         <div class="form-group row mt-0">
 							<div class="col-md-5 offset-md-1">
 									<a href="{{ route('events.search')}}" class="btn btn-danger btn-block">
 										{{ __('Cancel') }}
 									</a>
-								</div>
+							</div>
                             <div class="col-md-5 offset-md-1">
                                 <button type="submit" class="btn btn-success btn-block">
                                     {{ __('Update') }}

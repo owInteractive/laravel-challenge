@@ -87,7 +87,7 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::findOrFail($id);
+        $event = Event::withCount('emails')->findOrFail($id);
 
         if($event->user_id == Auth::user()->id){
             return view('pages.events.edit', ['event' => $event]);
