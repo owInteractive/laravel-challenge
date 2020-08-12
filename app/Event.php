@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\User;
+use App\EventMail;
 
 class Event extends Model
 {
@@ -27,5 +28,13 @@ class Event extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the mails for the event.
+     */
+    public function emails()
+    {
+        return $this->hasMany(EventMail::class);
     }
 }
