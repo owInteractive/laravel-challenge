@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\EndTime;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EventsImport;
+use App\Exports\EventsExport;
+
 class EventController extends Controller
 {
     /**
@@ -192,6 +196,36 @@ class EventController extends Controller
 
         return view('pages.events.index', ['events' => $results, 'searchType' => $request->searchType, 'searchTypes' => $searchTypes]);
     }
+
+
+        /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImportExport()
+    {
+       return view('file-import');
+    }
+   
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request) 
+    {
+        if(!$request->has('import_file')){
+            return back()->with('error', 'Choose a file.');;
+        }
+
+        Excel::import(new EventsImport, $request->file('import_file'));
+        return back()->with('success', 'Events imported!');
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileExport() 
+    {
+        return Excel::download(new EventsExport, 'events_' . date("Y-m-d H:i").'.csv');
+    }    
 
 
     public function getSearchTypes(){

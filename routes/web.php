@@ -25,8 +25,14 @@ Route::middleware(['auth'])->group(function () {
     //Events
     Route::post('events/search', 'EventController@search')->name('events.search');
     Route::get('events/search', 'EventController@search')->name('events.search');
+
+    //Routes for import/export csv
+    Route::get('file-import-export', 'EventController@fileImportExport');
+    Route::post('file-import', 'EventController@fileImport')->name('file-import');
+    Route::get('file-export', 'EventController@fileExport')->name('file-export');
+
     Route::resource('events', 'EventController');
-    
+
 });
 
 
