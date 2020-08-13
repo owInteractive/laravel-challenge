@@ -198,14 +198,6 @@ class EventController extends Controller
         return view('pages.events.index', ['events' => $results, 'searchType' => $request->searchType, 'searchTypes' => $searchTypes]);
     }
 
-
-        /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function fileImportExport()
-    {
-       return view('file-import');
-    }
    
     /**
     * @return \Illuminate\Support\Collection
