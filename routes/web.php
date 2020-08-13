@@ -40,6 +40,9 @@ Route::middleware(['auth'])->group(function () {
     //Mails
     Route::resource('emails', 'EventMailController');
 
+    //Users
+    Route::resource('users', 'UserController');
+
 
 });
 
