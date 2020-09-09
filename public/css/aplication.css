@@ -1,0 +1,185 @@
+/*
+ * Application level styles
+ * (things that dont make sense in a toolkit :)
+ * copyright @colossal 2015
+ */
+
+/* docs overrides */
+.a {
+  background-color: #fff;
+  border-color: #d3e0e9;
+}
+#textopub img{
+  max-width: 100%!important;
+  height: auto!important;
+}
+.galleria{
+  float: left;
+  width: 100%;
+}
+.galleria a{
+  padding:15px;
+  float: left;
+  width: 33.33333333%;
+}
+.galleria a img{
+  max-width: 100%;
+}
+.titulopostagem{
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.titulopostagem strong{
+  float: left;
+  width: 100%;
+  font-size: 24px;
+}
+.titulopostagem span{
+  float: left;
+  width: 100%;
+}
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: .25rem;
+}
+.imagemcapa{
+  width: 100%;
+  float: left;
+  text-align: center;
+}
+.imagemcapa img{
+  max-width: 100%;
+  max-height: 300px;
+}
+
+.pagination > li {
+  display: inline;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.5;
+  color: #0275d8;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+  color: #014c8c;
+  background-color: #eceeef;
+  border-color: #ddd;
+}
+
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  z-index: 2;
+  color: #fff;
+  cursor: default;
+  background-color: #0275d8;
+  border-color: #0275d8;
+}
+
+.pagination > .disabled > span,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > a,
+.pagination > .disabled > a:focus,
+.pagination > .disabled > a:hover {
+  color: #818a91;
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ddd;
+}
+
+/* general overrides */
+.b .c {
+  line-height: 1.4;
+}
+.d .close {
+  margin-top: 4px;
+}
+
+
+/* navbar */
+.app-navbar {
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+.app-navbar .form-control {
+  box-shadow: none;
+}
+.app-navbar .e img {
+  width: 85px;
+}
+.app-navbar .f {
+  max-height: inherit;
+}
+.app-navbar .f:after {
+  height: 100vh;
+}
+.app-navbar .form-control {
+  border-color: #1C73A5;
+}
+.g {
+  margin-left: -12px;
+  padding-bottom: 10px !important;
+}
+.g .h:before {
+  font-size: 20px;
+}
+@media (min-width: 768px) {
+  .app-navbar .f:after {
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .i {
+    margin-top: -1px;
+  }
+}
+
+
+/* misc */
+.j {
+  max-width: 280px;
+  margin-top: -60px;
+}
+.k {
+  margin-right: 10px;
+}
+.l {
+  width: 40%;
+  display: inline-block;
+}
+.l img {
+  width: 100%;
+}
