@@ -15,6 +15,7 @@ import {
     Row,
     Col,
 } from 'antd';
+import axios from 'axios';
 
 
 const ImportForm = props => {
@@ -24,6 +25,7 @@ const ImportForm = props => {
         props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                axios.get(`http://127.0.0.1:8000/importEvents`, { values });
             }
         });
     };
@@ -37,15 +39,29 @@ const ImportForm = props => {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Form.Item label="Upload" extra="longgggggggggggggggggggggggggggggggggg">
-                {getFieldDecorator('upload', {
+            <Form.Item label="file">
+                {getFieldDecorator('file', {
                     valuePropName: 'fileList',
                     getValueFromEvent: normFile,
                 })(
-                    <Upload name="logo">
+                    <Upload
+                        accept=".txt, .csv"
+                        showUploadList={false}
+                        beforeUpload={file => {
+                            const reader = new FileReader();
+
+                            reader.onload = e => {
+                                console.log(e.target.result);
+                            };
+                            reader.readAsText(file);
+
+                            // Prevent upload
+                            return false;
+                        }}
+                    >
                         <Button>
-                            <Icon type="upload" /> Click to upload
-              </Button>
+                            <Icon type="upload" /> Click to Upload
+    </Button>
                     </Upload>,
                 )}
             </Form.Item>

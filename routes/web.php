@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 |
 */
 Route::get("/exportEvents",'eventsController@export');
+Route::get("/exportTodaysEvents",'eventsController@exportTodayEvents');
+Route::get("/exportNextFiveDaysEvents",'eventsController@exportNextFiveDaysEvents');
 Route::post("/importEvents",'eventsController@import');
 
-Route::get('/{path?}', function () {
-  return view('welcome');
-});
+Route::get('/{path}',function(){
+  return View('welcome');
+})->where('path','.*');

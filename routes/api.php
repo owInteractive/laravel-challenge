@@ -20,6 +20,7 @@ Route::group([
   Route::post('signin', 'AuthController@signin');
   Route::post('signup', 'AuthController@signup');
   Route::post('forgot', 'AuthController@forgot');
+  Route::post('reset', 'AuthController@reset');
   Route::group([
     'middleware' => 'auth:api',
   ], function () {

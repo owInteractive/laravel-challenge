@@ -21,6 +21,7 @@ const PostsPage = props => {
   const [showModel, setShowModel] = useState(false);
   const [showEvent, setShowEvent] = useState(false);
   const [type, setType] = useState('all');
+  const [typeExport, setTypeExport] = useState('exportEvents');
   const [data, setData] = useState(props.events);
   let typee = 'all';
   useEffect(() => {
@@ -28,6 +29,14 @@ const PostsPage = props => {
     console.log(props.user);
     Feather.replace();
   }, []);
+  useEffect(() => {
+    if (type == 'today') {
+      setTypeExport('exportTodaysEvents');
+    }
+    if (type == 'nextFiveDays') {
+      setTypeExport('exportNextFiveDaysEvents');
+    }
+  }, [type]);
   useEffect(() => {
     setData(props.events);
   }, [props.events]);
@@ -117,8 +126,6 @@ const PostsPage = props => {
   return (
     <div className='mainLayout'>
       <div className='main-container'>
-        <a href='http://127.0.0.1:8000/exportEvents' className=''>sddqs</a>
-        <ImportEventForm />
         <div className='search-bar-container'>
           <div className='field'>
             <div className='control has-icons-left'>
@@ -153,38 +160,14 @@ const PostsPage = props => {
             )}
           {data && data.length > 0 && <Pagination current={props.current_page} pageSize={props.per_page} total={props.total} onChange={e => props.fetchEvents(e, type)} />}
         </TransitionGroup>
-
-        {/* <Link className='button floating-add-button is-primary' to='/add'>
-          + Add
-				</Link> */}
-        <button onClick={showModale} className='button floating-add-button is-primary'>+ Add</button>
+        <div className='add-export floating-add-button'>
+          <button onClick={showModale} className='button is-primary'>+ Add</button>
+          <a className='floating-add-button' href={'http://127.0.0.1:8000/' + typeExport} className=''>Export</a>
+        </div>
       </div>
       <EventForm type={type} showModel={showModel} setShowModel={setShowModel} />
+
     </div>
-    // <div className="posts-page">
-    //   <div>
-    //     <Input className="filter_input" size="large" placeholder="Filter" />
-    //     {props.events.map((ele, index) => {
-    //       return (
-    //         /* <Card hoverable onClick={showEditModale} key={index} style={{ backgroundColor: '#1A1919', border: 'none', color: 'white' }}>
-    //           { !editmode ? <p>{ele.title}</p> : null}
-    //           { !editmode ? <p>{ele.description}</p> : null}
-    //           { editmode ? <EditEvent setEditmode={setEditmode} event={ele} closeModel={closeModel} showEditModel={showEditModel} setShowEditModel={setShowEditModel} /> : null}
-    //           {props.user.id == ele.user_id && (<><button onClick={switchToeditmode}>edit
-    //         <span></span><span></span><span></span><span></span>
-    //           </button>
-
-    //             <button onClick={(id) => props.deleteEvents(ele.id)}>delete
-    //               <span></span><span></span><span></span><span></span>
-    //             </button>
-    //           </>)}
-    //         </Card> */
-    //       );
-    //     })}
-    //   </div>
-    //   <button onClick={showModale} className='add'>Add</button>
-
-    // </div>
   );
 };
 

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Event;
 use App\Notification;
 use App\Exports\EventsExport;
+use App\Exports\EventsNextFiveDaysExport;
+use App\Exports\EventsTodayExport;
 use App\Imports\EventsImport;
 use Carbon\Carbon;
 use Excel;  
@@ -40,11 +42,27 @@ class eventsController extends Controller
     { 
         return Excel::download(new EventsExport, 'events.csv');
     }
+    public function exportTodayEvents() 
+    { 
+        return Excel::download(new EventsTodayExport, 'events.csv');
+    }
+    public function exportNextFiveDaysEvents() 
+    { 
+        return Excel::download(new EventsNextFiveDaysExport, 'events.csv');
+    }
 
     public function import() 
     {
-       
-        return Excel::import(new EventsImport, request()->file('file'));
+        try{
+            Excel::import(new EventsImport, request()->file('file'));
+        }catch(\Exception $e ){
+            return response()->json([
+                'message' => $e->getMessage()
+              ],400);
+        }
+        return response()->json([
+            'message' => 'success'
+          ]);
     } 
     /**
      * Show the form for creating a new resource.

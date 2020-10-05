@@ -4,10 +4,12 @@ import { Route, Redirect, Switch, withRouter } from "react-router-dom";
 import HomePage from "./pages/home-page/HomePage";
 import Navbar from "./components/navbar/Navbar";
 import Forgot from "./components/Forgot/Forgot";
+import ResetPass from "./components/Reset/ResetPass";
 import SigninPage from "./pages/signin-page/SigninPage";
 import SignUpPage from "./pages/signup-page/SignUpPage";
 import { logout } from "./actions/auth-actions/actions";
 import PostsPage from "./pages/posts-page/PostsPage";
+import Notfound from "./pages/Notfound/Notfound";
 
 import './App.scss';
 
@@ -21,10 +23,10 @@ const App = props => {
       />
       <div className='page-content' id="style-2">
         <Switch location={props.history.location}>
-          <Route exact path={"/"} component={HomePage} />
+          {/* <Route exact path={"/"} component={PostsPage} /> */}
           <AuthRoute
             authenticated={props.isLoggedIn}
-            path="/posts"
+            path="/events"
             component={PostsPage}
           />
           <GuestRoute
@@ -39,9 +41,15 @@ const App = props => {
           />
           <GuestRoute
             authenticated={props.isLoggedIn}
-            path="/reset"
+            path="/resetpassword"
             component={Forgot}
           />
+          <GuestRoute
+            authenticated={props.isLoggedIn}
+            path="/reset/:id"
+            component={ResetPass}
+          />
+          <Route component={() => <Notfound isLoggedIn={props.isLoggedIn} />} />
         </Switch>
       </div>
     </div>

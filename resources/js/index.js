@@ -16,7 +16,7 @@ import { connectTheUser, getAuthUser } from "./actions/auth-actions/actions";
 
 export const history = createBrowserHistory();
 
-const token = localStorage.getItem("halber_token");
+const token = localStorage.getItem("token");
 
 if (token) {
   // if token exists in local storage!

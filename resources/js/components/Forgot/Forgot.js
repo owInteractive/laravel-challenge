@@ -1,6 +1,11 @@
 import React from 'react';
-import { Form, Input, Icon, Button } from "antd";
+import { Form, Input, Icon, Button, message } from "antd";
 import './Forgot.scss';
+import axiosInstance from "../../config/axios-instance";
+import {
+    Link,
+} from 'react-router-dom';
+
 
 
 const ForgotPassForm = props => {
@@ -11,6 +16,18 @@ const ForgotPassForm = props => {
         props.form.validateFields((err, data) => {
             if (!err) {
                 console.log(data);
+                axiosInstance({
+                    method: "post",
+                    url: `auth/forgot`,
+                    data: data
+                }).then(res => {
+                    message.success("Cheack your email");
+                    props.form.resetFields();
+                })
+                    .catch((error) => {
+                        message.error(error.response.data.error);
+                        props.form.resetFields();
+                    });
             }
         });
     };
@@ -41,9 +58,10 @@ const ForgotPassForm = props => {
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="submit-button">
                         Reset password
-        </Button>
+                    </Button>
                 </Form.Item>
             </Form>
+            <Link to="/signin">sign in ?</Link>
         </div>
     );
 };

@@ -1,16 +1,22 @@
-import React from "react";
-import { Form, Icon, Input, Button } from "antd";
-
+import React, { useCallback } from "react";
+import { Form, Icon, Input, Button, message } from "antd";
+import { useHistory } from "react-router-dom";
 import "./signin-form.scss";
 
 const SigninForm = props => {
   const { getFieldDecorator } = props.form;
-
+  let history = useHistory();
   const handleSubmit = e => {
     e.preventDefault();
     props.form.validateFields((err, data) => {
       if (!err) {
-        props.signin(data);
+        props.signin(data)
+          .then(res => history.push("/events"))
+          .catch(err => {
+            message.error('wrong credentials');
+            props.form.resetFields();
+          });
+
       }
     });
   };

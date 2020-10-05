@@ -106,7 +106,7 @@ class AuthController extends Controller
         'token' =>$token
       ]);
 
-
+      //Send Email and catche it with mailcatcher
       Mail::send('Mails.forgot',['token'=>$token], function($message) use($email){
         $message->to($email);
         $message->subject('Reset password');
@@ -121,8 +121,25 @@ class AuthController extends Controller
         'message' => $e->getMessage()
       ],400);
     }
-      //Send Email and catche it with mailcatcher
+  }
 
+  public function reset(Request $request){
+    $token=$request->get('token');
+    if(!$passwordResets = DB::table('password_resets')->where('token',$token)->first()){
+      return response()->json([
+        'error' => 'invalid token'
+      ],400);
+    }
+    if(!$user = User::where('email',$passwordResets->email)->first()){
+      return response()->json([
+        'error' => 'user doesn\'t exist!'
+      ],404);
+    }
 
+    $user->password = bcrypt($request->get('password'));
+    $user->save();
+    return response()->json([
+      'message' => 'success'
+    ]);
   }
 }

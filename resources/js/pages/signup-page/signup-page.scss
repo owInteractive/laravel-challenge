@@ -1,13 +1,21 @@
 @import "../../stylesheets/mixins";
 .signup-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   .title {
     display: block;
     margin: 100px 0;
     text-align: center;
+    color: #4EADFF;
   }
   .content {
     @include flexbox();
     @include justify-content(center);
     @include align-items(center);
+    width: 400px;
+    flex-direction: column;
   }
 }

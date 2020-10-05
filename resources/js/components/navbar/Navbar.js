@@ -82,18 +82,6 @@ const Navbar = props => {
           </Menu.Item>
         ) : null}
 
-        {!props.isLoggedIn ? (
-          <Menu.Item key="1" className="navbar-right">
-            <NavLink to="/signin">signin</NavLink>
-          </Menu.Item>
-        ) : null}
-
-        {!props.isLoggedIn ? (
-          <Menu.Item key="2">
-            <NavLink to="/signup">signup</NavLink>
-          </Menu.Item>
-        ) : null}
-
         {props.isLoggedIn ? (
           <Menu.Item key="3" className="navbar-avatar navbar-right">
             <Dropdown

@@ -100,13 +100,34 @@ body {
 		color:white;
 	}
 }
-
-.floating-add-button {
+.add-export{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	position: fixed;
-	bottom: 5px;
 	width: 500px;
-	border-radius: 0;
-	box-shadow: 0 0 15px 5px rgba($color: $purple, $alpha: 0.2);
+	bottom: 5px;
+	button{
+		width: 400px;
+		border-radius: 0;
+		box-shadow: 0 0 15px 5px rgba($color: $purple, $alpha: 0.2);
+	}
+	a{
+		width: 90px;
+		border-radius: 0;
+		box-shadow: 0 0 15px 5px rgba($color: $purple, $alpha: 0.2);
+		text-align: center;
+		background-color: #a59ad7;
+		height: 45px;
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	a:hover{
+		color: white;
+		background-color: #a195d4;
+	}
 }
 
 // Card

@@ -66,14 +66,14 @@ const EventAdd = props => {
                         {getFieldDecorator('title', {
                             rules: [{ required: true, message: 'Title of event is required!' }],
                         })(
-                            <Input className="input--style-2" type="text" placeholder="Name" />,
+                            <Input className="input--style-2" type="text" placeholder="Event Name" />,
                         )}
                     </Form.Item>
                     <Form.Item>
                         {getFieldDecorator('description', {
                             rules: [{ required: true, message: 'description of event is required!' }],
                         })(
-                            <TextArea rows={4} className="input--style-2" placeholder="Name" />,
+                            <TextArea rows={4} className="input--style-2" placeholder="description" />,
                         )}
                     </Form.Item>
                     <Form.Item>

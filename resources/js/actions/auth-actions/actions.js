@@ -53,9 +53,10 @@ export function signin(values) {
     try {
       const response = await AuthServices.signinRequest(values);
       dispatch({ type: SIGNIN_SUCCESS, payload: response.data });
-      localStorage.setItem("halber_token", response.data.access_token);
+      localStorage.setItem("token", response.data.access_token);
     } catch (e) {
       dispatch({ type: SIGNIN_FAILURE });
+      throw new Error('Wrong credentials');
     }
   };
 }
@@ -66,7 +67,7 @@ export function signup(body) {
     try {
       const response = await AuthServices.signupRequest(body);
       dispatch({ type: SIGNUP_SUCCESS, payload: response.data });
-      localStorage.setItem("halber_token", response.data.access_token);
+      localStorage.setItem("token", response.data.access_token);
     } catch (e) {
       dispatch({ type: SIGNUP_ERROR });
     }
@@ -78,7 +79,7 @@ export function logout() {
     dispatch({ type: LOGOUT_REQUEST });
     try {
       await AuthServices.logoutRequest();
-      localStorage.removeItem("halber_token");
+      localStorage.removeItem("token");
       dispatch({ type: LOGOUT_SUCCESS });
     } catch (e) {
       dispatch({ type: LOGOUT_FAILURE });
@@ -88,7 +89,7 @@ export function logout() {
 
 export function connectTheUser(token) {
   return async dispatch => {
-    localStorage.setItem("halber_token", token);
+    localStorage.setItem("token", token);
     dispatch({
       type: CONNECT_THE_USER,
       payload: {

@@ -4,7 +4,7 @@ import { logout } from "../actions/auth-actions/actions";
 
 import { history } from "../index";
 
-const token = localStorage.getItem("halber_token");
+const token = localStorage.getItem("token");
 
 const axiosInstance = axios.create({
   baseURL: process.env.MIX_API_URL,
@@ -16,11 +16,11 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  function(config) {
+  function (config) {
     // Do something before request is sent
     return config;
   },
-  function(error) {
+  function (error) {
     // Do something with request error
     return Promise.reject(error);
   }
@@ -28,11 +28,11 @@ axiosInstance.interceptors.request.use(
 
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
-  function(response) {
+  function (response) {
     // Do something with response data
     return response;
   },
-  function(error) {
+  function (error) {
     switch (error.response.status) {
       case 401:
         // unauthorized -> token is invalid or expired

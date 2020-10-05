@@ -62,7 +62,7 @@ const EditForm = props => {
                 <div className="input-group">
                     <Form.Item>
                         {getFieldDecorator('title', {
-                            rules: [{ required: true, message: 'Name of category is required!' }],
+                            rules: [{ required: true, message: 'Title is required!' }],
                             initialValue: props.event.title
                         })(
                             <Input className="input--style-2" type="text" placeholder="Name" />,
@@ -70,7 +70,7 @@ const EditForm = props => {
                     </Form.Item>
                     <Form.Item>
                         {getFieldDecorator('description', {
-                            rules: [{ required: true, message: 'Name of category is required!' }],
+                            rules: [{ required: true, message: 'Description is required!' }],
                             initialValue: props.event.description
                         })(
                             <Input className="input--style-2" type="text" placeholder="Name" />,
@@ -78,7 +78,7 @@ const EditForm = props => {
                     </Form.Item>
                     <Form.Item>
                         {getFieldDecorator('date', {
-                            rules: [{ required: true, message: 'Name of category is required!' }],
+                            rules: [{ required: true, message: 'Date is required!' }],
                             initialValue: [moment(props.event.start_datetime, dateFormat), moment(props.event.end_datetime, dateFormat)]
                         })(
                             <RangePicker
