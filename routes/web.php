@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,7 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("/exportEvents",'eventsController@export');
+Route::post("/importEvents",'eventsController@import');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/{path?}', function () {
+  return view('welcome');
 });

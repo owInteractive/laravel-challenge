@@ -1,0 +1,95 @@
+@import "../../stylesheets/variables";
+@import "../../stylesheets/mixins";
+$main: #3c365e;
+$blue: #37c7f2;
+.navbar {
+  @include flexbox();
+  @include align-items(center);
+  background: linear-gradient(to right, $main, $blue) !important;
+	box-shadow: 0 0 10px 0 rgba($color: black, $alpha: 0.15) !important;
+  height: 68px !important;
+  border-bottom: none !important;
+  .first-element {
+    margin-left: 40px;
+    border-bottom: none !important;
+    .ant-dropdown-trigger{
+      .ant-badge{
+        margin : auto 0;
+        margin-top: 20px;
+      }
+    }
+    .icon{
+      width: 30px;
+      height: 30px;
+      text-align: center;
+    }
+  }
+  .navbar-brand,
+  .navbar-avatar {
+    @include flexbox();
+    @include align-items(center);
+    position: relative;
+    &.ant-menu-item-selected,
+    &.ant-menu-item-active {
+      //color: transparent !important;
+      border-bottom: none !important;
+    }
+  }
+  .navbar-brand {
+    .brand-link {
+      position: relative;
+      svg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: 30px;
+        width: 30px;
+      }
+    }
+  }
+  .navbar-right {
+    margin-left: auto;
+  }
+  .navbar-left {
+    margin-right: auto;
+  }
+  .avatar {
+    i {
+      margin: 0;
+    }
+  }
+}
+#menu{
+  text-align: center;
+}
+#delete_inv{
+  width: 140px;
+  background-color: transparent;
+  border:2px #50EB93 solid;
+  color : #50EB93;
+  border-radius: 40px;
+}
+#delete_inv:hover{
+  background-color: #50EB93;
+  border-color:white;
+  color :white;
+}
+#delete_inv:focus{
+ outline: none;
+}
+#view_inv{
+  width: 140px;
+  background-color: transparent;
+  border:2px #FF5757 solid;
+  color : #FF5757;
+  border-radius: 40px;
+}
+#view_inv:hover{
+  background-color: #FF5757;
+  border-color:white;
+  color :white;
+}
+#view_inv:focus{
+ outline: none;
+}
