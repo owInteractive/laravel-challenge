@@ -1,0 +1,23 @@
+.event-modal{
+    .main-event{
+        text-align: center;
+        .add-friend{
+            margin-top: 10px;
+            button{
+                width: 100px;
+                background-color: transparent;
+                border: 2px #2C3E50 solid;
+                border-radius: 40px;
+                color : #2C3E50
+            }
+            button:hover{
+                border-color: white;
+                color: white;
+                background-color: #2C3E50;
+            }
+            button:focus{
+                outline: none;
+            }
+        }
+    }
+}
